@@ -1,7 +1,7 @@
 --Torch lib for mpi commnication
-- example to use
 
 require 'mpiT'
+
 mpiT.Init()
 
 print('init')
