@@ -1,0 +1,15 @@
+{
+    "category": "Groups, Contexts, Communicators, and Caching C Bindings", 
+    "args": [
+        {
+            "type": "MPI_Win", 
+            "name": "win"
+        }, 
+        {
+            "type": "int", 
+            "name": "win_keyval"
+        }
+    ], 
+    "retVal": "int", 
+    "name": "MPI_Win_delete_attr"
+}

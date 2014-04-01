@@ -1,0 +1,6 @@
+{
+    "category": "MPI Environmenta Management C Bindings", 
+    "args": [], 
+    "retVal": "int", 
+    "name": "MPI_Finalize"
+}

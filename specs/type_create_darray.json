@@ -1,0 +1,47 @@
+{
+    "category": "Datatypes C Bindings", 
+    "args": [
+        {
+            "type": "int", 
+            "name": "size"
+        }, 
+        {
+            "type": "int", 
+            "name": "rank"
+        }, 
+        {
+            "type": "int", 
+            "name": "ndims"
+        }, 
+        {
+            "type": "int*", 
+            "name": "gsize_array"
+        }, 
+        {
+            "type": "int*", 
+            "name": "distrib_array"
+        }, 
+        {
+            "type": "int*", 
+            "name": "darg_array"
+        }, 
+        {
+            "type": "int*", 
+            "name": "psize_array"
+        }, 
+        {
+            "type": "int", 
+            "name": "order"
+        }, 
+        {
+            "type": "MPI_Datatype", 
+            "name": "oldtype"
+        }, 
+        {
+            "type": "MPI_Datatype*", 
+            "name": "newtype"
+        }
+    ], 
+    "retVal": "int", 
+    "name": "MPI_Type_create_darray"
+}

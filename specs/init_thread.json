@@ -1,0 +1,23 @@
+{
+    "category": "External Interfaces C Bindings", 
+    "args": [
+        {
+            "type": "int*", 
+            "name": "argc"
+        }, 
+        {
+            "type": "char***", 
+            "name": "argv"
+        }, 
+        {
+            "type": "int", 
+            "name": "required"
+        }, 
+        {
+            "type": "int*", 
+            "name": "provided"
+        }
+    ], 
+    "retVal": "int", 
+    "name": "MPI_Init_thread"
+}

@@ -1,0 +1,23 @@
+{
+    "category": "Groups, Contexts, Communicators, and Caching C Bindings", 
+    "args": [
+        {
+            "type": "MPI_Group", 
+            "name": "group"
+        }, 
+        {
+            "type": "int", 
+            "name": "n_triplets"
+        }, 
+        {
+            "type": "int**", 
+            "name": "ranges"
+        }, 
+        {
+            "type": "MPI_Group*", 
+            "name": "new_group"
+        }
+    ], 
+    "retVal": "int", 
+    "name": "MPI_Group_range_incl"
+}

@@ -1,0 +1,19 @@
+{
+    "category": "One-Sided Communications C Bindings", 
+    "args": [
+        {
+            "type": "MPI_Group", 
+            "name": "group"
+        }, 
+        {
+            "type": "int", 
+            "name": "assert"
+        }, 
+        {
+            "type": "MPI_Win", 
+            "name": "win"
+        }
+    ], 
+    "retVal": "int", 
+    "name": "MPI_Win_start"
+}

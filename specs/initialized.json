@@ -1,0 +1,11 @@
+{
+    "category": "MPI Environmenta Management C Bindings", 
+    "args": [
+        {
+            "type": "int*", 
+            "name": "flag"
+        }
+    ], 
+    "retVal": "int", 
+    "name": "MPI_Initialized"
+}

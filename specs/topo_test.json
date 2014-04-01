@@ -1,0 +1,15 @@
+{
+    "category": "Process Topologies C Bindings", 
+    "args": [
+        {
+            "type": "MPI_Comm", 
+            "name": "comm"
+        }, 
+        {
+            "type": "int*", 
+            "name": "status"
+        }
+    ], 
+    "retVal": "int", 
+    "name": "MPI_Topo_test"
+}

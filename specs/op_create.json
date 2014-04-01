@@ -1,0 +1,19 @@
+{
+    "category": "Collective Communication C Bindings", 
+    "args": [
+        {
+            "type": "MPI_User_function*", 
+            "name": "function"
+        }, 
+        {
+            "type": "int", 
+            "name": "commute"
+        }, 
+        {
+            "type": "MPI_Op*", 
+            "name": "op"
+        }
+    ], 
+    "retVal": "int", 
+    "name": "MPI_Op_create"
+}

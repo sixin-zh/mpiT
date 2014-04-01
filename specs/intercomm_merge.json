@@ -1,0 +1,19 @@
+{
+    "category": "Groups, Contexts, Communicators, and Caching C Bindings", 
+    "args": [
+        {
+            "type": "MPI_Comm", 
+            "name": "intercomm"
+        }, 
+        {
+            "type": "int", 
+            "name": "high"
+        }, 
+        {
+            "type": "MPI_Comm*", 
+            "name": "newcomm"
+        }
+    ], 
+    "retVal": "int", 
+    "name": "MPI_Intercomm_merge"
+}

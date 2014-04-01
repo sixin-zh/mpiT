@@ -1,0 +1,27 @@
+{
+    "category": "Groups, Contexts, Communicators, and Caching C Bindings", 
+    "args": [
+        {
+            "type": "MPI_Group", 
+            "name": "group1"
+        }, 
+        {
+            "type": "int", 
+            "name": "n_ranks"
+        }, 
+        {
+            "type": "int*", 
+            "name": "ranks1"
+        }, 
+        {
+            "type": "MPI_Group", 
+            "name": "group2"
+        }, 
+        {
+            "type": "int*", 
+            "name": "ranks2"
+        }
+    ], 
+    "retVal": "int", 
+    "name": "MPI_Group_translate_ranks"
+}

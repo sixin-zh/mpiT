@@ -1,0 +1,6 @@
+{
+    "category": "MPI Environmenta Management C Bindings", 
+    "args": [], 
+    "retVal": "double", 
+    "name": "MPI_Wtime"
+}

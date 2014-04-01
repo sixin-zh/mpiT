@@ -1,0 +1,15 @@
+{
+    "category": "Point-to-Point Communication C Bindings", 
+    "args": [
+        {
+            "type": "void*", 
+            "name": "buffer"
+        }, 
+        {
+            "type": "int*", 
+            "name": "size"
+        }
+    ], 
+    "retVal": "int", 
+    "name": "MPI_Buffer_detach"
+}

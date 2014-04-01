@@ -1,0 +1,15 @@
+{
+    "category": "MPI Environmenta Management C Bindings", 
+    "args": [
+        {
+            "type": "MPI_Comm", 
+            "name": "comm"
+        }, 
+        {
+            "type": "int", 
+            "name": "errorcode"
+        }
+    ], 
+    "retVal": "int", 
+    "name": "MPI_Comm_call_errhandler"
+}

@@ -1,8 +1,7 @@
-// The Lua MPI wrappers for Torch
-// based on lua-mpi: https://github.com/jzrake/lua-mpi‎
+// MPI for Torch
+// adapted from lua-mpi: https://github.com/jzrake/lua-mpi
 // Author: Sixin Zhang (zsx@cims.nyu.edu)
 
-#include <TH.h>
 #include <luaT.h>
 #include <lua-mpi.h>
 

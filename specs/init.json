@@ -1,0 +1,15 @@
+{
+    "category": "MPI Environmenta Management C Bindings", 
+    "args": [
+        {
+            "type": "int*", 
+            "name": "argc"
+        }, 
+        {
+            "type": "char***", 
+            "name": "argv"
+        }
+    ], 
+    "retVal": "int", 
+    "name": "MPI_Init"
+}

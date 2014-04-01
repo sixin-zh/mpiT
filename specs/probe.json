@@ -1,0 +1,23 @@
+{
+    "category": "Point-to-Point Communication C Bindings", 
+    "args": [
+        {
+            "type": "int", 
+            "name": "source"
+        }, 
+        {
+            "type": "int", 
+            "name": "tag"
+        }, 
+        {
+            "type": "MPI_Comm", 
+            "name": "comm"
+        }, 
+        {
+            "type": "MPI_Status*", 
+            "name": "status"
+        }
+    ], 
+    "retVal": "int", 
+    "name": "MPI_Probe"
+}

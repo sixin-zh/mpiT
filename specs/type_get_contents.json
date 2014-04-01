@@ -1,0 +1,35 @@
+{
+    "category": "Datatypes C Bindings", 
+    "args": [
+        {
+            "type": "MPI_Datatype", 
+            "name": "mtype"
+        }, 
+        {
+            "type": "int", 
+            "name": "max_integers"
+        }, 
+        {
+            "type": "int", 
+            "name": "max_addresses"
+        }, 
+        {
+            "type": "int", 
+            "name": "max_datatypes"
+        }, 
+        {
+            "type": "int*", 
+            "name": "array_of_integers"
+        }, 
+        {
+            "type": "MPI_Aint*", 
+            "name": "array_of_addresses"
+        }, 
+        {
+            "type": "MPI_Datatype*", 
+            "name": "array_of_datatypes"
+        }
+    ], 
+    "retVal": "int", 
+    "name": "MPI_Type_get_contents"
+}

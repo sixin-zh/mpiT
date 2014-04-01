@@ -1,0 +1,39 @@
+{
+    "category": "Process Creation and Management C Bindings", 
+    "args": [
+        {
+            "type": "char*", 
+            "name": "command"
+        }, 
+        {
+            "type": "char**", 
+            "name": "argv"
+        }, 
+        {
+            "type": "int", 
+            "name": "maxprocs"
+        }, 
+        {
+            "type": "MPI_Info", 
+            "name": "info"
+        }, 
+        {
+            "type": "int", 
+            "name": "root"
+        }, 
+        {
+            "type": "MPI_Comm", 
+            "name": "comm"
+        }, 
+        {
+            "type": "MPI_Comm*", 
+            "name": "intercomm"
+        }, 
+        {
+            "type": "int*", 
+            "name": "array_of_errcodes"
+        }
+    ], 
+    "retVal": "int", 
+    "name": "MPI_Comm_spawn"
+}

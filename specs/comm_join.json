@@ -1,0 +1,15 @@
+{
+    "category": "Process Creation and Management C Bindings", 
+    "args": [
+        {
+            "type": "int", 
+            "name": "fd"
+        }, 
+        {
+            "type": "MPI_Comm*", 
+            "name": "intercomm"
+        }
+    ], 
+    "retVal": "int", 
+    "name": "MPI_Comm_join"
+}

@@ -1,8 +1,8 @@
-
-#include <mpi.h>
 #include "lua.h"
 #include "lualib.h"
 #include "lauxlib.h"
+
+#include <mpi.h>
 
 #define MPI_STRUCT_TYPE(s, inival)                                      \
   static void luampi_push_MPI_##s(lua_State *L, MPI_##s init, int N)    \
@@ -66,6 +66,16 @@ MPI_FUNC_TYPE(Grequest_free)
 MPI_FUNC_TYPE(Grequest_query)
 MPI_FUNC_TYPE(User)
 
+
+typedef struct MPI_THStorage
+{
+    void *data;
+    long size;
+    int refcount;
+    char flag;
+} MPI_THStorage;
+
+// #define MPI_THStorage THCudaStorage
 
 static int _MPI_Init(lua_State *L)
 {
@@ -244,9 +254,6 @@ int luaopen_mpi(lua_State *L)
   luaL_newmetatable(L, "MPI::Win_delete_attr_function"); lua_pop(L, 1);
   luaL_newmetatable(L, "MPI::Win_errhandler_function"); lua_pop(L, 1);
 
-  //lua_newtable(L);
-  //luaL_setfuncs(L, mpi_types, 0);
-  //luaL_setfuncs(L, MPI_module_funcs, 0);
   luaL_register(L,"mpiT",mpi_types);
   luaL_register(L,"mpiT",MPI_module_funcs);
   register_constants(L);

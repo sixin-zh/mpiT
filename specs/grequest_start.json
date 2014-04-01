@@ -1,0 +1,27 @@
+{
+    "category": "External Interfaces C Bindings", 
+    "args": [
+        {
+            "type": "MPI_Grequest_query_function*", 
+            "name": "query_fn"
+        }, 
+        {
+            "type": "MPI_Grequest_free_function*", 
+            "name": "free_fn"
+        }, 
+        {
+            "type": "MPI_Grequest_cancel_function*", 
+            "name": "cancel_fn"
+        }, 
+        {
+            "type": "void*", 
+            "name": "extra_state"
+        }, 
+        {
+            "type": "MPI_Request*", 
+            "name": "request"
+        }
+    ], 
+    "retVal": "int", 
+    "name": "MPI_Grequest_start"
+}

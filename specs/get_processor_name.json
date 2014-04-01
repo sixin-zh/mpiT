@@ -1,0 +1,15 @@
+{
+    "category": "MPI Environmenta Management C Bindings", 
+    "args": [
+        {
+            "type": "char*", 
+            "name": "name"
+        }, 
+        {
+            "type": "int*", 
+            "name": "resultlen"
+        }
+    ], 
+    "retVal": "int", 
+    "name": "MPI_Get_processor_name"
+}

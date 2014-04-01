@@ -1,0 +1,11 @@
+{
+    "category": "Process Creation and Management C Bindings", 
+    "args": [
+        {
+            "type": "MPI_Comm*", 
+            "name": "comm"
+        }
+    ], 
+    "retVal": "int", 
+    "name": "MPI_Comm_disconnect"
+}

@@ -1,0 +1,27 @@
+{
+    "category": "Datatypes C Bindings", 
+    "args": [
+        {
+            "type": "int", 
+            "name": "count"
+        }, 
+        {
+            "type": "int*", 
+            "name": "array_of_blocklengths"
+        }, 
+        {
+            "type": "MPI_Aint*", 
+            "name": "array_of_displacements"
+        }, 
+        {
+            "type": "MPI_Datatype", 
+            "name": "oldtype"
+        }, 
+        {
+            "type": "MPI_Datatype*", 
+            "name": "newtype"
+        }
+    ], 
+    "retVal": "int", 
+    "name": "MPI_Type_create_hindexed"
+}

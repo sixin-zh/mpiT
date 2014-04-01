@@ -1,0 +1,11 @@
+{
+    "category": "Datatypes C Bindings", 
+    "args": [
+        {
+            "type": "MPI_Datatype*", 
+            "name": "type"
+        }
+    ], 
+    "retVal": "int", 
+    "name": "MPI_Type_commit"
+}

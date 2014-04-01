@@ -1,0 +1,31 @@
+{
+    "category": "Process Topologies C Bindings", 
+    "args": [
+        {
+            "type": "MPI_Comm", 
+            "name": "old_comm"
+        }, 
+        {
+            "type": "int", 
+            "name": "ndims"
+        }, 
+        {
+            "type": "int*", 
+            "name": "dims"
+        }, 
+        {
+            "type": "int*", 
+            "name": "periods"
+        }, 
+        {
+            "type": "int", 
+            "name": "reorder"
+        }, 
+        {
+            "type": "MPI_Comm*", 
+            "name": "comm_cart"
+        }
+    ], 
+    "retVal": "int", 
+    "name": "MPI_Cart_create"
+}

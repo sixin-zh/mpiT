@@ -1,0 +1,19 @@
+{
+    "category": "I/O C Bindings", 
+    "args": [
+        {
+            "type": "MPI_File", 
+            "name": "fh"
+        }, 
+        {
+            "type": "MPI_Offset", 
+            "name": "offset"
+        }, 
+        {
+            "type": "int", 
+            "name": "whence"
+        }
+    ], 
+    "retVal": "int", 
+    "name": "MPI_File_seek"
+}

@@ -1,0 +1,19 @@
+{
+    "category": "Process Topologies C Bindings", 
+    "args": [
+        {
+            "type": "int", 
+            "name": "nnodes"
+        }, 
+        {
+            "type": "int", 
+            "name": "ndims"
+        }, 
+        {
+            "type": "int*", 
+            "name": "dims"
+        }
+    ], 
+    "retVal": "int", 
+    "name": "MPI_Dims_create"
+}

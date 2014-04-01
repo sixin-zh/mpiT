@@ -1,0 +1,19 @@
+{
+    "category": "Datatypes C Bindings", 
+    "args": [
+        {
+            "type": "MPI_Status*", 
+            "name": "status"
+        }, 
+        {
+            "type": "MPI_Datatype", 
+            "name": "datatype"
+        }, 
+        {
+            "type": "int*", 
+            "name": "count"
+        }
+    ], 
+    "retVal": "int", 
+    "name": "MPI_Get_elements"
+}

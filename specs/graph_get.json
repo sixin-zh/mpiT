@@ -1,0 +1,27 @@
+{
+    "category": "Process Topologies C Bindings", 
+    "args": [
+        {
+            "type": "MPI_Comm", 
+            "name": "comm"
+        }, 
+        {
+            "type": "int", 
+            "name": "maxindex"
+        }, 
+        {
+            "type": "int", 
+            "name": "maxedges"
+        }, 
+        {
+            "type": "int*", 
+            "name": "index"
+        }, 
+        {
+            "type": "int*", 
+            "name": "edges"
+        }
+    ], 
+    "retVal": "int", 
+    "name": "MPI_Graph_get"
+}

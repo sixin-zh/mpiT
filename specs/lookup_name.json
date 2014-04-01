@@ -1,0 +1,19 @@
+{
+    "category": "Process Creation and Management C Bindings", 
+    "args": [
+        {
+            "type": "char*", 
+            "name": "service_name"
+        }, 
+        {
+            "type": "MPI_Info", 
+            "name": "info"
+        }, 
+        {
+            "type": "char*", 
+            "name": "port_name"
+        }
+    ], 
+    "retVal": "int", 
+    "name": "MPI_Lookup_name"
+}

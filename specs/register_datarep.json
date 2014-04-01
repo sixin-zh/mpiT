@@ -1,0 +1,27 @@
+{
+    "category": "I/O C Bindings", 
+    "args": [
+        {
+            "type": "char*", 
+            "name": "datarep"
+        }, 
+        {
+            "type": "MPI_Datarep_conversion_function*", 
+            "name": "read_conversion_fn"
+        }, 
+        {
+            "type": "MPI_Datarep_conversion_function*", 
+            "name": "write_conversion_fn"
+        }, 
+        {
+            "type": "MPI_Datarep_extent_function*", 
+            "name": "dtype_file_extent_fn"
+        }, 
+        {
+            "type": "void*", 
+            "name": "extra_state"
+        }
+    ], 
+    "retVal": "int", 
+    "name": "MPI_Register_datarep"
+}

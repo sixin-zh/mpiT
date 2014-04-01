@@ -1,0 +1,11 @@
+{
+    "category": "External Interfaces C Bindings", 
+    "args": [
+        {
+            "type": "MPI_Request", 
+            "name": "request"
+        }
+    ], 
+    "retVal": "int", 
+    "name": "MPI_Grequest_complete"
+}

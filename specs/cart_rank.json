@@ -1,0 +1,19 @@
+{
+    "category": "Process Topologies C Bindings", 
+    "args": [
+        {
+            "type": "MPI_Comm", 
+            "name": "comm"
+        }, 
+        {
+            "type": "int*", 
+            "name": "coords"
+        }, 
+        {
+            "type": "int*", 
+            "name": "rank"
+        }
+    ], 
+    "retVal": "int", 
+    "name": "MPI_Cart_rank"
+}

@@ -1,0 +1,15 @@
+{
+    "category": "MPI Environmenta Management C Bindings", 
+    "args": [
+        {
+            "type": "MPI_Win_errhandler_function*", 
+            "name": "function"
+        }, 
+        {
+            "type": "MPI_Errhandler*", 
+            "name": "errhandler"
+        }
+    ], 
+    "retVal": "int", 
+    "name": "MPI_Win_create_errhandler"
+}

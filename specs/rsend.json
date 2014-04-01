@@ -1,0 +1,31 @@
+{
+    "category": "Point-to-Point Communication C Bindings", 
+    "args": [
+        {
+            "type": "void*", 
+            "name": "buf"
+        }, 
+        {
+            "type": "int", 
+            "name": "count"
+        }, 
+        {
+            "type": "MPI_Datatype", 
+            "name": "type"
+        }, 
+        {
+            "type": "int", 
+            "name": "dest"
+        }, 
+        {
+            "type": "int", 
+            "name": "tag"
+        }, 
+        {
+            "type": "MPI_Comm", 
+            "name": "comm"
+        }
+    ], 
+    "retVal": "int", 
+    "name": "MPI_Rsend"
+}

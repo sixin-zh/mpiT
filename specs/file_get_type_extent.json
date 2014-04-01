@@ -1,0 +1,19 @@
+{
+    "category": "I/O C Bindings", 
+    "args": [
+        {
+            "type": "MPI_File", 
+            "name": "fh"
+        }, 
+        {
+            "type": "MPI_Datatype", 
+            "name": "datatype"
+        }, 
+        {
+            "type": "MPI_Aint*", 
+            "name": "extent"
+        }
+    ], 
+    "retVal": "int", 
+    "name": "MPI_File_get_type_extent"
+}

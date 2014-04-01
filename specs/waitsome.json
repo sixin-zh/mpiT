@@ -1,0 +1,27 @@
+{
+    "category": "Point-to-Point Communication C Bindings", 
+    "args": [
+        {
+            "type": "int", 
+            "name": "incount"
+        }, 
+        {
+            "type": "MPI_Request*", 
+            "name": "requests"
+        }, 
+        {
+            "type": "int*", 
+            "name": "outcount"
+        }, 
+        {
+            "type": "int*", 
+            "name": "indices"
+        }, 
+        {
+            "type": "MPI_Status*", 
+            "name": "statuses"
+        }
+    ], 
+    "retVal": "int", 
+    "name": "MPI_Waitsome"
+}

@@ -1,0 +1,23 @@
+{
+    "category": "Groups, Contexts, Communicators, and Caching C Bindings", 
+    "args": [
+        {
+            "type": "MPI_Win_copy_attr_function*", 
+            "name": "win_copy_attr_fn"
+        }, 
+        {
+            "type": "MPI_Win_delete_attr_function*", 
+            "name": "win_delete_attr_fn"
+        }, 
+        {
+            "type": "int*", 
+            "name": "win_keyval"
+        }, 
+        {
+            "type": "void*", 
+            "name": "extra_state"
+        }
+    ], 
+    "retVal": "int", 
+    "name": "MPI_Win_create_keyval"
+}

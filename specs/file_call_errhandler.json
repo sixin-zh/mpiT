@@ -1,0 +1,15 @@
+{
+    "category": "MPI Environmenta Management C Bindings", 
+    "args": [
+        {
+            "type": "MPI_File", 
+            "name": "fh"
+        }, 
+        {
+            "type": "int", 
+            "name": "errorcode"
+        }
+    ], 
+    "retVal": "int", 
+    "name": "MPI_File_call_errhandler"
+}

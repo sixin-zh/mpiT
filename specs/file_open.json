@@ -1,0 +1,27 @@
+{
+    "category": "I/O C Bindings", 
+    "args": [
+        {
+            "type": "MPI_Comm", 
+            "name": "comm"
+        }, 
+        {
+            "type": "char*", 
+            "name": "filename"
+        }, 
+        {
+            "type": "int", 
+            "name": "amode"
+        }, 
+        {
+            "type": "MPI_Info", 
+            "name": "info"
+        }, 
+        {
+            "type": "MPI_File*", 
+            "name": "fh"
+        }
+    ], 
+    "retVal": "int", 
+    "name": "MPI_File_open"
+}

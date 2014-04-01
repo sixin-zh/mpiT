@@ -1,0 +1,19 @@
+{
+    "category": "Process Topologies C Bindings", 
+    "args": [
+        {
+            "type": "MPI_Comm", 
+            "name": "comm"
+        }, 
+        {
+            "type": "int", 
+            "name": "rank"
+        }, 
+        {
+            "type": "int*", 
+            "name": "nneighbors"
+        }
+    ], 
+    "retVal": "int", 
+    "name": "MPI_Graph_neighbors_count"
+}

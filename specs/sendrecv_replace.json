@@ -1,0 +1,43 @@
+{
+    "category": "Point-to-Point Communication C Bindings", 
+    "args": [
+        {
+            "type": "void*", 
+            "name": "buf"
+        }, 
+        {
+            "type": "int", 
+            "name": "count"
+        }, 
+        {
+            "type": "MPI_Datatype", 
+            "name": "datatype"
+        }, 
+        {
+            "type": "int", 
+            "name": "dest"
+        }, 
+        {
+            "type": "int", 
+            "name": "sendtag"
+        }, 
+        {
+            "type": "int", 
+            "name": "source"
+        }, 
+        {
+            "type": "int", 
+            "name": "recvtag"
+        }, 
+        {
+            "type": "MPI_Comm", 
+            "name": "comm"
+        }, 
+        {
+            "type": "MPI_Status*", 
+            "name": "status"
+        }
+    ], 
+    "retVal": "int", 
+    "name": "MPI_Sendrecv_replace"
+}

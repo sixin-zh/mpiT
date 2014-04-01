@@ -1,0 +1,19 @@
+{
+    "category": "Datatypes C Bindings", 
+    "args": [
+        {
+            "type": "MPI_Datatype", 
+            "name": "type"
+        }, 
+        {
+            "type": "MPI_Aint*", 
+            "name": "lb"
+        }, 
+        {
+            "type": "MPI_Aint*", 
+            "name": "extent"
+        }
+    ], 
+    "retVal": "int", 
+    "name": "MPI_Type_get_extent"
+}

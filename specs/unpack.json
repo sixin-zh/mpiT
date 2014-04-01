@@ -1,0 +1,35 @@
+{
+    "category": "Datatypes C Bindings", 
+    "args": [
+        {
+            "type": "void*", 
+            "name": "inbuf"
+        }, 
+        {
+            "type": "int", 
+            "name": "insize"
+        }, 
+        {
+            "type": "int*", 
+            "name": "position"
+        }, 
+        {
+            "type": "void*", 
+            "name": "outbuf"
+        }, 
+        {
+            "type": "int", 
+            "name": "outcount"
+        }, 
+        {
+            "type": "MPI_Datatype", 
+            "name": "datatype"
+        }, 
+        {
+            "type": "MPI_Comm", 
+            "name": "comm"
+        }
+    ], 
+    "retVal": "int", 
+    "name": "MPI_Unpack"
+}

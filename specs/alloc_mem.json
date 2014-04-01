@@ -1,0 +1,19 @@
+{
+    "category": "MPI Environmenta Management C Bindings", 
+    "args": [
+        {
+            "type": "MPI_Aint", 
+            "name": "size"
+        }, 
+        {
+            "type": "MPI_Info", 
+            "name": "info"
+        }, 
+        {
+            "type": "void*", 
+            "name": "baseptr"
+        }
+    ], 
+    "retVal": "int", 
+    "name": "MPI_Alloc_mem"
+}

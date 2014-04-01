@@ -1,0 +1,23 @@
+{
+    "category": "The Info Object C Bindings", 
+    "args": [
+        {
+            "type": "MPI_Info", 
+            "name": "info"
+        }, 
+        {
+            "type": "char*", 
+            "name": "key"
+        }, 
+        {
+            "type": "int*", 
+            "name": "valuelen"
+        }, 
+        {
+            "type": "int*", 
+            "name": "flag"
+        }
+    ], 
+    "retVal": "int", 
+    "name": "MPI_Info_get_valuelen"
+}

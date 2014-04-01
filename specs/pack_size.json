@@ -1,0 +1,23 @@
+{
+    "category": "Datatypes C Bindings", 
+    "args": [
+        {
+            "type": "int", 
+            "name": "incount"
+        }, 
+        {
+            "type": "MPI_Datatype", 
+            "name": "datatype"
+        }, 
+        {
+            "type": "MPI_Comm", 
+            "name": "comm"
+        }, 
+        {
+            "type": "int*", 
+            "name": "size"
+        }
+    ], 
+    "retVal": "int", 
+    "name": "MPI_Pack_size"
+}

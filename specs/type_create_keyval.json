@@ -1,0 +1,23 @@
+{
+    "category": "Groups, Contexts, Communicators, and Caching C Bindings", 
+    "args": [
+        {
+            "type": "MPI_Type_copy_attr_function*", 
+            "name": "type_copy_attr_fn"
+        }, 
+        {
+            "type": "MPI_Type_delete_attr_function*", 
+            "name": "type_delete_attr_fn"
+        }, 
+        {
+            "type": "int*", 
+            "name": "type_keyval"
+        }, 
+        {
+            "type": "void*", 
+            "name": "extra_state"
+        }
+    ], 
+    "retVal": "int", 
+    "name": "MPI_Type_create_keyval"
+}

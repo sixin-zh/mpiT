@@ -3,11 +3,12 @@ CMAKE_POLICY(VERSION 2.6)
 
 FIND_PACKAGE(Torch REQUIRED)
 
-SET(OPENMPI_MCA_ROOT "/local/openmpi/lib/openmpi")
-FILE(GLOB MPI_LIBRARIES ${OPENMPI_MCA_ROOT}/*.so)
+message ("INSTALL mpiT to ${POME}")
+SET(MPI_ROOT "${POME}/exe/mpi")
+FILE(GLOB LMPI ${MPI_ROOT}/lib/*.so)
 
 SET(src mpiT.c)
-SET(luasrc init.lua)
+SET(luasrc init.lua queue.lua)
 
 ADD_TORCH_PACKAGE(mpiT "${src}" "${luasrc}" "MPI Torch")
-TARGET_LINK_LIBRARIES(mpiT luaT TH ${MPI_LIBRARIES})
+TARGET_LINK_LIBRARIES(mpiT luaT TH ${LMPI} ${LMCA} ${LCUDA} ${LCUPTI}) # TH

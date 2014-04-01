@@ -1,0 +1,19 @@
+{
+    "category": "Point-to-Point Communication C Bindings", 
+    "args": [
+        {
+            "type": "MPI_Status*", 
+            "name": "status"
+        }, 
+        {
+            "type": "MPI_Datatype", 
+            "name": "datatype"
+        }, 
+        {
+            "type": "int*", 
+            "name": "count"
+        }
+    ], 
+    "retVal": "int", 
+    "name": "MPI_Get_count"
+}

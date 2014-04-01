@@ -1,0 +1,15 @@
+{
+    "category": "The Info Object C Bindings", 
+    "args": [
+        {
+            "type": "MPI_Info", 
+            "name": "info"
+        }, 
+        {
+            "type": "MPI_Info*", 
+            "name": "newinfo"
+        }
+    ], 
+    "retVal": "int", 
+    "name": "MPI_Info_dup"
+}

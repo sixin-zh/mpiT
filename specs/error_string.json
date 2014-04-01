@@ -1,0 +1,19 @@
+{
+    "category": "MPI Environmenta Management C Bindings", 
+    "args": [
+        {
+            "type": "int", 
+            "name": "errorcode"
+        }, 
+        {
+            "type": "char*", 
+            "name": "string"
+        }, 
+        {
+            "type": "int*", 
+            "name": "resultlen"
+        }
+    ], 
+    "retVal": "int", 
+    "name": "MPI_Error_string"
+}

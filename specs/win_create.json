@@ -1,0 +1,31 @@
+{
+    "category": "One-Sided Communications C Bindings", 
+    "args": [
+        {
+            "type": "void*", 
+            "name": "base"
+        }, 
+        {
+            "type": "MPI_Aint", 
+            "name": "size"
+        }, 
+        {
+            "type": "int", 
+            "name": "disp_unit"
+        }, 
+        {
+            "type": "MPI_Info", 
+            "name": "info"
+        }, 
+        {
+            "type": "MPI_Comm", 
+            "name": "comm"
+        }, 
+        {
+            "type": "MPI_Win*", 
+            "name": "win"
+        }
+    ], 
+    "retVal": "int", 
+    "name": "MPI_Win_create"
+}

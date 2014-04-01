@@ -1,0 +1,19 @@
+{
+    "category": "Groups, Contexts, Communicators, and Caching C Bindings", 
+    "args": [
+        {
+            "type": "MPI_Comm", 
+            "name": "comm"
+        }, 
+        {
+            "type": "char*", 
+            "name": "name"
+        }, 
+        {
+            "type": "int*", 
+            "name": "length"
+        }
+    ], 
+    "retVal": "int", 
+    "name": "MPI_Comm_get_name"
+}

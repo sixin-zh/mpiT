@@ -1,0 +1,19 @@
+{
+    "category": "Groups, Contexts, Communicators, and Caching C Bindings", 
+    "args": [
+        {
+            "type": "MPI_Datatype", 
+            "name": "type"
+        }, 
+        {
+            "type": "int", 
+            "name": "type_keyval"
+        }, 
+        {
+            "type": "void*", 
+            "name": "attribute_val"
+        }
+    ], 
+    "retVal": "int", 
+    "name": "MPI_Type_set_attr"
+}

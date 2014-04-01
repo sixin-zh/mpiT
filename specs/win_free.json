@@ -1,0 +1,11 @@
+{
+    "category": "One-Sided Communications C Bindings", 
+    "args": [
+        {
+            "type": "MPI_Win*", 
+            "name": "win"
+        }
+    ], 
+    "retVal": "int", 
+    "name": "MPI_Win_free"
+}

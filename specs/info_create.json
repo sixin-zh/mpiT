@@ -1,0 +1,11 @@
+{
+    "category": "The Info Object C Bindings", 
+    "args": [
+        {
+            "type": "MPI_Info*", 
+            "name": "info"
+        }
+    ], 
+    "retVal": "int", 
+    "name": "MPI_Info_create"
+}

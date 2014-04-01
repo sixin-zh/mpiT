@@ -1,0 +1,39 @@
+{
+    "category": "One-Sided Communications C Bindings", 
+    "args": [
+        {
+            "type": "void*", 
+            "name": "origin_addr"
+        }, 
+        {
+            "type": "int", 
+            "name": "origin_count"
+        }, 
+        {
+            "type": "MPI_Datatype", 
+            "name": "origin_datatype"
+        }, 
+        {
+            "type": "int", 
+            "name": "target_rank"
+        }, 
+        {
+            "type": "MPI_Aint", 
+            "name": "target_disp"
+        }, 
+        {
+            "type": "int", 
+            "name": "target_count"
+        }, 
+        {
+            "type": "MPI_Datatype", 
+            "name": "target_datatype"
+        }, 
+        {
+            "type": "MPI_Win", 
+            "name": "win"
+        }
+    ], 
+    "retVal": "int", 
+    "name": "MPI_Put"
+}

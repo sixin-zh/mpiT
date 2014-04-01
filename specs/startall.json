@@ -1,0 +1,15 @@
+{
+    "category": "Point-to-Point Communication C Bindings", 
+    "args": [
+        {
+            "type": "int", 
+            "name": "count"
+        }, 
+        {
+            "type": "MPI_Request*", 
+            "name": "requests"
+        }
+    ], 
+    "retVal": "int", 
+    "name": "MPI_Startall"
+}

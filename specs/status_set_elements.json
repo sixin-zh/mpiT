@@ -1,0 +1,19 @@
+{
+    "category": "External Interfaces C Bindings", 
+    "args": [
+        {
+            "type": "MPI_Status*", 
+            "name": "status"
+        }, 
+        {
+            "type": "MPI_Datatype", 
+            "name": "datatype"
+        }, 
+        {
+            "type": "int", 
+            "name": "count"
+        }
+    ], 
+    "retVal": "int", 
+    "name": "MPI_Status_set_elements"
+}

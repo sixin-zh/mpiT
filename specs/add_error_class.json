@@ -1,0 +1,11 @@
+{
+    "category": "MPI Environmenta Management C Bindings", 
+    "args": [
+        {
+            "type": "int*", 
+            "name": "errorclass"
+        }
+    ], 
+    "retVal": "int", 
+    "name": "MPI_Add_error_class"
+}

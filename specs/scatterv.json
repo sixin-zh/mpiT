@@ -1,0 +1,43 @@
+{
+    "category": "Collective Communication C Bindings", 
+    "args": [
+        {
+            "type": "void*", 
+            "name": "sendbuf"
+        }, 
+        {
+            "type": "int*", 
+            "name": "sendcounts"
+        }, 
+        {
+            "type": "int*", 
+            "name": "displs"
+        }, 
+        {
+            "type": "MPI_Datatype", 
+            "name": "sendtype"
+        }, 
+        {
+            "type": "void*", 
+            "name": "recvbuf"
+        }, 
+        {
+            "type": "int", 
+            "name": "recvcount"
+        }, 
+        {
+            "type": "MPI_Datatype", 
+            "name": "recvtype"
+        }, 
+        {
+            "type": "int", 
+            "name": "root"
+        }, 
+        {
+            "type": "MPI_Comm", 
+            "name": "comm"
+        }
+    ], 
+    "retVal": "int", 
+    "name": "MPI_Scatterv"
+}

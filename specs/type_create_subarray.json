@@ -1,0 +1,35 @@
+{
+    "category": "Datatypes C Bindings", 
+    "args": [
+        {
+            "type": "int", 
+            "name": "ndims"
+        }, 
+        {
+            "type": "int*", 
+            "name": "size_array"
+        }, 
+        {
+            "type": "int*", 
+            "name": "subsize_array"
+        }, 
+        {
+            "type": "int*", 
+            "name": "start_array"
+        }, 
+        {
+            "type": "int", 
+            "name": "order"
+        }, 
+        {
+            "type": "MPI_Datatype", 
+            "name": "oldtype"
+        }, 
+        {
+            "type": "MPI_Datatype*", 
+            "name": "newtype"
+        }
+    ], 
+    "retVal": "int", 
+    "name": "MPI_Type_create_subarray"
+}

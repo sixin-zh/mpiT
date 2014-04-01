@@ -1,0 +1,27 @@
+{
+    "category": "I/O C Bindings", 
+    "args": [
+        {
+            "type": "MPI_File", 
+            "name": "fh"
+        }, 
+        {
+            "type": "MPI_Offset*", 
+            "name": "disp"
+        }, 
+        {
+            "type": "MPI_Datatype*", 
+            "name": "etype"
+        }, 
+        {
+            "type": "MPI_Datatype*", 
+            "name": "filetype"
+        }, 
+        {
+            "type": "char*", 
+            "name": "datarep"
+        }
+    ], 
+    "retVal": "int", 
+    "name": "MPI_File_get_view"
+}

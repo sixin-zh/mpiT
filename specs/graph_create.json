@@ -1,0 +1,31 @@
+{
+    "category": "Process Topologies C Bindings", 
+    "args": [
+        {
+            "type": "MPI_Comm", 
+            "name": "old_comm"
+        }, 
+        {
+            "type": "int", 
+            "name": "nnodes"
+        }, 
+        {
+            "type": "int*", 
+            "name": "index"
+        }, 
+        {
+            "type": "int*", 
+            "name": "edges"
+        }, 
+        {
+            "type": "int", 
+            "name": "reorder"
+        }, 
+        {
+            "type": "MPI_Comm*", 
+            "name": "comm_graph"
+        }
+    ], 
+    "retVal": "int", 
+    "name": "MPI_Graph_create"
+}

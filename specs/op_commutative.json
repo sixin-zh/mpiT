@@ -1,0 +1,15 @@
+{
+    "category": "Collective Communication C Bindings", 
+    "args": [
+        {
+            "type": "MPI_Op", 
+            "name": "op"
+        }, 
+        {
+            "type": "int*", 
+            "name": "commute"
+        }
+    ], 
+    "retVal": "int", 
+    "name": "MPI_Op_commutative"
+}

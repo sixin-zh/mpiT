@@ -1,0 +1,15 @@
+{
+    "category": "External Interfaces C Bindings", 
+    "args": [
+        {
+            "type": "MPI_Status*", 
+            "name": "status"
+        }, 
+        {
+            "type": "int", 
+            "name": "flag"
+        }
+    ], 
+    "retVal": "int", 
+    "name": "MPI_Status_set_cancelled"
+}

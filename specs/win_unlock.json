@@ -1,0 +1,15 @@
+{
+    "category": "One-Sided Communications C Bindings", 
+    "args": [
+        {
+            "type": "int", 
+            "name": "rank"
+        }, 
+        {
+            "type": "MPI_Win", 
+            "name": "win"
+        }
+    ], 
+    "retVal": "int", 
+    "name": "MPI_Win_unlock"
+}

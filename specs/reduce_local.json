@@ -1,0 +1,27 @@
+{
+    "category": "Collective Communication C Bindings", 
+    "args": [
+        {
+            "type": "void*", 
+            "name": "inbuf"
+        }, 
+        {
+            "type": "void*", 
+            "name": "inoutbuf"
+        }, 
+        {
+            "type": "int", 
+            "name": "count"
+        }, 
+        {
+            "type": "MPI_Datatype", 
+            "name": "datatype"
+        }, 
+        {
+            "type": "MPI_Op", 
+            "name": "op"
+        }
+    ], 
+    "retVal": "int", 
+    "name": "MPI_Reduce_local"
+}

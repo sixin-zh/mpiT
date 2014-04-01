@@ -1,0 +1,23 @@
+{
+    "category": "I/O C Bindings", 
+    "args": [
+        {
+            "type": "MPI_File", 
+            "name": "fh"
+        }, 
+        {
+            "type": "void*", 
+            "name": "buf"
+        }, 
+        {
+            "type": "int", 
+            "name": "count"
+        }, 
+        {
+            "type": "MPI_Datatype", 
+            "name": "datatype"
+        }
+    ], 
+    "retVal": "int", 
+    "name": "MPI_File_read_ordered_begin"
+}

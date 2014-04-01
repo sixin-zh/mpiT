@@ -1,0 +1,11 @@
+{
+    "category": "Groups, Contexts, Communicators, and Caching C Bindings", 
+    "args": [
+        {
+            "type": "int*", 
+            "name": "type_keyval"
+        }
+    ], 
+    "retVal": "int", 
+    "name": "MPI_Type_free_keyval"
+}

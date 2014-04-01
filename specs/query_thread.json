@@ -1,0 +1,11 @@
+{
+    "category": "External Interfaces C Bindings", 
+    "args": [
+        {
+            "type": "int*", 
+            "name": "provided"
+        }
+    ], 
+    "retVal": "int", 
+    "name": "MPI_Query_thread"
+}
