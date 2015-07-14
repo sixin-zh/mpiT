@@ -2757,4 +2757,5 @@ luaL_Reg MPI_module_funcs[] = {
   { "Unpack", _MPI_Unpack},
   { "File_read", _MPI_File_read},
   { "Init", _MPI_Init},
+  { "InitMT", _MPI_Init_MT},
   {NULL, NULL}};

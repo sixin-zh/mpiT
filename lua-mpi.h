@@ -83,8 +83,20 @@ static int _MPI_Init(lua_State *L)
   lua_pushnumber(L, ret);
   return 1;
 }
-#include "mpifuncs.c"
 
+static int _MPI_Init_MT(lua_State *L)
+{
+  int provided;
+  MPI_Init_thread(NULL, NULL, MPI_THREAD_MULTIPLE, &provided);
+  if (provided < MPI_THREAD_MULTIPLE) {
+    printf("ERROR: The MPI library does not have full thread support\n");
+    MPI_Abort(MPI_COMM_WORLD, 1);
+  }
+  lua_pushnumber(L, provided);
+  return 1;
+}
+
+#include "mpifuncs.c"
 
 static void register_constants(lua_State *L)
 {

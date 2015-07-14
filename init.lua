@@ -28,11 +28,21 @@ function mpiT.aio_send(storage_th,size_long,type_mpi,
    local req = mpiT.Request(1)
    local status = mpiT.Status(1)
    local finished = torch.IntStorage(1):fill(0)
+   local flag = torch.IntStorage(1)
    local state = state or {io=true}
    -- print('aio_send',state.io)
    mpiT.Isend(storage_th,size_long,type_mpi,dest_int,tag_int,comm_mpi,req)
-   while finished[1]==0 and state.io do
+   while finished[1]==0 do
+      if state.io then
       mpiT.Test(req,finished,status)
+      else
+      mpiT.Cancel(req)
+      mpiT.Wait(req,status)
+      mpiT.Test_cancelled(status,flag)
+      if flag[1]==1 then
+      break
+      end
+      end
       coroutine.yield(mpiT.signal_EXEC)
    end
    if cb then
@@ -46,18 +56,32 @@ function mpiT.aio_recv(storage_th,size_long,type_mpi,
    local req = mpiT.Request(1)
    local status = mpiT.Status(1)
    local finished = torch.IntStorage(1)
+   local flag = torch.IntStorage(1)
    local state = state or {io=true}
    finished[1]=0
    -- print('aio_recv',state.io)
-   while finished[1]==0 and state.io do
-      mpiT.Iprobe(src_int,tag_int,comm_mpi,finished,status)
-      coroutine.yield(mpiT.signal_EXEC)
+   while finished[1]==0 do
+       if state.io then
+       mpiT.Iprobe(src_int,tag_int,comm_mpi,finished,status)
+       coroutine.yield(mpiT.signal_EXEC)
+       else
+       break
+       end
    end
    finished[1]=0
    mpiT.Irecv(storage_th,size_long,type_mpi,src_int,tag_int,comm_mpi,req)
    while finished[1]==0 and state.io do
+      if state.io then
       mpiT.Test(req,finished,status)
       coroutine.yield(mpiT.signal_EXEC)
+      else
+      mpiT.Cancel(req)
+      mpiT.Wait(req,status)
+      mpiT.Test_cancelled(status,flag)
+      if flag[1]==1 then
+      break
+      end
+      end
    end
    if cb then
       cb(state)
@@ -91,6 +115,7 @@ end
 
 ------ lua coroutine helper ------
 require 'sys'
+require 'torch' -- just to use include
 include('queue.lua')
 
 function mpiT.co_execute(exec,pack)
