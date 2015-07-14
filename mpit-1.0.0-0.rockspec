@@ -1,5 +1,5 @@
 package = "mpiT"
-version = "gpu-1"
+version = "1.0.0-0"
 source = {
 url = "https://github.com/sixin-zh/mpiT",
 tag = "master"
