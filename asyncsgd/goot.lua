@@ -1,13 +1,9 @@
 dofile('utils.lua')
 
 if not opt then
---   torch.setdefaulttensortype('torch.FloatTensor')
-    require 'cunn'
-    torch.setdefaulttensortype('torch.CudaTensor')
+   torch.setdefaulttensortype('torch.FloatTensor')
     opt = {}
-    opt.device = 1    
-    print('[goot] use gpu', opt.device)
-    cutorch.setDevice(opt.device)
+    opt.lr = 1e-2
 end
 
 opt = opt or {}
@@ -52,7 +48,7 @@ criterion = nn.ClassNLLCriterion()
 require 'optim'
 local opti = optim.sgd
 state.optim = {
-   learningRate = opt.lr or 1e-2,
+   learningRate = 0, -- no need to do local gradient update
 }
 
 state.theta,state.grad = model:getParameters()
@@ -61,12 +57,13 @@ local confusion = optim.ConfusionMatrix(classes)
 
 -------------------------------------------------------------------
 --train_bin = '/home/zsx/data/torch7/mnist10/train_32x32.th7
-test_bin = opt.data_root .. '/test_32x32.th7'
+test_bin = opt.data_root .. '/test_32x32.th7' -- can download it from http://cs.nyu.edu/~zsx/mnist10/test_32x32.th7
 train_bin = test_bin
 train_data = torch.load(train_bin)
 test_data = torch.load(test_bin)
 local dim = train_data['data']:size(2)*
-   train_data['data']:size(3)*train_data['data']:size(4)
+            train_data['data']:size(3)*
+	    train_data['data']:size(4)
 local trsize = train_data['data']:size(1)
 local ttsize = test_data['data']:size(1)
 train_data.data:resize(trsize,dim)
@@ -75,10 +72,6 @@ train_data.data = train_data.data:float():div(255)
 test_data.data = test_data.data:float():div(255)
 train_data.labels = train_data.labels:float()
 test_data.labels = test_data.labels:float()
-
---trsize = 1280
---print('training data', train_data)
---print('testing data', test_data)
 
 -------------------------------------------------------------------
 local pclient = opt.pc
@@ -104,7 +97,6 @@ function(x)
    local time_transfer = sys.clock()
    local inputs,targets
    -- clone or transfer to avoid overriding while preparing next 
-   -- BLK
    if opt.device then
       inputs = finputs:cuda()
       targets = ftargets:cuda()
@@ -134,15 +126,6 @@ function(x)
    model:backward(inputs, dE_do)
    tm.bprop = tm.bprop + (sys.clock() - time_bprop)
 
-   --os.execute('sleep 1') 
-   -- scale gradients per layer   
-   -- create mini batch while gpu is running
-   --local time_prep = sys.clock()
-   -- BLK
-   --- finputs,ftargets = data:get_train_batch()
-   --tm.prep = tm.prep + (sys.clock() - time_prep)
-   
-   -- BLK
    local time_err = sys.clock()
    local er
    if type(err) == 'number' then er = err
@@ -153,19 +136,19 @@ function(x)
    local time_confusion = sys.clock()
 
    --print(tinfo(outputs),tinfo(targets))
-   confusion:addbatch(outputs, targets)
+   ---confusion:addbatch(outputs, targets)
 
    tm.conf = tm.conf + (sys.clock() - time_confusion)
    tm.feval = tm.feval + (sys.clock() - time_feval)
 
-   -- BLK
    -- print('pclient to async')
    if pclient then
-       local time_async = sys.clock()       
-       pclient:async_send_grad()
-       pclient:async_recv_param()
-       pclient:wait()
-       tm.async = tm.async + (sys.clock() - time_async)
+      state.grad:mul(-opt.lr)
+      local time_async = sys.clock()       
+      pclient:async_send_grad()
+      pclient:async_recv_param()
+      pclient:wait()
+      tm.async = tm.async + (sys.clock() - time_async)
    end
 
    return er,state.grad
@@ -177,24 +160,23 @@ local mb = 128
 avg_err = 0
 iter = 0
 for epoch = 1,1 do
-for t = 1,trsize,mb do
-   -- BLK
-   -- prepare mini batch
-   local mbs = math.min(trsize-t+1,mb)
-   finputs = train_data.data:narrow(1,t,mbs)
-   ftargets = train_data.labels:narrow(1,t,mbs)
+   for t = 1,trsize,mb do
+      -- prepare mini batch
+      local mbs = math.min(trsize-t+1,mb)
+      finputs = train_data.data:narrow(1,t,mbs)
+      ftargets = train_data.labels:narrow(1,t,mbs)
 
-   -- optimize on current mini-batch
-   -- local time_train = sys.clock() 
-   local x,fx
-   x,fx = opti(feval, state.theta, state.optim)
-   --tm.train = tm.train + (sys.clock() - time_train)
-  
-   -- increase iteration count
-   iter = iter + 1
+      -- optimize on current mini-batch
+      -- local time_train = sys.clock() 
+      local x,fx
+      x,fx = opti(feval, state.theta, state.optim)
+      --tm.train = tm.train + (sys.clock() - time_train)
+      
+      -- increase iteration count
+      iter = iter + 1
 
-   print(opt.rank, iter, 'avg_err', avg_err / iter)
-end
+      print(opt.rank, iter, 'avg_err', avg_err / iter)
+   end
 end
 
 print(opt.rank, 'training time', sys.toc())

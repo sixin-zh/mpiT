@@ -1,9 +1,10 @@
-dofile('init.lua')
+-- mpirun -n 4 luajit ptest.lua
 
-local oncuda = false
+local oncuda = true
 local AGPU = {1,2} -- ,3,4,5,6,7,8}
 
 require 'mpiT'
+dofile('init.lua')
 mpiT.Init()
 local world = mpiT.COMM_WORLD
 local rank = mpiT.get_rank(world)
@@ -26,12 +27,11 @@ conf.oncuda = oncuda
 
 opt = {}
 opt.lr = 1e-2
-conf.lr = opt.lr 
 opt.rank = conf.rank 
 
 if rank < size/2 then
    -- server   
-   if oncuda and true then
+   if oncuda and false then
       require 'cunn'
       local gpus = cutorch.getDeviceCount()
       gpu = AGPU[(rank%(size/2)) % gpus + 1]
@@ -59,15 +59,6 @@ else
 
    -- setup
    opt.device = gpu
-   --opt.conf = 'in.lua'
-   --opt.save = true
-   --opt.device = gpu
-   --opt.nodisp = true
-   --opt.resume = false
-   --opt.noprogress = true
-   --opt.data_root = '/home/zsx/data/torch7/mnist10'
-
-   -- pclient   
    opt.pc = pClient(conf)
    -- go
    dofile('goot.lua')
