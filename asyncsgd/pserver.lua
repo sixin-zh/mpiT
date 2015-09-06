@@ -1,3 +1,5 @@
+-- Parameter server
+-- Author: Sixin Zhang (zsx@cims.nyu.edu)
 require 'mpiT'
 
 local pServer = torch.class('pServer')
@@ -108,7 +110,7 @@ local function pServer_recvstop(self,crank)
       if self.state.iostop == table.len(self.cranks) then
 	 self.state.on = false
 	 self.state.io = false
-	 print('server', self.rank, 'finally stoped by', crank)
+	 -- print('server', self.rank, 'finally stoped by', crank)
       end
    end
    coroutine.yield(mpiT.signal_DONE)

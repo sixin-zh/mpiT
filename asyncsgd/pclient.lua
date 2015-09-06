@@ -1,3 +1,5 @@
+-- Parameter client
+-- Author: Sixin Zhang (zsx@cims.nyu.edu)
 require 'mpiT'
 
 local pClient = torch.class('pClient')
@@ -121,6 +123,24 @@ local function pClient_init(self)
       self:async_send_param(self.pstorage)
    end
    mpiT.co_wait(self.coq)
+end
+
+function pClient:ping(nb)
+   local nb = nb or self.coq:len()
+   for n=1,nb do
+      mpiT.co_ping(self.coq)
+   end
+end
+
+function pClient:reset(param,grad)
+   if param then
+      self.pstorage = param:storage()
+      self.plong = self.pstorage:size()
+      if grad then
+	 self.gstorage = grad:storage()
+	 assert(self.plong == self.gstorage:size())
+      end
+   end  
 end
 
 function pClient:wait()

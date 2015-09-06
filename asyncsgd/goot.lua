@@ -1,64 +1,44 @@
-dofile('utils.lua')
-
-if not opt then
-   torch.setdefaulttensortype('torch.FloatTensor')
-    opt = {}
-    opt.lr = 1e-2
-end
-
-opt = opt or {}
-opt.data_root = '/home/zsx/data/torch7/mnist10'
-
-state = {}
-
-opt.rank = opt.rank or -1
-print(opt.rank, 'ready to run')
-
+-------------------------------------------------------------------
+-- Author: Sixin Zhang (zsx@cims.nyu.edu)
+-------------------------------------------------------------------
+local opt = opt or {}
+local state = state or {}
+local optname = opt.name or 'sgd'
+local lr = opt.lr or 1e-1
+local mom = opt.mom or 0
+local mb = opt.mb or 128
+local mva = opt.mva or 0
+local su = opt.su or 1
+local maxep = opt.maxepoch or 100
+local data_root = opt.data_root or io.popen('echo $HOME'):read() .. '/data/torch7/mnist10'
+local gpuid = opt.gpuid or -1
+local rank = opt.rank or -1
+local pclient = opt.pc or nil
+-------------------------------------------------------------------
 require 'sys'
-tm = {}
-tm.async = 0
-tm.fprop = 0
-tm.transfer = 0
+local tm = {}
 tm.feval = 0
-tm.bprop = 0
-tm.cbprop = 0
-tm.err = 0
-tm.conf = 0
-tm.params = 0
-
+tm.sync = 0
 -------------------------------------------------------------------
 require 'os'
 local seed = opt.seed or os.time()
-torch.manualSeed(seed)
-
+torch.manualSeed(seed) -- remember to set cutorch.manualSeed if needed
 -------------------------------------------------------------------
 require 'nn'
 local model = nn.Sequential()
-model:add(nn.Linear(32*32,4096))
-model:add(nn.Tanh())
-model:add(nn.Linear(4096,4096))
-model:add(nn.Tanh())
-model:add(nn.Linear(4096,4096))
-model:add(nn.Tanh())
-model:add(nn.Linear(4096,10))
+model:add(nn.Linear(32*32,10))
+--model:add(nn.Threshold()) -- relu
+--model:add(nn.Dropout())
+--model:add(nn.Linear(100,10))
 model:add(nn.LogSoftMax())
 criterion = nn.ClassNLLCriterion()
-
--------------------------------------------------------------------
-require 'optim'
-local opti = optim.sgd
-state.optim = {
-   learningRate = 0, -- no need to do local gradient update
-}
-
 state.theta,state.grad = model:getParameters()
-local classes = {'1','2','3','4','5','6','7','8','9','0'}
-local confusion = optim.ConfusionMatrix(classes)
-
 -------------------------------------------------------------------
---train_bin = '/home/zsx/data/torch7/mnist10/train_32x32.th7
-test_bin = opt.data_root .. '/test_32x32.th7' -- can download it from http://cs.nyu.edu/~zsx/mnist10/test_32x32.th7
-train_bin = test_bin
+-- data can be downloaded from,
+-- http://cs.nyu.edu/~zsx/mnist10/test_32x32.th7
+-- http://cs.nyu.edu/~zsx/mnist10/train_32x32.th7
+test_bin = data_root .. '/test_32x32.th7' -- remember to reset data_root
+train_bin = data_root .. '/train_32x32.th7' -- may use test_bin for fast debug
 train_data = torch.load(train_bin)
 test_data = torch.load(test_bin)
 local dim = train_data['data']:size(2)*
@@ -72,19 +52,52 @@ train_data.data = train_data.data:float():div(255)
 test_data.data = test_data.data:float():div(255)
 train_data.labels = train_data.labels:float()
 test_data.labels = test_data.labels:float()
-
+if gpuid > 0 then
+   train_data.data = train_data.data:cuda()
+   train_data.labels = train_data.labels:cuda()
+   test_data.data = test_data.data:cuda()
+   test_data.labels = test_data.labels:cuda()
+end
 -------------------------------------------------------------------
-local pclient = opt.pc
+require 'optim'
+local opti
+if optname == 'sgd' then
+   opti = optim.msgd
+   state.optim = {
+      lr = lr,
+      mommax = mom,      
+   }
+elseif optname == 'downpour' then
+   opti = optim.downpour
+   state.optim = {
+      lr = lr,
+      pclient = pclient,
+      su = su,      
+   }
+elseif optname == 'eamsgd' then
+   opti = optim.eamsgd
+   state.optim = {
+      lr = lr,
+      pclient = pclient,
+      su = su,
+      mva = mva,
+      mom = mom,
+   }
+end
+-------------------------------------------------------------------
+print(rank, 'ready to run')
 if pclient then
    pclient:start(state.theta,state.grad)
-   print(opt.rank, 'pclient started', pclient.rank)
+   assert(rank == pclient.rank)
+   print(rank,'pclient started')
 end
-
 -------------------------------------------------------------------
+local inputs = nil
+local targets = nil
+local avg_err = 0
 local feval = 
 function(x)
    local time_feval = sys.clock()
-   local time_params = sys.clock()
    -- get new parameters    
    if x ~= state.theta then
       print('copy theta!!')
@@ -92,92 +105,48 @@ function(x)
    end
    -- reset gradients
    state.grad:zero()
-   tm.params = tm.params + sys.clock() - time_params
-   -- use latest inputs
-   local time_transfer = sys.clock()
-   local inputs,targets
-   -- clone or transfer to avoid overriding while preparing next 
-   if opt.device then
-      inputs = finputs:cuda()
-      targets = ftargets:cuda()
-   else
-      inputs = finputs:float()
-      targets = ftargets:float()
-   end
-   tm.transfer = tm.transfer + (sys.clock() - time_transfer)
-
-   -- print(tinfo(finputs),tinfo(state.grad))
-
    -- forward
-   local time_fprop = sys.clock()
-   local outputs
-   outputs = model:forward(inputs)
-   tm.fprop = tm.fprop + (sys.clock() - time_fprop)
-
-   --local time_loss = sys.clock()
+   local outputs = model:forward(inputs)
    local err = criterion:forward(outputs, targets)
-   --tm.loss = tm.loss + (sys.clock() - time_loss)
-
-   -- estimate df/dW                                                                     
-   local time_bprop = sys.clock()
-   local time_cbprop = sys.clock()
+   -- estimate df/dW
    local dE_do = criterion:backward(outputs, targets)
-   tm.cbprop = tm.cbprop + (sys.clock() - time_cbprop)
    model:backward(inputs, dE_do)
-   tm.bprop = tm.bprop + (sys.clock() - time_bprop)
-
-   local time_err = sys.clock()
    local er
-   if type(err) == 'number' then er = err
-   else er = err[1] end
-   avg_err = avg_err + er
-   tm.err = tm.err + sys.clock() - time_err
-
-   local time_confusion = sys.clock()
-
-   --print(tinfo(outputs),tinfo(targets))
-   ---confusion:addbatch(outputs, targets)
-
-   tm.conf = tm.conf + (sys.clock() - time_confusion)
-   tm.feval = tm.feval + (sys.clock() - time_feval)
-
-   -- print('pclient to async')
-   if pclient then
-      state.grad:mul(-opt.lr)
-      local time_async = sys.clock()       
-      pclient:async_send_grad()
-      pclient:async_recv_param()
-      pclient:wait()
-      tm.async = tm.async + (sys.clock() - time_async)
+   if type(err) == 'number' then
+      er = err -- for cpu
+   else
+      er = err[1]  -- for gpu
    end
-
+   avg_err = avg_err + er
+   tm.feval = tm.feval + (sys.clock() - time_feval)
    return er,state.grad
 end
 
 -- train
 sys.tic()
-local mb = 128
-avg_err = 0
-iter = 0
-for epoch = 1,1 do
+local iter = 0
+for epoch = 1,maxep do
    for t = 1,trsize,mb do
       -- prepare mini batch
-      local mbs = math.min(trsize-t+1,mb)
-      finputs = train_data.data:narrow(1,t,mbs)
-      ftargets = train_data.labels:narrow(1,t,mbs)
-
+      local mbs = math.min(trsize-t+1,mb) -- there's no shuffling in this cycling, just for illustration
+      inputs = train_data.data:narrow(1,t,mbs)
+      targets = train_data.labels:narrow(1,t,mbs)
       -- optimize on current mini-batch
-      -- local time_train = sys.clock() 
       local x,fx
-      x,fx = opti(feval, state.theta, state.optim)
-      --tm.train = tm.train + (sys.clock() - time_train)
-      
+      x,fx = opti(feval, state.theta, state.optim)     
       -- increase iteration count
       iter = iter + 1
-
-      print(opt.rank, iter, 'avg_err', avg_err / iter)
    end
+   print(rank,'avg_err at epoch ' .. epoch .. ' is ' .. avg_err / iter)
 end
 
-print(opt.rank, 'training time', sys.toc())
-print(opt.rank, 'factor time', tm)
+if pclient then
+   pclient:stop()
+end
+
+print(rank,'total training time is', sys.toc())
+print(rank,'total function eval time is', tm.feval)
+if state.optim.dusync then
+   tm.sync = state.optim.dusync
+end
+print(rank,'total sync time is', tm.sync)
