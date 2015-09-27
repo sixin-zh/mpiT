@@ -26,7 +26,6 @@ function pServer:__init(conf,state)
 end
 
 local function pServer_recvinit(self,crank)
-   --print('pServer:recvinit',crank)
    coroutine.yield(mpiT.signal_INIT)
    -- get meta info
    local cinfo = torch.LongStorage(2)
@@ -58,10 +57,10 @@ local function pServer_sendparam(self,crank)
       --print('pServer_sendparam to recv',crank,self.size)
       mpiT.aio_recv(self.emptys,0,self.mtype,
 		    crank,mpiT.tag_ps_recv_header,self.mworld,self.state)
-      --print('pServer_sendparam sending',crank)
-      mpiT.aio_send(self.storage.p,self.size,self.mtype,
+      if self.state.io then
+      	 mpiT.aio_send(self.storage.p,self.size,self.mtype,
 		    crank,mpiT.tag_ps_send_param,self.mworld,self.state)
-      --print('pServer_sendparam done',crank)
+      end
    end
    coroutine.yield(mpiT.signal_DONE)
 end
@@ -75,7 +74,10 @@ local function pServer_recvgrad(self,crank)
 		    crank,mpiT.tag_ps_recv_grad,self.mworld,self.state)
       -- apply
       self.tensor.p:add(self.tensor.g[crank])
-      --print('pServer recieved grad from ',crank)
+      if self.state.on then
+         mpiT.aio_send(self.emptys,0,self.mtype,
+	  	       crank,mpiT.tag_ps_recv_grad,self.mworld,self.state)
+      end
    end
    coroutine.yield(mpiT.signal_DONE)
 end
@@ -106,7 +108,7 @@ local function pServer_recvstop(self,crank)
    mpiT.aio_recv(tostop,1,mpiT.BYTE,
 		 crank,mpiT.tag_ps_recv_stop,self.mworld,self.state)
    if tostop[1] then
-      self.state.iostop = self.state.iostop + 1      
+      self.state.iostop = self.state.iostop + 1
       if self.state.iostop == table.len(self.cranks) then
 	 self.state.on = false
 	 self.state.io = false

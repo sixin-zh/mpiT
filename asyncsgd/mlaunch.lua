@@ -31,7 +31,7 @@ end
 opt = {}
 opt.name = 'downpour'
 opt.lr = 1e-2
-opt.su = 10
+opt.su = 1
 --[[
 opt.name = 'eamsgd'
 opt.lr = 1e-1
@@ -41,7 +41,7 @@ opt.mva = 0.9/6 -- this is \beta/p when p=6
 opt.lr = 1e-2
 opt.mom = 0.99
 --]]
-opt.maxepoch = 100
+opt.maxepoch = 3
 
 if math.fmod(rank,2)==0 then
    -- server

@@ -65,6 +65,7 @@ else
    local now = os.time()
    print('rank ' .. rank .. ' bandwidth(bi-direction) is ' .. (2*ssize*4/(now-begin)/1024/1024) .. ' MBytes/sec')
    pc:stop()
+   print('pc stopped')
 end
 
 mpiT.Finalize()

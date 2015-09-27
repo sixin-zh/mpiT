@@ -50,9 +50,10 @@ local function pClient_sendgrad(self,grad,srank)
    local sgrad = torch.Storage(grad,
 			       self.sinfo[srank].offset,
 			       self.sinfo[srank].size)
-   -- print('pClient_sendgrad',srank,sgrad)
    mpiT.aio_send(sgrad,sgrad:size(),self.mtype,
 		 srank,mpiT.tag_ps_recv_grad,self.mworld,self.state)
+   mpiT.aio_recv(self.emptys,0,self.mtype,
+                 srank,mpiT.tag_ps_recv_grad,self.mworld,self.state)
    coroutine.yield(mpiT.signal_DONE)
 end
 
@@ -68,16 +69,13 @@ end
 
 local function pClient_recvparam(self,param,srank)
    coroutine.yield(mpiT.signal_INIT)
-   -- print('pClient_recvparam to snd',srank,param:size(),self.sinfo[srank])
    mpiT.aio_send(self.emptys,0,self.mtype,
 		 srank,mpiT.tag_ps_recv_header,self.mworld,self.state)
    local sparam = torch.Storage(param,
 				self.sinfo[srank].offset,
 				self.sinfo[srank].size)
-   --print('pClient_recvparam to rev',srank,sparam:size())
    mpiT.aio_recv(sparam,sparam:size(),self.mtype,
 		 srank,mpiT.tag_ps_send_param,self.mworld,self.state)
-   --print('pClient_recvparam done',srank)
    coroutine.yield(mpiT.signal_DONE)   
 end
 
@@ -163,7 +161,6 @@ end
 function pClient:start(param,grad)
    self.state.on = true
    self.state.io = true
-   --print(param:size(),grad:size())
    if param then
       self.pstorage = param:storage()
       self.plong = self.pstorage:size()
