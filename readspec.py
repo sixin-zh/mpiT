@@ -163,7 +163,9 @@ all_types = set()
 wrapped_funcs = [ ]
 
 luampi_funcs = [ ]
-for spec in os.listdir('specs'):
+specs = os.listdir('specs')
+specs.sort()
+for spec in specs:
     func = LuaFunction(json.load(open('specs/' + spec)))
     if func.func_name in mpi_skipfuncs: continue
     luampi_funcs.append(func)
