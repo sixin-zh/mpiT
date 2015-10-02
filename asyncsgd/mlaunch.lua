@@ -2,7 +2,7 @@
 -- Author: Sixin Zhang (zsx@cims.nyu.edu)
 -- mpirun -n 12 luajit mlaunch.lua
 local AGPU = {1,2,3,4,5,6} -- use the first 6 gpus on each machine
-local oncuda = true
+local oncuda = false
 if oncuda then
    require 'cutorch'
 end
@@ -30,7 +30,7 @@ end
 
 opt = {}
 opt.name = 'downpour'
-opt.lr = 1e-2
+opt.lr = 1e-4
 opt.su = 1
 --[[
 opt.name = 'eamsgd'
@@ -41,7 +41,7 @@ opt.mva = 0.9/6 -- this is \beta/p when p=6
 opt.lr = 1e-2
 opt.mom = 0.99
 --]]
-opt.maxepoch = 3
+opt.maxepoch = 10000
 
 if math.fmod(rank,2)==0 then
    -- server

@@ -137,7 +137,7 @@ for epoch = 1,maxep do
       -- increase iteration count
       iter = iter + 1
    end
-   print(rank,'avg_err at epoch ' .. epoch .. ' is ' .. avg_err / iter)
+   print(io.popen('hostname -s'):read(),sys.toc(),rank,'avg_err at epoch ' .. epoch .. ' is ' .. avg_err / iter)
 end
 
 if pclient then
