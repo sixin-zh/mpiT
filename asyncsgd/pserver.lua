@@ -1,5 +1,10 @@
 -- Parameter server
 -- Author: Sixin Zhang (zsx@cims.nyu.edu)
+-- Important change: 
+-- init the parameter from the first local worker (once and only once)
+-- before other service gets started. From the pclient side, 
+-- it's also the first local pclient (worker) who sends its parameter
+-- to the psever.
 require 'mpiT'
 
 local pServer = torch.class('pServer')
@@ -57,9 +62,10 @@ local function pServer_sendparam(self,crank)
       --print('pServer_sendparam to recv',crank,self.size)
       mpiT.aio_recv(self.emptys,0,self.mtype,
 		    crank,mpiT.tag_ps_recv_header,self.mworld,self.state)
+      --print('ps ' .. self.rank .. ' send param to ' .. crank)
       if self.state.io then
       	 mpiT.aio_send(self.storage.p,self.size,self.mtype,
-		    crank,mpiT.tag_ps_send_param,self.mworld,self.state)
+		       crank,mpiT.tag_ps_send_param,self.mworld,self.state)
       end
    end
    coroutine.yield(mpiT.signal_DONE)
@@ -72,11 +78,12 @@ local function pServer_recvgrad(self,crank)
       -- recv
       mpiT.aio_recv(self.storage.g[crank],self.size,self.mtype,
 		    crank,mpiT.tag_ps_recv_grad,self.mworld,self.state)
+      --print('ps ' .. self.rank .. ' recv grad from ' .. crank)
       -- apply
       self.tensor.p:add(self.tensor.g[crank])
       if self.state.on then
          mpiT.aio_send(self.emptys,0,self.mtype,
-	  	       crank,mpiT.tag_ps_recv_grad,self.mworld,self.state)
+	  	       crank,mpiT.tag_ps_recv_grad_tail,self.mworld,self.state)
       end
    end
    coroutine.yield(mpiT.signal_DONE)
@@ -84,10 +91,13 @@ end
 
 local function pServer_recvparam(self,crank)
    coroutine.yield(mpiT.signal_INIT)
-   while (self.state.on) do      
-      mpiT.aio_recv(self.storage.p,self.size,self.mtype,
-		    crank,mpiT.tag_ps_recv_param,self.mworld,self.state)
+   mpiT.aio_recv(self.storage.p,self.size,self.mtype,
+		 crank,mpiT.tag_ps_recv_param,self.mworld,self.state)
+   if self.state.on then
+      mpiT.aio_send(self.emptys,0,self.mtype,
+                    crank,mpiT.tag_ps_recv_param_tail,self.mworld,self.state)
    end
+   --print('ps ' .. self.rank .. ' recv param from ' .. crank)
    coroutine.yield(mpiT.signal_DONE)
 end
 
@@ -96,7 +106,7 @@ function table.len(tbl)
    local l=0
    if tbl then
       for k,v in pairs(tbl) do
-	  l=l+1
+	 l=l+1
       end
    end
    return l
@@ -128,15 +138,17 @@ function pServer:start()
       self.coq:push(co)
    end
    mpiT.co_wait(self.coq)
-   -- on request
    for i,crank in pairs(self.cranks) do      
+      if i == 1 then 
+         -- init the parameter from the first local worker
+         local co3 = mpiT.co_execute(pServer_recvparam,{self,crank})      
+         self.coq:push(co3)
+         mpiT.co_wait(self.coq)
+      end
+      -- on request
       local co0 = mpiT.co_execute(pServer_recvstop,{self,crank})
       local co1 = mpiT.co_execute(pServer_recvgrad,{self,crank})
       local co2 = mpiT.co_execute(pServer_sendparam,{self,crank})
-      if i == 1 then 
-         local co3 = mpiT.co_execute(pServer_recvparam,{self,crank})      
-         self.coq:push(co3)
-      end 
       self.coq:push(co0)
       self.coq:push(co1)
       self.coq:push(co2)

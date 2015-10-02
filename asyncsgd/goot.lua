@@ -10,7 +10,8 @@ local mb = opt.mb or 128
 local mva = opt.mva or 0
 local su = opt.su or 1
 local maxep = opt.maxepoch or 100
-local data_root = opt.data_root or io.popen('echo $HOME'):read() .. '/data/torch7/mnist10'
+local data_root = opt.data_root or
+   io.popen('echo $HOME'):read() .. '/data/torch7/mnist10'
 local gpuid = opt.gpuid or -1
 local rank = opt.rank or -1
 local pclient = opt.pc or nil
@@ -37,8 +38,10 @@ state.theta,state.grad = model:getParameters()
 -- data can be downloaded from,
 -- http://cs.nyu.edu/~zsx/mnist10/test_32x32.th7
 -- http://cs.nyu.edu/~zsx/mnist10/train_32x32.th7
-test_bin = data_root .. '/test_32x32.th7' -- remember to reset data_root
-train_bin = data_root .. '/train_32x32.th7' -- may use test_bin for fast debug
+-- remember to reset data_root
+-- may use test_bin for fast debug
+test_bin = data_root .. '/test_32x32.th7'
+train_bin = data_root .. '/train_32x32.th7'
 train_data = torch.load(train_bin)
 test_data = torch.load(test_bin)
 local dim = train_data['data']:size(2)*
@@ -85,11 +88,11 @@ elseif optname == 'eamsgd' then
    }
 end
 -------------------------------------------------------------------
-print(rank, 'ready to run')
+print('i am ' .. rank .. ' ready to run')
 if pclient then
    pclient:start(state.theta,state.grad)
    assert(rank == pclient.rank)
-   print(rank,'pclient started')
+   print('pc ' .. rank .. ' started')
 end
 -------------------------------------------------------------------
 local inputs = nil
@@ -128,7 +131,8 @@ local iter = 0
 for epoch = 1,maxep do
    for t = 1,trsize,mb do
       -- prepare mini batch
-      local mbs = math.min(trsize-t+1,mb) -- there's no shuffling in this cycling, just for illustration
+      local mbs = math.min(trsize-t+1,mb)
+      -- there's no shuffling in this cycling, just for illustration
       inputs = train_data.data:narrow(1,t,mbs)
       targets = train_data.labels:narrow(1,t,mbs)
       -- optimize on current mini-batch
@@ -137,7 +141,8 @@ for epoch = 1,maxep do
       -- increase iteration count
       iter = iter + 1
    end
-   print(io.popen('hostname -s'):read(),sys.toc(),rank,'avg_err at epoch ' .. epoch .. ' is ' .. avg_err / iter)
+   print(io.popen('hostname -s'):read(),sys.toc(),rank,
+	 'avg_err at epoch ' .. epoch .. ' is ' .. avg_err / iter)
 end
 
 if pclient then

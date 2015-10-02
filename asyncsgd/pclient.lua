@@ -53,7 +53,7 @@ local function pClient_sendgrad(self,grad,srank)
    mpiT.aio_send(sgrad,sgrad:size(),self.mtype,
 		 srank,mpiT.tag_ps_recv_grad,self.mworld,self.state)
    mpiT.aio_recv(self.emptys,0,self.mtype,
-                 srank,mpiT.tag_ps_recv_grad,self.mworld,self.state)
+                 srank,mpiT.tag_ps_recv_grad_tail,self.mworld,self.state)
    coroutine.yield(mpiT.signal_DONE)
 end
 
@@ -64,6 +64,8 @@ local function pClient_sendparam(self,param,srank)
 				self.sinfo[srank].size)
    mpiT.aio_send(sparam,sparam:size(),self.mtype,
 		 srank,mpiT.tag_ps_recv_param,self.mworld,self.state)
+   mpiT.aio_recv(self.emptys,0,self.mtype,
+                 srank,mpiT.tag_ps_recv_param_tail,self.mworld,self.state)
    coroutine.yield(mpiT.signal_DONE)
 end
 
@@ -82,6 +84,7 @@ end
 function pClient:async_recv_param()
    local param = self.pstorage
    for i,srank in pairs(self.sranks) do
+      --print('pc ' .. self.rank .. ' recv param from ' .. srank)
       local co = mpiT.co_execute(pClient_recvparam,{self,param,srank})
       self.coq:push(co)
    end
@@ -90,6 +93,7 @@ end
 function pClient:async_send_grad()
    local grad = self.gstorage
    for i,srank in pairs(self.sranks) do
+      --print('pc ' .. self.rank .. ' send grad to ' .. srank)
       local co = mpiT.co_execute(pClient_sendgrad,{self,grad,srank})
       self.coq:push(co)
    end
@@ -98,6 +102,7 @@ end
 function pClient:async_send_param()
    local param = self.pstorage
    for i,srank in pairs(self.sranks) do
+      --print('pc send param to ' .. srank)
       local co = mpiT.co_execute(pClient_sendparam,{self,param,srank})
       self.coq:push(co)
    end

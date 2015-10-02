@@ -1,10 +1,12 @@
 -- mpi launch
 -- Author: Sixin Zhang (zsx@cims.nyu.edu)
 -- mpirun -n 12 luajit mlaunch.lua
-local AGPU = {1,2,3,4,5,6} -- use the first 6 gpus on each machine
 local oncuda = false
+
+local AGPU = nil
 if oncuda then
    require 'cutorch'
+   AGPU = {1,2,3,4,5,6} -- use the first 6 gpus on each machine
 end
 
 dofile('init.lua')
@@ -50,7 +52,7 @@ if math.fmod(rank,2)==0 then
    local ps = pServer(conf)
    ps:start()
 else
-   if oncuda then
+   if AGPU then
       require 'cunn'
       local gpus = cutorch.getDeviceCount()
       gpuid = AGPU[(rank%(size/2)) % gpus + 1]
