@@ -10,13 +10,13 @@ function optim.msgd(opfunc, w, config, state)
    local lr = config.lr or 0
    local lrd = config.lrd or 0
    local lrp = config.lrp or 0
+   local mom = config.mom or 0
    local mmax = config.mommax or 1
    local mlrd = config.momdecay or 0
    local l2wd = config.l2wd or 0
 
    state.pversion = state.pversion or 0
 
-   local mom = mmax
    if mom > 0 then
       if mlrd > 0 then
 	 mom = math.min(mom, 1-0.5/(1+state.pversion/mlrd))
