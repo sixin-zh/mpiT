@@ -19,7 +19,7 @@ function optim.msgd(opfunc, w, config, state)
 
    if mom > 0 then
       if mlrd > 0 then
-	 mom = math.min(mom, 1-0.5/(1+state.pversion/mlrd))
+	 mom = math.min(mmax, 1-0.5/(1+state.pversion/mlrd))
       end
       if not state.vt then
 	 state.vt = w:clone():zero()
