@@ -1,23 +1,18 @@
 MPI for Torch library (Apache License, Version 2.0)
 
--- Define the environment variable 
-POME=Project home directory
-Download mpiT to $POME/lib/mpiT with
-git clone https://github.com/sixin-zh/mpiT $POME/lib/mpiT
-
 -- Install MPI 
 MPICH: www.mpich.org, mvapich.cse.ohio-state.edu, 
 OPENMPI: www.open-mpi.org
 
-You may install the MPI to ${POME}/exe/mpi, then
-make sure ${POME}/exe/mpi/bin/mpicc and ${POME}/exe/mpi/bin/mpicxx work.
+You should install the MPI to MPI_PREFIX (redefine it), and
+make sure ${MPI_PREFIX}/bin/mpicc and ${MPI_PREFIX}/bin/mpicxx work.
 
 -- Install mpiT using luarocks
-cd $POME/lib/mpiT
+git clone https://github.com/sixin-zh/mpiT
 -- For mpich and mvapich
-$POME/exe/luajit-rocks/bin/luarocks make mpit-mvapich-1.rockspec
+luarocks make mpit-mvapich-1.rockspec
 -- For openmpi (differ in the .so to link)
-$POME/exe/luajit-rocks/bin/luarocks make mpit-openmpi-1.rockspec
+luarocks make mpit-openmpi-1.rockspec
 
 -- Test mpiT
 mpirun -np 2 luajit test.lua
