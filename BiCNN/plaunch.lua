@@ -28,8 +28,8 @@ cmd:option('-L1reg', 0, 'L1 regularization coefficient')
 cmd:option('-L2reg', 1e-4, 'L2 regularization coefficient')
 cmd:option('-margin', 0.02, 'margin for hinge loss')
 cmd:option('-maxnegsample', 100, 'maximum sampling times for negative examples')
-cmd:option('-validMode', 'lastClient', 'validation type: none | lastClient| additionalTester')
-cmd:option('-validSleepTime', 0, 'validation sleep time, only for additionalTester')
+cmd:option('-validMode', 'additionalTester', 'validation type: none | lastClient | additionalTester')
+cmd:option('-validSleepTime', 1, 'validation sleep time in seconds, only for additionalTester')
 cmd:option('-servRecvgrad', true, 'server recvgrad')
 cmd:option('-servSendparam', true, 'server send param to workers')
 cmd:option('-mmode', 1, '1|2')
@@ -76,31 +76,43 @@ conf.opt = opt
 torch.manualSeed(rank)
 math.randomseed(rank)
 
-local lastWorker = size - 1
+local firstworker = 0
 if opt.validMode == 'additionalTester' then
-   -- if size % 2 ~= 1 then
-   --   error("size must be an odd number")
-   -- end
-    lastWorker = size - 2
+   if size % 2 ~= 1 then
+      error("validMode additionalTester requires size be an odd number")
+   end
+   -- set rank 0 as the additionalTester
+   firstworker = 1
 end
 
-
 -- notice the rank starts from 0
-for i = 0,lastWorker do
-   if math.fmod(i,2)==0 then
+local role = nil
+for i = 0,size-1 do
+   if math.fmod(i,2)==0 and i >= firstworker then
       table.insert(conf.sranks,i)
+      if rank == i then
+	 role = 'ps' -- pserver
+      end
    else
       table.insert(conf.cranks,i)
+      if rank == i then
+	 if rank>=firstworker then
+	    role = 'pt' -- ptrainer
+	 else
+	    role = 'pe' -- peval
+	 end
+      end
    end
 end
 
 if opt.validMode == 'lastClient' then
     conf.tranks[size-1] = true
 elseif opt.validMode == 'additionalTester' then
-    conf.tranks[size-1] = true
+   -- set rank 0 as the additionalTester
+    conf.tranks[0] = true
 end
 
-if math.fmod(rank, 2)==0 and rank <= lastWorker then
+if role == 'ps' then
    -- server   
 --   if oncuda and true then
 --      require 'cunn'

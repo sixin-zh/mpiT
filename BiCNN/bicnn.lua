@@ -479,52 +479,61 @@ sys.tic()
 avg_err = 0
 iter = 0
 pversion = 0
-for epoch = 1,opt.epoch do
-  local time_epoch = sys.clock()
-  if opt.mmode == 1 then
-    model:training()
-  else
-    model_QApos:training()
-    model_QAneg:training()
-  end
-  shuffle = torch.randperm(#trainDataSet)
-  local cost = 0
-  for t = 1,#trainDataSet,opt.batchSize do
-    inputs_Q = {}
-    inputs_Apos = {}
-    targets = {}
-    local last = 0
-    if t+opt.batchSize-1 > #trainDataSet then
-        last = #trainDataSet
-    else
-        last = t+opt.batchSize-1
-    end
-    for ii=t,last,1 do
-        table.insert(inputs_Q, trainDataSet[shuffle[ii]][2])
-        table.insert(inputs_Apos, trainDataSet[shuffle[ii]][3])
-        table.insert(targets, trainDataSet[shuffle[ii]][1])
-    end
-    x,fx = opti(feval, parameters, state.optconf)
-    if opt.validMode == 'lastClient' and conf.tranks[conf.rank] == true and pversion%opt.commperiod==0 then
-      print("Client " .. conf.rank .. " will also run testing")
-      test3(validDataSet, testDataSet1, testDataSet2)
-      torch.save(opt.outputprefix .. string.format("_%010.2f_model", sys.toc()+opt.prevtime), parameters)  
-    end
-    pversion = pversion + 1
-  end
-  print('client ' .. conf.rank .. ':' .. ' epoch ' .. epoch .. ' done, ' .. ' for ' .. (sys.clock() - time_epoch) .. ' seconds ')
-end
 
 if opt.validMode == 'additionalTester' and conf.tranks[conf.rank] == true then
-    sys.sleep(opt.validSleepTime)
-    while true do
+   -- only test, TODO to stop when the others stop
+   while true do
       local comm_time_4test = sys.clock()
       print(string.format("Client %s: before receive", conf.rank))
       pclient:async_recv_param()
       pclient:wait()
-      print(string.format("Client %s: communication time: %.2f ", conf.rank, sys.clock() - comm_time_4test))  
+      print(string.format("Client %s: communication time: %.2f ",
+			  conf.rank, sys.clock() - comm_time_4test))
       test3(validDataSet, testDataSet1, testDataSet2)
-    end
+      sys.sleep(opt.validSleepTime)      
+   end
+else
+   -- train
+   for epoch = 1,opt.epoch do
+      local time_epoch = sys.clock()
+      if opt.mmode == 1 then
+	 model:training()
+      else
+	 model_QApos:training()
+	 model_QAneg:training()
+      end
+      shuffle = torch.randperm(#trainDataSet)
+      local cost = 0
+      for t = 1,#trainDataSet,opt.batchSize do
+	 inputs_Q = {}
+	 inputs_Apos = {}
+	 targets = {}
+	 local last = 0
+	 if t+opt.batchSize-1 > #trainDataSet then
+	    last = #trainDataSet
+	 else
+	    last = t+opt.batchSize-1
+	 end
+	 for ii=t,last,1 do
+	    table.insert(inputs_Q, trainDataSet[shuffle[ii]][2])
+	    table.insert(inputs_Apos, trainDataSet[shuffle[ii]][3])
+	    table.insert(targets, trainDataSet[shuffle[ii]][1])
+	 end
+	 x,fx = opti(feval, parameters, state.optconf)
+	 if opt.validMode == 'lastClient' and
+	    conf.tranks[conf.rank] == true and
+	    pversion%opt.commperiod==0 then
+	    print("Client " .. conf.rank .. " will also run testing")
+	    test3(validDataSet, testDataSet1, testDataSet2)
+	    torch.save(opt.outputprefix ..
+		       string.format("_%010.2f_model",
+				     sys.toc()+opt.prevtime), parameters)  
+	 end
+	 pversion = pversion + 1
+      end
+      print('client ' .. conf.rank .. ':' .. ' epoch ' .. epoch .. ' done, '
+	    .. ' for ' .. (sys.clock() - time_epoch) .. ' seconds ')
+   end
 end
 
 print("Before Stop !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")

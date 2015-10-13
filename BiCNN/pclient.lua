@@ -102,7 +102,7 @@ end
 function pClient:async_send_param()
    local param = self.pstorage
    for i,srank in pairs(self.sranks) do
-      --print('pc send param to ' .. srank)
+      --print('pc ' .. self.rank .. ' send param to ' .. srank)
       local co = mpiT.co_execute(pClient_sendparam,{self,param,srank})
       self.coq:push(co)
    end

@@ -15,3 +15,8 @@ dofile('pclient.lua')
 dofile('optim-msgd.lua')
 dofile('optim-downpour.lua')
 dofile('optim-eamsgd.lua')
+
+require 'nn'
+if nn.Normalize == nil then
+   dofile('Normalize.lua')
+end
