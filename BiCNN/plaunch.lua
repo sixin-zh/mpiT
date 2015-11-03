@@ -36,6 +36,7 @@ cmd:option('-mmode', 1, '1|2')
 cmd:option('-outputprefix', 'none', 'output file prefix')
 cmd:option('-prevtime', 0, 'time start point')
 cmd:option('-loadmodel', 'none', 'load model file name')
+cmd:option('-preloadBinary', false, 'load data from binary files')
 cmd:text()
 opt = cmd:parse(arg or {})
 
@@ -139,7 +140,6 @@ else
       torch.setdefaulttensortype('torch.FloatTensor')
    end
 
-   mapWordStr2VectorStr = {}
    mapWordIdx2Vector = {}
    mapWordStr2WordIdx = {}
    mapWordIdx2WordStr = {}
@@ -152,7 +152,18 @@ else
    -- pclient   
    pc = pClient(conf)
    -- go
-   dofile('prepareData.lua')
+   if opt.preloadBinary == false then
+      dofile('prepareData.lua')
+   else
+      mapWordIdx2Vector = torch.load("binary_mapWordIdx2Vector")
+      mapWordStr2WordIdx = torch.load("binary_mapWordStr2WordIdx")
+      mapWordIdx2WordStr = torch.load("binary_mapWordIdx2WordStr")
+      mapLabel2AnswerIdx = torch.load("binary_mapLabel2AnswerIdx")
+      trainDataSet = torch.load("binary_trainDataSet")
+      validDataSet = torch.load("binary_validDataSet")
+      testDataSet1 = torch.load("binary_testDataSet1")
+      testDataSet2 = torch.load("binary_testDataSet2")
+   end
    dofile('bicnn.lua')
 end
 

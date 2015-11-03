@@ -37,17 +37,7 @@ function optim.downpour(opfunc, w, config, state)
 	 pc:async_send_grad()
 	 pc:async_recv_param()
 	 local synctime = sys.clock()
-         local ts = sys.clock()
-         while (mpiT.co_ping(pc.coq)) do
-              sys.usleep(1)
-              if sys.clock() - ts > 10 then
-                print(string.format("Client %s: before clear the queue ", pc.rank ))
-                pc.coq:clear()
-                print(string.format("Client %s: after clear the queue ", pc.rank ))
-                break
-              end
-         end
-
+         pc:wait()
 	 state.dusync = state.dusync + sys.clock()-synctime
 	 config.dfdx:fill(0)
       else
@@ -60,17 +50,7 @@ function optim.downpour(opfunc, w, config, state)
       pc:async_send_grad()
       pc:async_recv_param()
       local synctime = sys.clock()
-      local ts = sys.clock()
-      while (mpiT.co_ping(pc.coq)) do
-              sys.usleep(1)
-              if sys.clock() - ts > 10 then
-                print(string.format("Client %s: before clear the queue ", pc.rank ))
-                pc.coq:clear()
-                print(string.format("Client %s: after clear the queue ", pc.rank ))
-                break
-              end
-     end
-
+      pc:wait()
       state.dusync = state.dusync + sys.clock()-synctime
    else
       assert(false)
