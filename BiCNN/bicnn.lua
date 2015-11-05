@@ -490,6 +490,11 @@ if opt.validMode == 'additionalTester' and conf.tranks[conf.rank] == true then
       print(string.format("Client %s: communication time: %.2f ",
 			  conf.rank, sys.clock() - comm_time_4test))
       test3(validDataSet, testDataSet1, testDataSet2)
+      if opt.outputprefix ~= 'none' then
+         torch.save(opt.outputprefix ..
+            string.format("_%010.2f_model",
+                sys.toc()+opt.prevtime), parameters)
+      end
       sys.sleep(opt.validSleepTime)      
    end
 else
