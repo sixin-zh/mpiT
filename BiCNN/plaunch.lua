@@ -37,6 +37,11 @@ cmd:option('-outputprefix', 'none', 'output file prefix')
 cmd:option('-prevtime', 0, 'time start point')
 cmd:option('-loadmodel', 'none', 'load model file name')
 cmd:option('-preloadBinary', false, 'load data from binary files')
+cmd:option('-testerfirst', false, 'rank 0 is the tester')
+cmd:option('-testerlast', false, 'last rank is the tester')
+cmd:option('-masterFreq', 2, 'this parameter control the ratio of master and client')
+
+
 cmd:text()
 opt = cmd:parse(arg or {})
 
@@ -77,40 +82,66 @@ conf.opt = opt
 torch.manualSeed(rank)
 math.randomseed(rank)
 
-local firstworker = 0
 if opt.validMode == 'additionalTester' then
    if size % 2 ~= 1 then
       error("validMode additionalTester requires size be an odd number")
    end
-   -- set rank 0 as the additionalTester
-   firstworker = 1
 end
 
 -- notice the rank starts from 0
 local role = nil
-for i = 0,size-1 do
-   if math.fmod(i,2)==0 and i >= firstworker then
-      table.insert(conf.sranks,i)
-      if rank == i then
-	 role = 'ps' -- pserver
-      end
-   else
-      table.insert(conf.cranks,i)
-      if rank == i then
-	 if rank>=firstworker then
-	    role = 'pt' -- ptrainer
-	 else
-	    role = 'pe' -- peval
-	 end
+if opt.testerfirst then
+   table.insert(conf.cranks,0)
+   if rank == 0 then
+      role = 'pe'
+   end
+   for i = 1,size-1 do
+      if math.fmod(i,opt.masterFreq) ~= 0 then
+         table.insert(conf.cranks,i)
+         if rank == i then
+            role = 'pt'
+         end
+      else
+         table.insert(conf.sranks,i)
+         if rank == i then
+            role = 'ps'
+         end
       end
    end
 end
+
+if opt.testerlast then
+   for i = 0,size-2 do
+      if math.fmod(i+1,opt.masterFreq) ~= 0 then
+         table.insert(conf.cranks,i)
+         if rank == i then
+            role = 'pt'
+         end
+      else
+         table.insert(conf.sranks,i)
+         if rank == i then
+            role = 'ps'
+         end
+      end
+   end
+   table.insert(conf.cranks,size-1)
+   if rank == size - 1 then
+      role = 'pe'
+   end
+end
+
 
 if opt.validMode == 'lastClient' then
     conf.tranks[size-1] = true
 elseif opt.validMode == 'additionalTester' then
    -- set rank 0 as the additionalTester
-    conf.tranks[0] = true
+    if opt.testerfirst then
+       conf.tranks[0] = true
+    elseif opt.testerlast then
+       conf.tranks[size-1] = true
+    else
+       error("Incorrect configuration")
+    end
 end
 
 if role == 'ps' then
