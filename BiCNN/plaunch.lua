@@ -40,7 +40,7 @@ cmd:option('-preloadBinary', false, 'load data from binary files')
 cmd:option('-testerfirst', false, 'rank 0 is the tester')
 cmd:option('-testerlast', false, 'last rank is the tester')
 cmd:option('-masterFreq', 2, 'this parameter control the ratio of master and client')
-
+cmd:option('-maxrank', 120, 'max rank used')
 
 cmd:text()
 opt = cmd:parse(arg or {})
@@ -63,6 +63,14 @@ mpiT.Init()
 local world = mpiT.COMM_WORLD
 local rank = mpiT.get_rank(world)
 local size = mpiT.get_size(world)
+size = opt.maxrank + 1
+if rank > opt.maxrank then
+  print('rank ' .. rank .. ' do nothing ')
+  while true do
+    sys.usleep(1000)
+  end
+end
+
 local gpu = nil
 if rank == 1 then
   print(opt)
