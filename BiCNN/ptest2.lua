@@ -1,4 +1,4 @@
-local ssize = 1*4096*4096
+local ssize = 4*4096*4096
 local usecuda = false
 
 require 'mpiT'
@@ -16,7 +16,7 @@ conf.world = world
 conf.sranks = {}
 conf.cranks = {}
 for i = 0,size-1 do
-   if rank < size/2 then
+   if i < size/2 then
       table.insert(conf.sranks,i) --as server
    else
       table.insert(conf.cranks,i) --as client
@@ -62,14 +62,14 @@ else
         print(string.format("Client %s: communication time: %.2f , curr time %.2f",
                           pc.rank, sys.clock() - comm_time_4test, sys.toc()/3600))
       end
---      grad:cmul(torch.Tensor(ssize))
---      grad:cdiv(torch.Tensor(ssize))
---      grad:cmul(torch.Tensor(ssize))
---      grad:cdiv(torch.Tensor(ssize))
---      grad:cmul(torch.Tensor(ssize))
---      grad:cdiv(torch.Tensor(ssize))
---      grad:cmul(torch.Tensor(ssize))
---      grad:cdiv(torch.Tensor(ssize))
+      grad:cmul(torch.Tensor(ssize))
+      grad:cdiv(torch.Tensor(ssize))
+      grad:cmul(torch.Tensor(ssize))
+      grad:cdiv(torch.Tensor(ssize))
+      grad:cmul(torch.Tensor(ssize))
+      grad:cdiv(torch.Tensor(ssize))
+      grad:cmul(torch.Tensor(ssize))
+      grad:cdiv(torch.Tensor(ssize))
    end
    local now = os.time()
    print('rank ' .. rank .. ' bandwidth(bi-direction) is ' .. (2*ssize*4/(now-begin)/1024/1024) .. ' MBytes/sec')
