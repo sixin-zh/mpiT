@@ -66,6 +66,7 @@ else
       for o=1,(rank-47)*(rank-47)*(rank-47)*(rank-47)*(rank-47)*(rank-47)*(rank-47)*(rank-47)*(rank-47)  do
           grad:cmul(torch.Tensor(ssize))
           grad:cdiv(torch.Tensor(ssize))
+          collectgarbage()
       end
    end
    local now = os.time()
