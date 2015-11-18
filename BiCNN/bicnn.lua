@@ -151,6 +151,17 @@ elseif opt.optimization == 'eamsgd' then
       mva = opt.movingrate,
       mom = opt.momentum,
    }
+elseif opt.optimization == 'rmsprop' then
+   opti = optim.rmsprop
+   state.optconf = {
+      mode = opt.modeRMSProp,
+      decay = opt.decayRMSProp,
+      lr = opt.lrRMSProp,
+      momentum = opt.momentumRMSProp,
+      epsilon = opt.epsilonRMSProp,
+      pclient = pc,
+      su = opt.commperiod      
+   }
 else
    os.error('unknown optimization method')
 end

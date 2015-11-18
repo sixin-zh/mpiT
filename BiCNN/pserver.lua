@@ -46,6 +46,12 @@ local function pServer_recvinit(self,crank)
       self.tensor.p = torch.Tensor(self.storage.p)
       self.tensor.g = {}
       self.tensor.g[crank] = torch.Tensor(self.storage.g[crank])
+      if self.conf.opt.optimization == 'rmsprop' then
+         self.gradAccum = torch.Tensor():resizeAs(self.tensor.p):zero()
+         self.gradSqAccum = torch.Tensor():resizeAs(self.tensor.p):zero()
+         self.update = torch.Tensor():resizeAs(self.tensor.p):zero()
+         self.gradRms = torch.Tensor():resizeAs(self.tensor.p):zero() 
+      end
    else
       assert(self.offset == cinfo[1])
       assert(self.size == cinfo[2])
@@ -80,7 +86,26 @@ local function pServer_recvgrad(self,crank)
 		    crank,mpiT.tag_ps_recv_grad,self.mworld,self.state)
       --print('ps ' .. self.rank .. ' recv grad from ' .. crank)
       -- apply
-      self.tensor.p:add(self.tensor.g[crank])
+       if self.conf.opt.optimization == 'rmsprop' then
+         if self.conf.opt.modeRMSProp == 'global' then
+            local decay = self.conf.opt.decayRMSProp
+            local lr = self.conf.opt.lrRMSProp
+            local momentum = self.conf.opt.momentumRMSProp
+            local epsilon = self.conf.opt.epsilonRMSProp
+      
+            self.gradAccum:mul(decay):add(1 - decay, self.tensor.g[crank])
+            self.gradSqAccum:mul(decay):add(1 - decay, torch.cmul(self.tensor.g[crank], self.tensor.g[crank]))
+            self.gradRms:copy(self.gradSqAccum)
+              :add(-1, torch.cmul(self.gradAccum, self.gradAccum))
+              :add(epsilon):sqrt()
+            self.update:mul(momentum):add(-lr, torch.cdiv(self.tensor.g[crank], self.gradRms))
+            self.tensor.p:add(self.update)
+         elseif self.conf.opt.modeRMSProp == 'local' then
+            self.tensor.p:add(self.tensor.g[crank])
+         end
+      else
+         self.tensor.p:add(self.tensor.g[crank])
+      end
       if self.state.on then
          mpiT.aio_send(self.emptys,0,self.mtype,
 	  	       crank,mpiT.tag_ps_recv_grad_tail,self.mworld,self.state)

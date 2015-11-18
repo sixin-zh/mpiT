@@ -1,4 +1,4 @@
-local ssize = 16*4096*4096
+local ssize = 4*4096*4096
 local usecuda = false
 
 require 'mpiT'
@@ -63,7 +63,7 @@ else
         print(string.format("Client %s: communication time: %.2f , curr time %.2f",
                           pc.rank, sys.clock() - comm_time_4test, sys.toc()/3600))
       end
-      for o=1,(rank-47)*(rank-47)*(rank-47)*(rank-47)*(rank-47)*(rank-47)*(rank-47)*(rank-47)*(rank-47)  do
+      for o=1,math.pow(rank + 1 - size/2, 2)  do
           grad:cmul(torch.Tensor(ssize))
           grad:cdiv(torch.Tensor(ssize))
           collectgarbage()
