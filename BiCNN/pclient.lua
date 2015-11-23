@@ -79,6 +79,9 @@ local function pClient_recvparam(self,param,srank)
    mpiT.aio_recv(sparam,sparam:size(),self.mtype,
 		 srank,mpiT.tag_ps_send_param,self.mworld,self.state)
    coroutine.yield(mpiT.signal_DONE)   
+--   if self.rank == 0 then
+--      print("rank " .. self.rank .. " " .. collectgarbage("count"))
+--   end
 end
 
 function pClient:async_recv_param()

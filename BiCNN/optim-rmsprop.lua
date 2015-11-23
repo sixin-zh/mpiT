@@ -7,7 +7,7 @@ function optim.rmsprop(opfunc, w, config, state)
    local state = state or config
    local mode = config.mode or 'global'  -- global or local
    local decay = config.decay
-   local lr = config.learningRate
+   local lr = config.lr
    local momentum = config.momentum
    local epsilon = config.epsilon
    if mode == 'local' then
@@ -16,7 +16,6 @@ function optim.rmsprop(opfunc, w, config, state)
       state.update = state.update or torch.Tensor():resizeAs(w):fill(0)
       state.gradRms = state.gradRms or torch.Tensor():resizeAs(w):fill(0)
    end
-
 
    local pc = config.pclient or nil
    local su = config.su or 0 -- sync updates (grad and param)
@@ -34,7 +33,7 @@ function optim.rmsprop(opfunc, w, config, state)
 	      pc:reset(w,config.accumulated)
       end
       
-      if mode == 'global' then  
+      if mode == 'global' then
         config.accumulated:add(dfdx)
         if state.pversion%su==0 then
            pc:async_send_grad()
@@ -82,12 +81,13 @@ function optim.rmsprop(opfunc, w, config, state)
          state.gradRms:copy(state.gradSqAccum)
            :add(-1, torch.cmul(state.gradAccum, state.gradAccum))
            :add(epsilon):sqrt()
-         state.update:mul(momentum):add(-lr, torch.cdiv(dfdx, state.gradRms))  
+         state.update:mul(momentum):add(-lr, torch.cdiv(dfdx, state.gradRms)) 
          pc:async_send_grad()
          pc:async_recv_param()
          local synctime = sys.clock()
          pc:wait()
          state.dusync = state.dusync + sys.clock()-synctime
+         collectgarbage()
       else
          error("Incorrect mode: " .. mode)
       end

@@ -73,6 +73,9 @@ local function pServer_sendparam(self,crank)
       	 mpiT.aio_send(self.storage.p,self.size,self.mtype,
 		       crank,mpiT.tag_ps_send_param,self.mworld,self.state)
       end
+ --     if self.rank == 1 then
+ --        print("rank " .. self.rank .. " " .. collectgarbage("count"))
+ --     end
    end
    coroutine.yield(mpiT.signal_DONE)
 end
