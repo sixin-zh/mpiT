@@ -167,7 +167,7 @@ if role == 'ps' then
 --      print('[server] rank',rank,'use gpu',gpu)
 --      torch.setdefaulttensortype('torch.CudaTensor')
 --   else
-    print('[server] rank ' .. rank .. ' use cpu on ' .. io.popen('hostname -s'):read())
+    --print('[server] rank ' .. rank .. ' use cpu on ' .. io.popen('hostname -s'):read())
     torch.setdefaulttensortype('torch.FloatTensor')
 --   end
     local ps = pServer(conf)
@@ -180,7 +180,7 @@ else
       print('[client] rank',rank,'use gpu',gpu)
       torch.setdefaulttensortype('torch.CudaTensor')
    else
-      print('[client] rank ' .. rank .. ' use cpu on ' .. io.popen('hostname -s'):read())
+      --print('[client] rank ' .. rank .. ' use cpu on ' .. io.popen('hostname -s'):read())
       torch.setdefaulttensortype('torch.FloatTensor')
    end
 

@@ -14,7 +14,6 @@ else
 end
 
 require 'sys'
-sys.tic()
 tm = {}
 tm.sync = 0
 tm.fprop = 0
