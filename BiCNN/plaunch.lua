@@ -1,3 +1,6 @@
+-- start point
+-- Author: Minwei Feng (mfeng@us.ibm.com)
+
 require 'mpiT'
 dofile('init.lua')
 
@@ -5,9 +8,15 @@ cmd = torch.CmdLine('_')
 cmd:text()
 cmd:text('Options:')
 cmd:option('-threads', 1, 'number of threads')
-cmd:option('-optimization', 'downpour', 'optimization method: sgd | downpour | eamsgd')
+cmd:option('-optimization', 'downpour', 'optimization method: sgd | downpour | eamsgd | adam | rmsprop')
 cmd:option('-learningRate', 1e-2, 'learning rate at t=0')
 cmd:option('-batchSize', 1, 'mini-batch size (1 = pure stochastic)')
+cmd:option('-lrAdam', 1e-4, 'learning rate for adam')
+cmd:option('-beta1Adam', 0.91, 'beta1 for adam')
+cmd:option('-beta2Adam', 0.99, 'beta2 for adam')
+cmd:option('-epsilonAdam', 1e-8, 'epsilon for adam')
+cmd:option('-modeAdam', 'global', 'mode for adam, currently only global')
+cmd:option('-gradClip', 0.5, 'boundary for gradient clip')
 cmd:option('-weightDecay', 0.000001, 'weight decay')
 cmd:option('-decayRMSProp', 0.95, 'decay for rmsprop')
 cmd:option('-lrRMSProp', 1e-4, 'learning rate for rmsprop')

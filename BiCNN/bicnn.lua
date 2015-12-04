@@ -161,6 +161,17 @@ elseif opt.optimization == 'rmsprop' then
       pclient = pc,
       su = opt.commperiod      
    }
+elseif opt.optimization == 'adam' then
+   opti = optim.adam
+   state.optconf = {
+      mode = opt.modeAdam,
+      lr = opt.lrAdam,
+      beta1 = opt.beta1Adam,
+      beta2 = opt.beta2Adam,
+      epsilon = opt.epsilonAdam,
+      pclient = pc,
+      su = opt.commperiod      
+   }
 else
    os.error('unknown optimization method')
 end
@@ -320,6 +331,7 @@ function(x)
            parametersClone:copy(parameters)
            gradParameters:add( parametersClone:mul(opt.L2reg) )
        end
+       gradParameters:clamp(-opt.gradClip, opt.gradClip)
        ::continue::
    end
    loss = loss + f

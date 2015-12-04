@@ -1,5 +1,6 @@
 -- Parameter server
 -- Author: Sixin Zhang (zsx@cims.nyu.edu)
+-- Augmented by Minwei Feng (mfeng@us.ibm.com)
 -- Important change: 
 -- init the parameter from the first local worker (once and only once)
 -- before other service gets started. From the pclient side, 
@@ -52,6 +53,14 @@ local function pServer_recvinit(self,crank)
          self.update = torch.Tensor():resizeAs(self.tensor.p):zero()
          self.gradRms = torch.Tensor():resizeAs(self.tensor.p):zero() 
       end
+      
+      if self.conf.opt.optimization == 'adam' then
+         self.adam_t = 0
+         self.adam_m = torch.Tensor():resizeAs(self.tensor.p):zero()
+         self.adam_v = torch.Tensor():resizeAs(self.tensor.p):zero()
+         self.adam_d = torch.Tensor():resizeAs(self.tensor.p):zero()
+      end
+      
    else
       assert(self.offset == cinfo[1])
       assert(self.size == cinfo[2])
@@ -105,6 +114,22 @@ local function pServer_recvgrad(self,crank)
             self.tensor.p:add(self.update)
          elseif self.conf.opt.modeRMSProp == 'local' then
             self.tensor.p:add(self.tensor.g[crank])
+         end
+       elseif self.conf.opt.optimization == 'adam' then
+          if self.conf.opt.modeAdam == 'global' then
+            local lr = self.conf.opt.lrAdam
+            local beta1 = self.conf.opt.beta1Adam
+            local beta2 = self.conf.opt.beta2Adam
+            local epsilon = self.conf.opt.epsilonAdam
+      
+            self.adam_t = self.adam_t + 1
+            self.adam_m:mul(beta1):add(1-beta1, self.tensor.g[crank])
+            self.adam_v:mul(beta2):addcmul(1-beta2, self.tensor.g[crank], self.tensor.g[crank])
+            self.adam_d:copy(self.adam_v):sqrt():add(epsilon)
+            local beta1_t = 1 - math.pow(beta1, self.adam_t)
+            local beta2_t = 1 - math.pow(beta2, self.adam_t)
+            local lr_t = lr * math.sqrt(beta2_t)/beta1_t
+            self.tensor.p:addcdiv(-lr_t, self.adam_m, self.adam_d)
          end
       else
          self.tensor.p:add(self.tensor.g[crank])
