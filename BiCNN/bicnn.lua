@@ -14,7 +14,6 @@ else
 end
 
 require 'sys'
-sys.tic()
 tm = {}
 tm.sync = 0
 tm.fprop = 0
@@ -159,6 +158,17 @@ elseif opt.optimization == 'rmsprop' then
       lr = opt.lrRMSProp,
       momentum = opt.momentumRMSProp,
       epsilon = opt.epsilonRMSProp,
+      pclient = pc,
+      su = opt.commperiod      
+   }
+elseif opt.optimization == 'adam' then
+   opti = optim.adam
+   state.optconf = {
+      mode = opt.modeAdam,
+      lr = opt.lrAdam,
+      beta1 = opt.beta1Adam,
+      beta2 = opt.beta2Adam,
+      epsilon = opt.epsilonAdam,
       pclient = pc,
       su = opt.commperiod      
    }
@@ -321,6 +331,7 @@ function(x)
            parametersClone:copy(parameters)
            gradParameters:add( parametersClone:mul(opt.L2reg) )
        end
+       gradParameters:clamp(-opt.gradClip, opt.gradClip)
        ::continue::
    end
    loss = loss + f
