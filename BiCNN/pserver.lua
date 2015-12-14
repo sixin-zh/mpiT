@@ -126,8 +126,8 @@ local function pServer_recvgrad(self,crank)
             self.adam_m:mul(beta1):add(1-beta1, self.tensor.g[crank])
             self.adam_v:mul(beta2):addcmul(1-beta2, self.tensor.g[crank], self.tensor.g[crank])
             self.adam_d:copy(self.adam_v):sqrt():add(epsilon)
-            local beta1_t = 1 - math.pow(beta1, self.adam_t)
-            local beta2_t = 1 - math.pow(beta2, self.adam_t)
+            local beta1_t = 1 - math.pow(beta1, math.floor(self.adam_t/self.conf.opt.stepDivAdam) + 1 )
+            local beta2_t = 1 - math.pow(beta2, math.floor(self.adam_t/self.conf.opt.stepDivAdam) + 1 )
             local lr_t = lr * math.sqrt(beta2_t)/beta1_t
             self.tensor.p:addcdiv(-lr_t, self.adam_m, self.adam_d)
          end
