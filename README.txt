@@ -1,23 +1,35 @@
-MPI for Torch library
-
--- Define the environment variable 
-POME=Project home directory
-Download mpiT to $POME/lib/mpiT with
-git clone https://github.com/sixin-zh/mpiT $POME/lib/mpiT
+MPI for Torch library (Apache License, Version 2.0)
 
 -- Install MPI 
-Dowload MPI for CPU: www.mpich.org, for GPU: mvapich.cse.ohio-state.edu
-You may install the MPI to ${POME}/exe/mpi, then
-make sure ${POME}/exe/mpi/bin/mpicc and ${POME}/exe/mpi/bin/mpicxx work.
+MPICH: www.mpich.org, mvapich.cse.ohio-state.edu, 
+OPENMPI: www.open-mpi.org
+
+You should install the MPI to MPI_PREFIX (redefine it), and
+make sure ${MPI_PREFIX}/bin/mpicc and ${MPI_PREFIX}/bin/mpicxx work.
 
 -- Install mpiT using luarocks
-cd $POME/lib/mpiT
-$POME/exe/luajit-rocks/bin/luarocks make mpit-1.0.0-0.rockspec
+git clone https://github.com/sixin-zh/mpiT
+-- For mpich and mvapich
+luarocks make mpit-mvapich-1.rockspec
+-- For openmpi (differ in the .so to link)
+luarocks make mpit-openmpi-1.rockspec
 
--- Test
+-- Test mpiT
 mpirun -np 2 luajit test.lua
 
+-- Test asyncsgd
+cd asyncsgd
+-- test Torch on cpu
+luajit claunch.lua
+-- test Torch on gpu
+luajit glaunch.lua
+-- test the bandwidth
+mpirun -np 4 luajit ptest.lua 
+-- the parallel mnist training using downpour/easgd on 6 cpus and 6 gpus
+mpirun -np 12 luajit mlaunch.lua
+
 Important updates:
--- use mpiT.Cancel to release the buffer ownership on io stop in mpiT.aio_read and mpiT.aio_recv
--- add asyncsgd implementation which trains mnist in parallel, test it: mpirun -n 2 luajit ptest.lua
--- checkout the CMakeLists.txt.openmpi for openmpi support
+-- The implementation of msgd, downpour, easgd and eamsgd is added.
+-- The starting offset in pclient.lua is set to 1 rather than 0, for current Torch7's support.
+-- Use mpiT.Cancel to release the buffer ownership on io stop in mpiT.aio_read
+and mpiT.aio_recv.
