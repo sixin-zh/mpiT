@@ -29,7 +29,7 @@ mpirun -np 4 luajit ptest.lua
 mpirun -np 12 luajit mlaunch.lua
 
 Important updates:
--- Correct off-by-one error in pClient_init due to Zheng Xu
+-- Correct off-by-one error in pClient_init, thanks to Zheng Xu
 (xuzhustc@gmail.com). See https://github.com/sixin-zh/mpiT/pull/16
 -- BiCNN is supported by Minwei Feng (mfeng@us.ibm.com).
 -- The implementation of msgd, downpour, easgd and eamsgd is added.
