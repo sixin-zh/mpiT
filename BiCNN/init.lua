@@ -16,8 +16,15 @@ dofile('optim-msgd.lua')
 dofile('optim-downpour.lua')
 dofile('optim-eamsgd.lua')
 dofile('optim-rmsprop.lua')
+dofile('optim-rmsprop-single.lua')
 dofile('optim-adam.lua')
-
+dofile('optim-adam-single.lua')
+dofile('optim-adamax.lua')
+dofile('optim-adamax-single.lua')
+dofile('optim-adagrad.lua')
+dofile('optim-adagrad-single.lua')
+dofile('optim-adadelta.lua')
+dofile('optim-adadelta-single.lua')
 require 'nn'
 if nn.Normalize == nil then
    dofile('Normalize.lua')
