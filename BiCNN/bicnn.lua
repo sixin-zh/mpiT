@@ -234,6 +234,7 @@ elseif opt.optimization == 'adadelta' then
    state.optconf = {
       mode = opt.modeAdadelta,
       rho = opt.rhoAdadelta,
+      lr = opt.lrAdadelta,
       epsilon = opt.epsilonAdadelta,
       pclient = pc,
       su = opt.commperiod       
@@ -243,6 +244,7 @@ elseif opt.optimization == 'adadeltasingle' then
    state.optconf = {
       rho = opt.rhoAdadelta,
       epsilon = opt.epsilonAdadelta,
+      lr = opt.lrAdadelta,
       pclient = pc     
    } 
 else

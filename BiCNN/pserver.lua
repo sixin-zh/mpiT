@@ -185,11 +185,11 @@ local function pServer_recvgrad(self,crank)
           if self.conf.opt.modeAdagrad == 'global' then            
             local rho = self.conf.opt.rhoAdadelta
             local epsilon = self.conf.opt.epsilonAdadelta
-            
+            local lr = self.conf.opt.lrAdadelta 
             self.paramVariance:mul(rho):addcmul(1-rho, self.tensor.g[crank], self.tensor.g[crank])
             self.paramStd:resizeAs(self.paramVariance):copy(self.paramVariance):add(epsilon):sqrt()
             self.delta:resizeAs(self.paramVariance):copy(self.accDelta):add(epsilon):sqrt():cdiv(self.paramStd):cmul(self.tensor.g[crank])
-            self.tensor.p:add(-1, self.delta)
+            self.tensor.p:add(-lr, self.delta)
             self.accDelta:mul(rho):addcmul(1-rho, self.delta, self.delta)
             self.pversion = self.pversion + 1
          end  
