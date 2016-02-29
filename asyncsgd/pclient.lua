@@ -114,7 +114,7 @@ local function pClient_init(self)
    local size = math.floor(self.plong/#self.sranks)
    for i,srank in pairs(self.sranks) do
       if i == #self.sranks then
-	 size = self.plong - offset
+	 size = self.plong - offset + 1
       end
       local co = mpiT.co_execute(pClient_sendinit,{self,srank,offset,size})
       self.coq:push(co)
