@@ -112,23 +112,23 @@ function pClient:async_send_param()
 end
 
 local function pClient_init(self)
-   -- set offset size for each piece of parameter server
-   local offset = 1
-   local size = math.floor(self.plong/#self.sranks)
-   for i,srank in pairs(self.sranks) do
-      if i == #self.sranks then
-	 size = self.plong - offset
-      end
-      local co = mpiT.co_execute(pClient_sendinit,{self,srank,offset,size})
-      self.coq:push(co)
-      offset = offset + size
-   end
-   mpiT.co_wait(self.coq)
-   -- init pserver param
-   if self.rank == self.cranks[1] then
-      self:async_send_param(self.pstorage)
-   end
-   mpiT.co_wait(self.coq)
+  -- set offset size for each piece of parameter server
+  local offset = 1
+  local size = math.floor(self.plong/#self.sranks)
+  for i,srank in pairs(self.sranks) do
+    if i == #self.sranks then
+      size = self.plong - offset + 1
+    end
+    local co = mpiT.co_execute(pClient_sendinit,{self,srank,offset,size})
+    self.coq:push(co)
+    offset = offset + size
+  end
+  mpiT.co_wait(self.coq)
+  -- init pserver param
+  if self.rank == self.cranks[1] then
+    self:async_send_param(self.pstorage)
+  end
+  mpiT.co_wait(self.coq)
 end
 
 function pClient:ping(nb)

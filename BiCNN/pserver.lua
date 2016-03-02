@@ -1,6 +1,6 @@
 -- Parameter server
 -- Author: Sixin Zhang (zsx@cims.nyu.edu)
--- Augmented by Minwei Feng (mfeng@us.ibm.com)
+-- Author: Minwei Feng (mfeng@us.ibm.com)
 -- Important change: 
 -- init the parameter from the first local worker (once and only once)
 -- before other service gets started. From the pclient side, 
@@ -61,6 +61,28 @@ local function pServer_recvinit(self,crank)
          self.adam_d = torch.Tensor():resizeAs(self.tensor.p):zero()
       end
       
+      if self.conf.opt.optimization == 'adamax' then
+         self.adamax_t = 0
+         self.adamax_m = torch.Tensor():resizeAs(self.tensor.p):zero()
+         self.adamax_u = torch.Tensor():resizeAs(self.tensor.p):zero()
+         self.adamax_max = self.tensor.p.new(2, unpack(self.tensor.p:size():totable())):zero()
+      end
+
+      if self.conf.opt.optimization == 'adagrad' then
+         self.pversion = 0
+         self.paramVariance = torch.Tensor():typeAs(self.tensor.p):resizeAs(self.tensor.p):zero()
+         self.paramStd = torch.Tensor():typeAs(self.tensor.p):resizeAs(self.tensor.p)
+      end
+      
+      if self.conf.opt.optimization == 'adadelta' then
+         self.pversion = 0
+         self.paramVariance = torch.Tensor():typeAs(self.tensor.p):resizeAs(self.tensor.p):zero()
+         self.paramStd = torch.Tensor():typeAs(self.tensor.p):resizeAs(self.tensor.p):zero()
+         self.delta = torch.Tensor():typeAs(self.tensor.p):resizeAs(self.tensor.p):zero()
+         self.accDelta = torch.Tensor():typeAs(self.tensor.p):resizeAs(self.tensor.p):zero()
+      end
+
+
    else
       assert(self.offset == cinfo[1])
       assert(self.size == cinfo[2])
@@ -116,7 +138,7 @@ local function pServer_recvgrad(self,crank)
             self.tensor.p:add(self.tensor.g[crank])
          end
        elseif self.conf.opt.optimization == 'adam' then
-          if self.conf.opt.modeAdam == 'global' then
+         if self.conf.opt.modeAdam == 'global' then
             local lr = self.conf.opt.lrAdam
             local beta1 = self.conf.opt.beta1Adam
             local beta2 = self.conf.opt.beta2Adam
@@ -131,6 +153,46 @@ local function pServer_recvgrad(self,crank)
             local lr_t = lr * math.sqrt(beta2_t)/beta1_t
             self.tensor.p:addcdiv(-lr_t, self.adam_m, self.adam_d)
          end
+       elseif self.conf.opt.optimization == 'adamax' then
+          if self.conf.opt.modeAdam == 'global' then
+            local lr = self.conf.opt.lrAdam
+            local beta1 = self.conf.opt.beta1Adam
+            local beta2 = self.conf.opt.beta2Adam
+            local epsilon = self.conf.opt.epsilonAdam
+            
+            self.adamax_t = self.adamax_t + 1
+            self.adamax_m:mul(beta1):add(1-beta1, self.tensor.g[crank])
+            self.adamax_max[1]:copy(self.adamax_u):mul(beta2)
+            self.adamax_max[2]:copy(self.tensor.g[crank]):abs():add(epsilon)
+            self.adamax_u:max(self.adamax_max, 1)
+            local beta1_t = 1 - math.pow(beta1, self.adamax_t )
+            local lr_t = lr /beta1_t
+            self.tensor.p:addcdiv(-lr_t, self.adamax_m, self.adamax_u)
+         end
+       elseif self.conf.opt.optimization == 'adagrad' then
+          if self.conf.opt.modeAdagrad == 'global' then            
+            local lr = self.conf.opt.lrAdagrad
+            local lrd = self.conf.opt.lrDecayAdagrad
+            local epsilon = self.conf.opt.epsilonAdagrad
+            local clr = lr / (1 + self.pversion*lrd)
+            
+            self.paramVariance:addcmul(1, self.tensor.g[crank], self.tensor.g[crank])
+            self.paramStd:resizeAs(self.paramVariance):copy(self.paramVariance):sqrt()
+            self.tensor.p:addcdiv(-clr, self.tensor.g[crank], self.paramStd:add(epsilon))
+            self.pversion = self.pversion + 1
+         end
+       elseif self.conf.opt.optimization == 'adadelta' then
+          if self.conf.opt.modeAdagrad == 'global' then            
+            local rho = self.conf.opt.rhoAdadelta
+            local epsilon = self.conf.opt.epsilonAdadelta
+            local lr = self.conf.opt.lrAdadelta 
+            self.paramVariance:mul(rho):addcmul(1-rho, self.tensor.g[crank], self.tensor.g[crank])
+            self.paramStd:resizeAs(self.paramVariance):copy(self.paramVariance):add(epsilon):sqrt()
+            self.delta:resizeAs(self.paramVariance):copy(self.accDelta):add(epsilon):sqrt():cdiv(self.paramStd):cmul(self.tensor.g[crank])
+            self.tensor.p:add(-lr, self.delta)
+            self.accDelta:mul(rho):addcmul(1-rho, self.delta, self.delta)
+            self.pversion = self.pversion + 1
+         end  
       else
          self.tensor.p:add(self.tensor.g[crank])
       end
@@ -151,6 +213,21 @@ local function pServer_recvparam(self,crank)
                     crank,mpiT.tag_ps_recv_param_tail,self.mworld,self.state)
    end
    --print('ps ' .. self.rank .. ' recv param from ' .. crank)
+   coroutine.yield(mpiT.signal_DONE)
+end
+
+
+local function pServer_recvparam_always(self,crank)
+   coroutine.yield(mpiT.signal_INIT)
+   while (self.state.on) do
+   mpiT.aio_recv(self.storage.p,self.size,self.mtype,
+     crank,mpiT.tag_ps_recv_param,self.mworld,self.state)
+   if self.state.on then
+      mpiT.aio_send(self.emptys,0,self.mtype,
+                    crank,mpiT.tag_ps_recv_param_tail,self.mworld,self.state)
+   end
+   --print('ps ' .. self.rank .. ' recv param from ' .. crank)
+   end
    coroutine.yield(mpiT.signal_DONE)
 end
 
@@ -182,29 +259,45 @@ local function pServer_recvstop(self,crank)
 end
 
 function pServer:start()
-   self.state.on = true
-   self.state.io = true
-   -- init
-   self.coq:clear()
-   for i,crank in pairs(self.cranks) do
-      local co = mpiT.co_execute(pServer_recvinit,{self,crank})
-      self.coq:push(co)
-   end
-   mpiT.co_wait(self.coq)
-   for i,crank in pairs(self.cranks) do      
-      if i == 1 then 
-         -- init the parameter from the first local worker
-         local co3 = mpiT.co_execute(pServer_recvparam,{self,crank})      
-         self.coq:push(co3)
-         mpiT.co_wait(self.coq)
+  self.state.on = true
+  self.state.io = true
+  -- init
+  self.coq:clear()
+  for i,crank in pairs(self.cranks) do
+    local co = mpiT.co_execute(pServer_recvinit,{self,crank})
+    self.coq:push(co)
+  end
+  mpiT.co_wait(self.coq)
+
+  for i,crank in pairs(self.cranks) do
+    if i == 1 then
+      -- init the parameter from the first local worker
+      local co3 = mpiT.co_execute(pServer_recvparam,{self,crank})
+      self.coq:push(co3)
+      mpiT.co_wait(self.coq)
+    end
+
+    if self.conf.opt.singlemode then
+      local co0 = mpiT.co_execute(pServer_recvstop,{self,crank})
+      if crank == 0 then
+        local co2 = mpiT.co_execute(pServer_recvparam_always,{self,crank})
+        self.coq:push(co2)
       end
+      if crank == 2 then
+        local co2 = mpiT.co_execute(pServer_sendparam,{self,crank})
+        self.coq:push(co2)
+      end
+    else
       -- on request
       local co0 = mpiT.co_execute(pServer_recvstop,{self,crank})
       local co1 = mpiT.co_execute(pServer_recvgrad,{self,crank})
       local co2 = mpiT.co_execute(pServer_sendparam,{self,crank})
+
       self.coq:push(co0)
       self.coq:push(co1)
       self.coq:push(co2)
-   end
-   mpiT.co_wait(self.coq)
+    end
+
+  end
+  mpiT.co_wait(self.coq)
 end

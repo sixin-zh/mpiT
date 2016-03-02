@@ -130,7 +130,8 @@ if opt.optimization == 'sgd' then
    state.optconf = {
       lr = opt.learningRate,
       lrd = opt.weightDecay,
-      mommax = opt.momentum,      
+      mom = opt.momentum,
+      pclient = pc    
    }
 elseif opt.optimization == 'downpour' then
    opti = optim.downpour
@@ -138,7 +139,7 @@ elseif opt.optimization == 'downpour' then
       lr = opt.learningRate,
       lrd = opt.weightDecay,
       pclient = pc,
-      su = opt.commperiod,      
+      su = opt.commperiod    
    }
 elseif opt.optimization == 'eamsgd' then
    opti = optim.eamsgd
@@ -148,7 +149,7 @@ elseif opt.optimization == 'eamsgd' then
       pclient = pc,
       su = opt.commperiod,
       mva = opt.movingrate,
-      mom = opt.momentum,
+      mom = opt.momentum
    }
 elseif opt.optimization == 'rmsprop' then
    opti = optim.rmsprop
@@ -161,6 +162,15 @@ elseif opt.optimization == 'rmsprop' then
       pclient = pc,
       su = opt.commperiod      
    }
+elseif opt.optimization == 'rmspropsingle' then
+   opti = optim.rmspropsingle
+   state.optconf = {
+      decay = opt.decayRMSProp,
+      lr = opt.lrRMSProp,
+      momentum = opt.momentumRMSProp,
+      epsilon = opt.epsilonRMSProp,
+      pclient = pc   
+   }
 elseif opt.optimization == 'adam' then
    opti = optim.adam
    state.optconf = {
@@ -172,6 +182,71 @@ elseif opt.optimization == 'adam' then
       pclient = pc,
       su = opt.commperiod      
    }
+elseif opt.optimization == 'adamsingle' then
+   opti = optim.adamsingle
+   state.optconf = {
+      lr = opt.lrAdam,
+      beta1 = opt.beta1Adam,
+      beta2 = opt.beta2Adam,
+      epsilon = opt.epsilonAdam,
+      pclient = pc     
+   }
+elseif opt.optimization == 'adamax' then
+   opti = optim.adamax
+   state.optconf = {
+      mode = opt.modeAdam,
+      lr = opt.lrAdam,
+      beta1 = opt.beta1Adam,
+      beta2 = opt.beta2Adam,
+      epsilon = opt.epsilonAdam,
+      pclient = pc,
+      su = opt.commperiod      
+   }   
+elseif opt.optimization == 'adamaxsingle' then
+   opti = optim.adamaxsingle
+   state.optconf = {
+      lr = opt.lrAdam,
+      beta1 = opt.beta1Adam,
+      beta2 = opt.beta2Adam,
+      epsilon = opt.epsilonAdam,
+      pclient = pc     
+   }
+elseif opt.optimization == 'adagrad' then
+   opti = optim.adagrad
+   state.optconf = {
+      mode = opt.modeAdagrad,
+      lr = opt.lrAdagrad,
+      lrd = opt.lrDecayAdagrad,
+      epsilon = opt.epsilonAdagrad,
+      pclient = pc,
+      su = opt.commperiod          
+   }   
+elseif opt.optimization == 'adagradsingle' then
+   opti = optim.adagradsingle
+   state.optconf = {
+      lr = opt.lrAdagrad,
+      lrd = opt.lrDecayAdagrad,
+      epsilon = opt.epsilonAdagrad,
+      pclient = pc
+   }   
+elseif opt.optimization == 'adadelta' then
+   opti = optim.adadelta
+   state.optconf = {
+      mode = opt.modeAdadelta,
+      rho = opt.rhoAdadelta,
+      lr = opt.lrAdadelta,
+      epsilon = opt.epsilonAdadelta,
+      pclient = pc,
+      su = opt.commperiod       
+   } 
+elseif opt.optimization == 'adadeltasingle' then
+   opti = optim.adadeltasingle
+   state.optconf = {
+      rho = opt.rhoAdadelta,
+      epsilon = opt.epsilonAdadelta,
+      lr = opt.lrAdadelta,
+      pclient = pc     
+   } 
 else
    os.error('unknown optimization method')
 end
