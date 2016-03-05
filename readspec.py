@@ -74,7 +74,7 @@ mpi_skipfuncs = ['MPI_Pcontrol',
                  'MPI_Op_commutative',
                  'MPI_Reduce_local']
 
-mpi_byhandfuncs = ['MPI_Init']
+mpi_byhandfuncs = ['MPI_Init','MPI_Init_MTF','MPI_Init_MTS','MPI_Init_MTM']
 
 mpi_skiptypes = ['MPI_Comm_errhandler_function*',
                  'MPI_File_errhandler_function*',
@@ -95,12 +95,12 @@ mpi_nullobj = {'MPI_Comm': {'NULL': 'MPI_COMM_NULL'},
 mptr = "%(dt)s %(vn)s = (%(dt)s) luaL_checkudata(L, %(num)d, \"MPI::%(short)s\");"
 mnop = "%(dt)s %(vn)s = *((%(dt)s*) luaL_checkudata(L, %(num)d, \"MPI::%(short)s\"));"
 #void = "%(dt)s %(vn)s = lua_touserdata(L, %(num)d); luaL_checktype(L, %(num)d, LUA_TUSERDATA);"
-void = "char *_type%(num)d = luaT_typename(L,%(num)d); MPI_THStorage *_storage%(num)d = luaT_toudata(L,%(num)d,_type%(num)d); %(dt)s %(vn)s = (void*) _storage%(num)d->data;"
+void = "const char *_type%(num)d = luaT_typename(L,%(num)d); MPI_THStorage *_storage%(num)d = luaT_toudata(L,%(num)d,_type%(num)d); %(dt)s %(vn)s = (void*) _storage%(num)d->data;"
 #char = "%(dt)s %(vn)s = (char*) lua_touserdata(L, %(num)d); luaL_checktype(L, %(num)d, LUA_TUSERDATA);"
-char = "char *_type%(num)d = luaT_typename(L,%(num)d); MPI_THStorage *_storage%(num)d = luaT_toudata(L,%(num)d,_type%(num)d); %(dt)s %(vn)s = (char*) _storage%(num)d->data;"
+char = "const char *_type%(num)d = luaT_typename(L,%(num)d); MPI_THStorage *_storage%(num)d = luaT_toudata(L,%(num)d,_type%(num)d); %(dt)s %(vn)s = (char*) _storage%(num)d->data;"
 intv = "%(dt)s %(vn)s = luaL_checkint(L, %(num)d);"
 #intp = "%(dt)s %(vn)s = (int*) lua_touserdata(L, %(num)d); luaL_checktype(L, %(num)d, LUA_TUSERDATA);"
-intp = "char *_type%(num)d = luaT_typename(L,%(num)d); MPI_THStorage *_storage%(num)d = luaT_toudata(L,%(num)d,_type%(num)d); %(dt)s %(vn)s = (int*) _storage%(num)d->data;"
+intp = "const char *_type%(num)d = luaT_typename(L,%(num)d); MPI_THStorage *_storage%(num)d = luaT_toudata(L,%(num)d,_type%(num)d); %(dt)s %(vn)s = (int*) _storage%(num)d->data;"
 
 def lua_checkarg(dt, vn, num):
     """ tn: type declaration, vn: variable name, num: arg number """

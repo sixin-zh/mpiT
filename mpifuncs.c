@@ -8,7 +8,7 @@ static int _MPI_Abort(lua_State *L)
 }
 static int _MPI_Accumulate(lua_State *L)
 {
-  char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* origin_addr = (void*) _storage1->data;
+  const char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* origin_addr = (void*) _storage1->data;
   int origin_count = luaL_checkint(L, 2);
   MPI_Datatype origin_datatype = *((MPI_Datatype*) luaL_checkudata(L, 3, "MPI::Datatype"));
   int target_rank = luaL_checkint(L, 4);
@@ -23,7 +23,7 @@ static int _MPI_Accumulate(lua_State *L)
 }
 static int _MPI_Add_error_class(lua_State *L)
 {
-  char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); int* errorclass = (int*) _storage1->data;
+  const char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); int* errorclass = (int*) _storage1->data;
   int res = MPI_Add_error_class(errorclass);
   lua_pushnumber(L, res);
   return 1;
@@ -31,7 +31,7 @@ static int _MPI_Add_error_class(lua_State *L)
 static int _MPI_Add_error_code(lua_State *L)
 {
   int errorclass = luaL_checkint(L, 1);
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); int* errorcode = (int*) _storage2->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); int* errorcode = (int*) _storage2->data;
   int res = MPI_Add_error_code(errorclass, errorcode);
   lua_pushnumber(L, res);
   return 1;
@@ -39,17 +39,17 @@ static int _MPI_Add_error_code(lua_State *L)
 static int _MPI_Add_error_string(lua_State *L)
 {
   int errorcode = luaL_checkint(L, 1);
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); char* string = (char*) _storage2->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); char* string = (char*) _storage2->data;
   int res = MPI_Add_error_string(errorcode, string);
   lua_pushnumber(L, res);
   return 1;
 }
 static int _MPI_Allgather(lua_State *L)
 {
-  char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* sendbuf = (void*) _storage1->data;
+  const char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* sendbuf = (void*) _storage1->data;
   int sendcount = luaL_checkint(L, 2);
   MPI_Datatype sendtype = *((MPI_Datatype*) luaL_checkudata(L, 3, "MPI::Datatype"));
-  char *_type4 = luaT_typename(L,4); MPI_THStorage *_storage4 = luaT_toudata(L,4,_type4); void* recvbuf = (void*) _storage4->data;
+  const char *_type4 = luaT_typename(L,4); MPI_THStorage *_storage4 = luaT_toudata(L,4,_type4); void* recvbuf = (void*) _storage4->data;
   int recvcount = luaL_checkint(L, 5);
   MPI_Datatype recvtype = *((MPI_Datatype*) luaL_checkudata(L, 6, "MPI::Datatype"));
   MPI_Comm comm = *((MPI_Comm*) luaL_checkudata(L, 7, "MPI::Comm"));
@@ -59,12 +59,12 @@ static int _MPI_Allgather(lua_State *L)
 }
 static int _MPI_Allgatherv(lua_State *L)
 {
-  char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* sendbuf = (void*) _storage1->data;
+  const char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* sendbuf = (void*) _storage1->data;
   int sendcount = luaL_checkint(L, 2);
   MPI_Datatype sendtype = *((MPI_Datatype*) luaL_checkudata(L, 3, "MPI::Datatype"));
-  char *_type4 = luaT_typename(L,4); MPI_THStorage *_storage4 = luaT_toudata(L,4,_type4); void* recvbuf = (void*) _storage4->data;
-  char *_type5 = luaT_typename(L,5); MPI_THStorage *_storage5 = luaT_toudata(L,5,_type5); int* recvcounts = (int*) _storage5->data;
-  char *_type6 = luaT_typename(L,6); MPI_THStorage *_storage6 = luaT_toudata(L,6,_type6); int* displs = (int*) _storage6->data;
+  const char *_type4 = luaT_typename(L,4); MPI_THStorage *_storage4 = luaT_toudata(L,4,_type4); void* recvbuf = (void*) _storage4->data;
+  const char *_type5 = luaT_typename(L,5); MPI_THStorage *_storage5 = luaT_toudata(L,5,_type5); int* recvcounts = (int*) _storage5->data;
+  const char *_type6 = luaT_typename(L,6); MPI_THStorage *_storage6 = luaT_toudata(L,6,_type6); int* displs = (int*) _storage6->data;
   MPI_Datatype recvtype = *((MPI_Datatype*) luaL_checkudata(L, 7, "MPI::Datatype"));
   MPI_Comm comm = *((MPI_Comm*) luaL_checkudata(L, 8, "MPI::Comm"));
   int res = MPI_Allgatherv(sendbuf, sendcount, sendtype, recvbuf, recvcounts, displs, recvtype, comm);
@@ -75,15 +75,15 @@ static int _MPI_Alloc_mem(lua_State *L)
 {
   MPI_Aint size = *((MPI_Aint*) luaL_checkudata(L, 1, "MPI::Aint"));
   MPI_Info info = *((MPI_Info*) luaL_checkudata(L, 2, "MPI::Info"));
-  char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); void* baseptr = (void*) _storage3->data;
+  const char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); void* baseptr = (void*) _storage3->data;
   int res = MPI_Alloc_mem(size, info, baseptr);
   lua_pushnumber(L, res);
   return 1;
 }
 static int _MPI_Allreduce(lua_State *L)
 {
-  char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* sendbuf = (void*) _storage1->data;
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); void* recvbuf = (void*) _storage2->data;
+  const char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* sendbuf = (void*) _storage1->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); void* recvbuf = (void*) _storage2->data;
   int count = luaL_checkint(L, 3);
   MPI_Datatype datatype = *((MPI_Datatype*) luaL_checkudata(L, 4, "MPI::Datatype"));
   MPI_Op op = *((MPI_Op*) luaL_checkudata(L, 5, "MPI::Op"));
@@ -94,10 +94,10 @@ static int _MPI_Allreduce(lua_State *L)
 }
 static int _MPI_Alltoall(lua_State *L)
 {
-  char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* sendbuf = (void*) _storage1->data;
+  const char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* sendbuf = (void*) _storage1->data;
   int sendcount = luaL_checkint(L, 2);
   MPI_Datatype sendtype = *((MPI_Datatype*) luaL_checkudata(L, 3, "MPI::Datatype"));
-  char *_type4 = luaT_typename(L,4); MPI_THStorage *_storage4 = luaT_toudata(L,4,_type4); void* recvbuf = (void*) _storage4->data;
+  const char *_type4 = luaT_typename(L,4); MPI_THStorage *_storage4 = luaT_toudata(L,4,_type4); void* recvbuf = (void*) _storage4->data;
   int recvcount = luaL_checkint(L, 5);
   MPI_Datatype recvtype = *((MPI_Datatype*) luaL_checkudata(L, 6, "MPI::Datatype"));
   MPI_Comm comm = *((MPI_Comm*) luaL_checkudata(L, 7, "MPI::Comm"));
@@ -107,13 +107,13 @@ static int _MPI_Alltoall(lua_State *L)
 }
 static int _MPI_Alltoallv(lua_State *L)
 {
-  char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* sendbuf = (void*) _storage1->data;
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); int* sendcounts = (int*) _storage2->data;
-  char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* sdispls = (int*) _storage3->data;
+  const char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* sendbuf = (void*) _storage1->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); int* sendcounts = (int*) _storage2->data;
+  const char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* sdispls = (int*) _storage3->data;
   MPI_Datatype sendtype = *((MPI_Datatype*) luaL_checkudata(L, 4, "MPI::Datatype"));
-  char *_type5 = luaT_typename(L,5); MPI_THStorage *_storage5 = luaT_toudata(L,5,_type5); void* recvbuf = (void*) _storage5->data;
-  char *_type6 = luaT_typename(L,6); MPI_THStorage *_storage6 = luaT_toudata(L,6,_type6); int* recvcounts = (int*) _storage6->data;
-  char *_type7 = luaT_typename(L,7); MPI_THStorage *_storage7 = luaT_toudata(L,7,_type7); int* rdispls = (int*) _storage7->data;
+  const char *_type5 = luaT_typename(L,5); MPI_THStorage *_storage5 = luaT_toudata(L,5,_type5); void* recvbuf = (void*) _storage5->data;
+  const char *_type6 = luaT_typename(L,6); MPI_THStorage *_storage6 = luaT_toudata(L,6,_type6); int* recvcounts = (int*) _storage6->data;
+  const char *_type7 = luaT_typename(L,7); MPI_THStorage *_storage7 = luaT_toudata(L,7,_type7); int* rdispls = (int*) _storage7->data;
   MPI_Datatype recvtype = *((MPI_Datatype*) luaL_checkudata(L, 8, "MPI::Datatype"));
   MPI_Comm comm = *((MPI_Comm*) luaL_checkudata(L, 9, "MPI::Comm"));
   int res = MPI_Alltoallv(sendbuf, sendcounts, sdispls, sendtype, recvbuf, recvcounts, rdispls, recvtype, comm);
@@ -122,13 +122,13 @@ static int _MPI_Alltoallv(lua_State *L)
 }
 static int _MPI_Alltoallw(lua_State *L)
 {
-  char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* sendbuf = (void*) _storage1->data;
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); int* sendcounts = (int*) _storage2->data;
-  char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* sdispls = (int*) _storage3->data;
+  const char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* sendbuf = (void*) _storage1->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); int* sendcounts = (int*) _storage2->data;
+  const char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* sdispls = (int*) _storage3->data;
   MPI_Datatype* sendtypes = (MPI_Datatype*) luaL_checkudata(L, 4, "MPI::Datatype");
-  char *_type5 = luaT_typename(L,5); MPI_THStorage *_storage5 = luaT_toudata(L,5,_type5); void* recvbuf = (void*) _storage5->data;
-  char *_type6 = luaT_typename(L,6); MPI_THStorage *_storage6 = luaT_toudata(L,6,_type6); int* recvcounts = (int*) _storage6->data;
-  char *_type7 = luaT_typename(L,7); MPI_THStorage *_storage7 = luaT_toudata(L,7,_type7); int* rdispls = (int*) _storage7->data;
+  const char *_type5 = luaT_typename(L,5); MPI_THStorage *_storage5 = luaT_toudata(L,5,_type5); void* recvbuf = (void*) _storage5->data;
+  const char *_type6 = luaT_typename(L,6); MPI_THStorage *_storage6 = luaT_toudata(L,6,_type6); int* recvcounts = (int*) _storage6->data;
+  const char *_type7 = luaT_typename(L,7); MPI_THStorage *_storage7 = luaT_toudata(L,7,_type7); int* rdispls = (int*) _storage7->data;
   MPI_Datatype* recvtypes = (MPI_Datatype*) luaL_checkudata(L, 8, "MPI::Datatype");
   MPI_Comm comm = *((MPI_Comm*) luaL_checkudata(L, 9, "MPI::Comm"));
   int res = MPI_Alltoallw(sendbuf, sendcounts, sdispls, sendtypes, recvbuf, recvcounts, rdispls, recvtypes, comm);
@@ -144,7 +144,7 @@ static int _MPI_Barrier(lua_State *L)
 }
 static int _MPI_Bcast(lua_State *L)
 {
-  char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* buffer = (void*) _storage1->data;
+  const char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* buffer = (void*) _storage1->data;
   int count = luaL_checkint(L, 2);
   MPI_Datatype datatype = *((MPI_Datatype*) luaL_checkudata(L, 3, "MPI::Datatype"));
   int root = luaL_checkint(L, 4);
@@ -155,7 +155,7 @@ static int _MPI_Bcast(lua_State *L)
 }
 static int _MPI_Bsend(lua_State *L)
 {
-  char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* buf = (void*) _storage1->data;
+  const char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* buf = (void*) _storage1->data;
   int count = luaL_checkint(L, 2);
   MPI_Datatype type = *((MPI_Datatype*) luaL_checkudata(L, 3, "MPI::Datatype"));
   int dest = luaL_checkint(L, 4);
@@ -167,7 +167,7 @@ static int _MPI_Bsend(lua_State *L)
 }
 static int _MPI_Bsend_init(lua_State *L)
 {
-  char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* buf = (void*) _storage1->data;
+  const char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* buf = (void*) _storage1->data;
   int count = luaL_checkint(L, 2);
   MPI_Datatype type = *((MPI_Datatype*) luaL_checkudata(L, 3, "MPI::Datatype"));
   int dest = luaL_checkint(L, 4);
@@ -180,7 +180,7 @@ static int _MPI_Bsend_init(lua_State *L)
 }
 static int _MPI_Buffer_attach(lua_State *L)
 {
-  char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* buffer = (void*) _storage1->data;
+  const char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* buffer = (void*) _storage1->data;
   int size = luaL_checkint(L, 2);
   int res = MPI_Buffer_attach(buffer, size);
   lua_pushnumber(L, res);
@@ -188,8 +188,8 @@ static int _MPI_Buffer_attach(lua_State *L)
 }
 static int _MPI_Buffer_detach(lua_State *L)
 {
-  char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* buffer = (void*) _storage1->data;
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); int* size = (int*) _storage2->data;
+  const char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* buffer = (void*) _storage1->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); int* size = (int*) _storage2->data;
   int res = MPI_Buffer_detach(buffer, size);
   lua_pushnumber(L, res);
   return 1;
@@ -206,7 +206,7 @@ static int _MPI_Cart_coords(lua_State *L)
   MPI_Comm comm = *((MPI_Comm*) luaL_checkudata(L, 1, "MPI::Comm"));
   int rank = luaL_checkint(L, 2);
   int maxdims = luaL_checkint(L, 3);
-  char *_type4 = luaT_typename(L,4); MPI_THStorage *_storage4 = luaT_toudata(L,4,_type4); int* coords = (int*) _storage4->data;
+  const char *_type4 = luaT_typename(L,4); MPI_THStorage *_storage4 = luaT_toudata(L,4,_type4); int* coords = (int*) _storage4->data;
   int res = MPI_Cart_coords(comm, rank, maxdims, coords);
   lua_pushnumber(L, res);
   return 1;
@@ -215,8 +215,8 @@ static int _MPI_Cart_create(lua_State *L)
 {
   MPI_Comm old_comm = *((MPI_Comm*) luaL_checkudata(L, 1, "MPI::Comm"));
   int ndims = luaL_checkint(L, 2);
-  char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* dims = (int*) _storage3->data;
-  char *_type4 = luaT_typename(L,4); MPI_THStorage *_storage4 = luaT_toudata(L,4,_type4); int* periods = (int*) _storage4->data;
+  const char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* dims = (int*) _storage3->data;
+  const char *_type4 = luaT_typename(L,4); MPI_THStorage *_storage4 = luaT_toudata(L,4,_type4); int* periods = (int*) _storage4->data;
   int reorder = luaL_checkint(L, 5);
   MPI_Comm* comm_cart = (MPI_Comm*) luaL_checkudata(L, 6, "MPI::Comm");
   int res = MPI_Cart_create(old_comm, ndims, dims, periods, reorder, comm_cart);
@@ -227,9 +227,9 @@ static int _MPI_Cart_get(lua_State *L)
 {
   MPI_Comm comm = *((MPI_Comm*) luaL_checkudata(L, 1, "MPI::Comm"));
   int maxdims = luaL_checkint(L, 2);
-  char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* dims = (int*) _storage3->data;
-  char *_type4 = luaT_typename(L,4); MPI_THStorage *_storage4 = luaT_toudata(L,4,_type4); int* periods = (int*) _storage4->data;
-  char *_type5 = luaT_typename(L,5); MPI_THStorage *_storage5 = luaT_toudata(L,5,_type5); int* coords = (int*) _storage5->data;
+  const char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* dims = (int*) _storage3->data;
+  const char *_type4 = luaT_typename(L,4); MPI_THStorage *_storage4 = luaT_toudata(L,4,_type4); int* periods = (int*) _storage4->data;
+  const char *_type5 = luaT_typename(L,5); MPI_THStorage *_storage5 = luaT_toudata(L,5,_type5); int* coords = (int*) _storage5->data;
   int res = MPI_Cart_get(comm, maxdims, dims, periods, coords);
   lua_pushnumber(L, res);
   return 1;
@@ -238,9 +238,9 @@ static int _MPI_Cart_map(lua_State *L)
 {
   MPI_Comm comm = *((MPI_Comm*) luaL_checkudata(L, 1, "MPI::Comm"));
   int ndims = luaL_checkint(L, 2);
-  char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* dims = (int*) _storage3->data;
-  char *_type4 = luaT_typename(L,4); MPI_THStorage *_storage4 = luaT_toudata(L,4,_type4); int* periods = (int*) _storage4->data;
-  char *_type5 = luaT_typename(L,5); MPI_THStorage *_storage5 = luaT_toudata(L,5,_type5); int* newrank = (int*) _storage5->data;
+  const char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* dims = (int*) _storage3->data;
+  const char *_type4 = luaT_typename(L,4); MPI_THStorage *_storage4 = luaT_toudata(L,4,_type4); int* periods = (int*) _storage4->data;
+  const char *_type5 = luaT_typename(L,5); MPI_THStorage *_storage5 = luaT_toudata(L,5,_type5); int* newrank = (int*) _storage5->data;
   int res = MPI_Cart_map(comm, ndims, dims, periods, newrank);
   lua_pushnumber(L, res);
   return 1;
@@ -248,8 +248,8 @@ static int _MPI_Cart_map(lua_State *L)
 static int _MPI_Cart_rank(lua_State *L)
 {
   MPI_Comm comm = *((MPI_Comm*) luaL_checkudata(L, 1, "MPI::Comm"));
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); int* coords = (int*) _storage2->data;
-  char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* rank = (int*) _storage3->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); int* coords = (int*) _storage2->data;
+  const char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* rank = (int*) _storage3->data;
   int res = MPI_Cart_rank(comm, coords, rank);
   lua_pushnumber(L, res);
   return 1;
@@ -259,8 +259,8 @@ static int _MPI_Cart_shift(lua_State *L)
   MPI_Comm comm = *((MPI_Comm*) luaL_checkudata(L, 1, "MPI::Comm"));
   int direction = luaL_checkint(L, 2);
   int disp = luaL_checkint(L, 3);
-  char *_type4 = luaT_typename(L,4); MPI_THStorage *_storage4 = luaT_toudata(L,4,_type4); int* rank_source = (int*) _storage4->data;
-  char *_type5 = luaT_typename(L,5); MPI_THStorage *_storage5 = luaT_toudata(L,5,_type5); int* rank_dest = (int*) _storage5->data;
+  const char *_type4 = luaT_typename(L,4); MPI_THStorage *_storage4 = luaT_toudata(L,4,_type4); int* rank_source = (int*) _storage4->data;
+  const char *_type5 = luaT_typename(L,5); MPI_THStorage *_storage5 = luaT_toudata(L,5,_type5); int* rank_dest = (int*) _storage5->data;
   int res = MPI_Cart_shift(comm, direction, disp, rank_source, rank_dest);
   lua_pushnumber(L, res);
   return 1;
@@ -268,7 +268,7 @@ static int _MPI_Cart_shift(lua_State *L)
 static int _MPI_Cart_sub(lua_State *L)
 {
   MPI_Comm comm = *((MPI_Comm*) luaL_checkudata(L, 1, "MPI::Comm"));
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); int* remain_dims = (int*) _storage2->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); int* remain_dims = (int*) _storage2->data;
   MPI_Comm* new_comm = (MPI_Comm*) luaL_checkudata(L, 3, "MPI::Comm");
   int res = MPI_Cart_sub(comm, remain_dims, new_comm);
   lua_pushnumber(L, res);
@@ -277,21 +277,21 @@ static int _MPI_Cart_sub(lua_State *L)
 static int _MPI_Cartdim_get(lua_State *L)
 {
   MPI_Comm comm = *((MPI_Comm*) luaL_checkudata(L, 1, "MPI::Comm"));
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); int* ndims = (int*) _storage2->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); int* ndims = (int*) _storage2->data;
   int res = MPI_Cartdim_get(comm, ndims);
   lua_pushnumber(L, res);
   return 1;
 }
 static int _MPI_Close_port(lua_State *L)
 {
-  char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); char* port_name = (char*) _storage1->data;
+  const char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); char* port_name = (char*) _storage1->data;
   int res = MPI_Close_port(port_name);
   lua_pushnumber(L, res);
   return 1;
 }
 static int _MPI_Comm_accept(lua_State *L)
 {
-  char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); char* port_name = (char*) _storage1->data;
+  const char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); char* port_name = (char*) _storage1->data;
   MPI_Info info = *((MPI_Info*) luaL_checkudata(L, 2, "MPI::Info"));
   int root = luaL_checkint(L, 3);
   MPI_Comm comm = *((MPI_Comm*) luaL_checkudata(L, 4, "MPI::Comm"));
@@ -312,14 +312,14 @@ static int _MPI_Comm_compare(lua_State *L)
 {
   MPI_Comm comm1 = *((MPI_Comm*) luaL_checkudata(L, 1, "MPI::Comm"));
   MPI_Comm comm2 = *((MPI_Comm*) luaL_checkudata(L, 2, "MPI::Comm"));
-  char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* result = (int*) _storage3->data;
+  const char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* result = (int*) _storage3->data;
   int res = MPI_Comm_compare(comm1, comm2, result);
   lua_pushnumber(L, res);
   return 1;
 }
 static int _MPI_Comm_connect(lua_State *L)
 {
-  char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); char* port_name = (char*) _storage1->data;
+  const char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); char* port_name = (char*) _storage1->data;
   MPI_Info info = *((MPI_Info*) luaL_checkudata(L, 2, "MPI::Info"));
   int root = luaL_checkint(L, 3);
   MPI_Comm comm = *((MPI_Comm*) luaL_checkudata(L, 4, "MPI::Comm"));
@@ -341,8 +341,8 @@ static int _MPI_Comm_create_keyval(lua_State *L)
 {
   MPI_Comm_copy_attr_function* comm_copy_attr_fn = (MPI_Comm_copy_attr_function*) luaL_checkudata(L, 1, "MPI::Comm_copy_attr_function");
   MPI_Comm_delete_attr_function* comm_delete_attr_fn = (MPI_Comm_delete_attr_function*) luaL_checkudata(L, 2, "MPI::Comm_delete_attr_function");
-  char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* comm_keyval = (int*) _storage3->data;
-  char *_type4 = luaT_typename(L,4); MPI_THStorage *_storage4 = luaT_toudata(L,4,_type4); void* extra_state = (void*) _storage4->data;
+  const char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* comm_keyval = (int*) _storage3->data;
+  const char *_type4 = luaT_typename(L,4); MPI_THStorage *_storage4 = luaT_toudata(L,4,_type4); void* extra_state = (void*) _storage4->data;
   int res = MPI_Comm_create_keyval(comm_copy_attr_fn, comm_delete_attr_fn, comm_keyval, extra_state);
   lua_pushnumber(L, res);
   return 1;
@@ -379,7 +379,7 @@ static int _MPI_Comm_free(lua_State *L)
 }
 static int _MPI_Comm_free_keyval(lua_State *L)
 {
-  char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); int* comm_keyval = (int*) _storage1->data;
+  const char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); int* comm_keyval = (int*) _storage1->data;
   int res = MPI_Comm_free_keyval(comm_keyval);
   lua_pushnumber(L, res);
   return 1;
@@ -388,8 +388,8 @@ static int _MPI_Comm_get_attr(lua_State *L)
 {
   MPI_Comm comm = *((MPI_Comm*) luaL_checkudata(L, 1, "MPI::Comm"));
   int comm_keyval = luaL_checkint(L, 2);
-  char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); void* attribute_val = (void*) _storage3->data;
-  char *_type4 = luaT_typename(L,4); MPI_THStorage *_storage4 = luaT_toudata(L,4,_type4); int* flag = (int*) _storage4->data;
+  const char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); void* attribute_val = (void*) _storage3->data;
+  const char *_type4 = luaT_typename(L,4); MPI_THStorage *_storage4 = luaT_toudata(L,4,_type4); int* flag = (int*) _storage4->data;
   int res = MPI_Comm_get_attr(comm, comm_keyval, attribute_val, flag);
   lua_pushnumber(L, res);
   return 1;
@@ -405,8 +405,8 @@ static int _MPI_Comm_get_errhandler(lua_State *L)
 static int _MPI_Comm_get_name(lua_State *L)
 {
   MPI_Comm comm = *((MPI_Comm*) luaL_checkudata(L, 1, "MPI::Comm"));
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); char* name = (char*) _storage2->data;
-  char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* length = (int*) _storage3->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); char* name = (char*) _storage2->data;
+  const char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* length = (int*) _storage3->data;
   int res = MPI_Comm_get_name(comm, name, length);
   lua_pushnumber(L, res);
   return 1;
@@ -437,7 +437,7 @@ static int _MPI_Comm_join(lua_State *L)
 static int _MPI_Comm_rank(lua_State *L)
 {
   MPI_Comm comm = *((MPI_Comm*) luaL_checkudata(L, 1, "MPI::Comm"));
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); int* rank = (int*) _storage2->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); int* rank = (int*) _storage2->data;
   int res = MPI_Comm_rank(comm, rank);
   lua_pushnumber(L, res);
   return 1;
@@ -453,7 +453,7 @@ static int _MPI_Comm_remote_group(lua_State *L)
 static int _MPI_Comm_remote_size(lua_State *L)
 {
   MPI_Comm comm = *((MPI_Comm*) luaL_checkudata(L, 1, "MPI::Comm"));
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); int* size = (int*) _storage2->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); int* size = (int*) _storage2->data;
   int res = MPI_Comm_remote_size(comm, size);
   lua_pushnumber(L, res);
   return 1;
@@ -462,7 +462,7 @@ static int _MPI_Comm_set_attr(lua_State *L)
 {
   MPI_Comm comm = *((MPI_Comm*) luaL_checkudata(L, 1, "MPI::Comm"));
   int comm_keyval = luaL_checkint(L, 2);
-  char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); void* attribute_val = (void*) _storage3->data;
+  const char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); void* attribute_val = (void*) _storage3->data;
   int res = MPI_Comm_set_attr(comm, comm_keyval, attribute_val);
   lua_pushnumber(L, res);
   return 1;
@@ -478,7 +478,7 @@ static int _MPI_Comm_set_errhandler(lua_State *L)
 static int _MPI_Comm_set_name(lua_State *L)
 {
   MPI_Comm comm = *((MPI_Comm*) luaL_checkudata(L, 1, "MPI::Comm"));
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); char* name = (char*) _storage2->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); char* name = (char*) _storage2->data;
   int res = MPI_Comm_set_name(comm, name);
   lua_pushnumber(L, res);
   return 1;
@@ -486,7 +486,7 @@ static int _MPI_Comm_set_name(lua_State *L)
 static int _MPI_Comm_size(lua_State *L)
 {
   MPI_Comm comm = *((MPI_Comm*) luaL_checkudata(L, 1, "MPI::Comm"));
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); int* size = (int*) _storage2->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); int* size = (int*) _storage2->data;
   int res = MPI_Comm_size(comm, size);
   lua_pushnumber(L, res);
   return 1;
@@ -504,7 +504,7 @@ static int _MPI_Comm_split(lua_State *L)
 static int _MPI_Comm_test_inter(lua_State *L)
 {
   MPI_Comm comm = *((MPI_Comm*) luaL_checkudata(L, 1, "MPI::Comm"));
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); int* flag = (int*) _storage2->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); int* flag = (int*) _storage2->data;
   int res = MPI_Comm_test_inter(comm, flag);
   lua_pushnumber(L, res);
   return 1;
@@ -513,7 +513,7 @@ static int _MPI_Dims_create(lua_State *L)
 {
   int nnodes = luaL_checkint(L, 1);
   int ndims = luaL_checkint(L, 2);
-  char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* dims = (int*) _storage3->data;
+  const char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* dims = (int*) _storage3->data;
   int res = MPI_Dims_create(nnodes, ndims, dims);
   lua_pushnumber(L, res);
   return 1;
@@ -528,7 +528,7 @@ static int _MPI_Errhandler_free(lua_State *L)
 static int _MPI_Error_class(lua_State *L)
 {
   int errorcode = luaL_checkint(L, 1);
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); int* errorclass = (int*) _storage2->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); int* errorclass = (int*) _storage2->data;
   int res = MPI_Error_class(errorcode, errorclass);
   lua_pushnumber(L, res);
   return 1;
@@ -536,16 +536,16 @@ static int _MPI_Error_class(lua_State *L)
 static int _MPI_Error_string(lua_State *L)
 {
   int errorcode = luaL_checkint(L, 1);
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); char* string = (char*) _storage2->data;
-  char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* resultlen = (int*) _storage3->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); char* string = (char*) _storage2->data;
+  const char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* resultlen = (int*) _storage3->data;
   int res = MPI_Error_string(errorcode, string, resultlen);
   lua_pushnumber(L, res);
   return 1;
 }
 static int _MPI_Exscan(lua_State *L)
 {
-  char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* sendbuf = (void*) _storage1->data;
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); void* recvbuf = (void*) _storage2->data;
+  const char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* sendbuf = (void*) _storage1->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); void* recvbuf = (void*) _storage2->data;
   int count = luaL_checkint(L, 3);
   MPI_Datatype datatype = *((MPI_Datatype*) luaL_checkudata(L, 4, "MPI::Datatype"));
   MPI_Op op = *((MPI_Op*) luaL_checkudata(L, 5, "MPI::Op"));
@@ -571,7 +571,7 @@ static int _MPI_File_close(lua_State *L)
 }
 static int _MPI_File_delete(lua_State *L)
 {
-  char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); char* filename = (char*) _storage1->data;
+  const char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); char* filename = (char*) _storage1->data;
   MPI_Info info = *((MPI_Info*) luaL_checkudata(L, 2, "MPI::Info"));
   int res = MPI_File_delete(filename, info);
   lua_pushnumber(L, res);
@@ -580,7 +580,7 @@ static int _MPI_File_delete(lua_State *L)
 static int _MPI_File_get_amode(lua_State *L)
 {
   MPI_File fh = *((MPI_File*) luaL_checkudata(L, 1, "MPI::File"));
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); int* amode = (int*) _storage2->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); int* amode = (int*) _storage2->data;
   int res = MPI_File_get_amode(fh, amode);
   lua_pushnumber(L, res);
   return 1;
@@ -588,7 +588,7 @@ static int _MPI_File_get_amode(lua_State *L)
 static int _MPI_File_get_atomicity(lua_State *L)
 {
   MPI_File fh = *((MPI_File*) luaL_checkudata(L, 1, "MPI::File"));
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); int* flag = (int*) _storage2->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); int* flag = (int*) _storage2->data;
   int res = MPI_File_get_atomicity(fh, flag);
   lua_pushnumber(L, res);
   return 1;
@@ -665,7 +665,7 @@ static int _MPI_File_get_view(lua_State *L)
   MPI_Offset* disp = (MPI_Offset*) luaL_checkudata(L, 2, "MPI::Offset");
   MPI_Datatype* etype = (MPI_Datatype*) luaL_checkudata(L, 3, "MPI::Datatype");
   MPI_Datatype* filetype = (MPI_Datatype*) luaL_checkudata(L, 4, "MPI::Datatype");
-  char *_type5 = luaT_typename(L,5); MPI_THStorage *_storage5 = luaT_toudata(L,5,_type5); char* datarep = (char*) _storage5->data;
+  const char *_type5 = luaT_typename(L,5); MPI_THStorage *_storage5 = luaT_toudata(L,5,_type5); char* datarep = (char*) _storage5->data;
   int res = MPI_File_get_view(fh, disp, etype, filetype, datarep);
   lua_pushnumber(L, res);
   return 1;
@@ -673,7 +673,7 @@ static int _MPI_File_get_view(lua_State *L)
 static int _MPI_File_iread(lua_State *L)
 {
   MPI_File fh = *((MPI_File*) luaL_checkudata(L, 1, "MPI::File"));
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); void* buf = (void*) _storage2->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); void* buf = (void*) _storage2->data;
   int count = luaL_checkint(L, 3);
   MPI_Datatype datatype = *((MPI_Datatype*) luaL_checkudata(L, 4, "MPI::Datatype"));
   MPI_Request* request = (MPI_Request*) luaL_checkudata(L, 5, "MPI::Request");
@@ -685,7 +685,7 @@ static int _MPI_File_iread_at(lua_State *L)
 {
   MPI_File fh = *((MPI_File*) luaL_checkudata(L, 1, "MPI::File"));
   MPI_Offset offset = *((MPI_Offset*) luaL_checkudata(L, 2, "MPI::Offset"));
-  char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); void* buf = (void*) _storage3->data;
+  const char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); void* buf = (void*) _storage3->data;
   int count = luaL_checkint(L, 4);
   MPI_Datatype datatype = *((MPI_Datatype*) luaL_checkudata(L, 5, "MPI::Datatype"));
   MPI_Request* request = (MPI_Request*) luaL_checkudata(L, 6, "MPI::Request");
@@ -696,7 +696,7 @@ static int _MPI_File_iread_at(lua_State *L)
 static int _MPI_File_iread_shared(lua_State *L)
 {
   MPI_File fh = *((MPI_File*) luaL_checkudata(L, 1, "MPI::File"));
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); void* buf = (void*) _storage2->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); void* buf = (void*) _storage2->data;
   int count = luaL_checkint(L, 3);
   MPI_Datatype datatype = *((MPI_Datatype*) luaL_checkudata(L, 4, "MPI::Datatype"));
   MPI_Request* request = (MPI_Request*) luaL_checkudata(L, 5, "MPI::Request");
@@ -707,7 +707,7 @@ static int _MPI_File_iread_shared(lua_State *L)
 static int _MPI_File_iwrite(lua_State *L)
 {
   MPI_File fh = *((MPI_File*) luaL_checkudata(L, 1, "MPI::File"));
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); void* buf = (void*) _storage2->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); void* buf = (void*) _storage2->data;
   int count = luaL_checkint(L, 3);
   MPI_Datatype datatype = *((MPI_Datatype*) luaL_checkudata(L, 4, "MPI::Datatype"));
   MPI_Request* request = (MPI_Request*) luaL_checkudata(L, 5, "MPI::Request");
@@ -719,7 +719,7 @@ static int _MPI_File_iwrite_at(lua_State *L)
 {
   MPI_File fh = *((MPI_File*) luaL_checkudata(L, 1, "MPI::File"));
   MPI_Offset offset = *((MPI_Offset*) luaL_checkudata(L, 2, "MPI::Offset"));
-  char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); void* buf = (void*) _storage3->data;
+  const char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); void* buf = (void*) _storage3->data;
   int count = luaL_checkint(L, 4);
   MPI_Datatype datatype = *((MPI_Datatype*) luaL_checkudata(L, 5, "MPI::Datatype"));
   MPI_Request* request = (MPI_Request*) luaL_checkudata(L, 6, "MPI::Request");
@@ -730,7 +730,7 @@ static int _MPI_File_iwrite_at(lua_State *L)
 static int _MPI_File_iwrite_shared(lua_State *L)
 {
   MPI_File fh = *((MPI_File*) luaL_checkudata(L, 1, "MPI::File"));
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); void* buf = (void*) _storage2->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); void* buf = (void*) _storage2->data;
   int count = luaL_checkint(L, 3);
   MPI_Datatype datatype = *((MPI_Datatype*) luaL_checkudata(L, 4, "MPI::Datatype"));
   MPI_Request* request = (MPI_Request*) luaL_checkudata(L, 5, "MPI::Request");
@@ -741,7 +741,7 @@ static int _MPI_File_iwrite_shared(lua_State *L)
 static int _MPI_File_open(lua_State *L)
 {
   MPI_Comm comm = *((MPI_Comm*) luaL_checkudata(L, 1, "MPI::Comm"));
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); char* filename = (char*) _storage2->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); char* filename = (char*) _storage2->data;
   int amode = luaL_checkint(L, 3);
   MPI_Info info = *((MPI_Info*) luaL_checkudata(L, 4, "MPI::Info"));
   MPI_File* fh = (MPI_File*) luaL_checkudata(L, 5, "MPI::File");
@@ -760,7 +760,7 @@ static int _MPI_File_preallocate(lua_State *L)
 static int _MPI_File_read(lua_State *L)
 {
   MPI_File fh = *((MPI_File*) luaL_checkudata(L, 1, "MPI::File"));
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); void* buf = (void*) _storage2->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); void* buf = (void*) _storage2->data;
   int count = luaL_checkint(L, 3);
   MPI_Datatype datatype = *((MPI_Datatype*) luaL_checkudata(L, 4, "MPI::Datatype"));
   MPI_Status* status = (MPI_Status*) luaL_checkudata(L, 5, "MPI::Status");
@@ -771,7 +771,7 @@ static int _MPI_File_read(lua_State *L)
 static int _MPI_File_read_all(lua_State *L)
 {
   MPI_File fh = *((MPI_File*) luaL_checkudata(L, 1, "MPI::File"));
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); void* buf = (void*) _storage2->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); void* buf = (void*) _storage2->data;
   int count = luaL_checkint(L, 3);
   MPI_Datatype datatype = *((MPI_Datatype*) luaL_checkudata(L, 4, "MPI::Datatype"));
   MPI_Status* status = (MPI_Status*) luaL_checkudata(L, 5, "MPI::Status");
@@ -782,7 +782,7 @@ static int _MPI_File_read_all(lua_State *L)
 static int _MPI_File_read_all_begin(lua_State *L)
 {
   MPI_File fh = *((MPI_File*) luaL_checkudata(L, 1, "MPI::File"));
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); void* buf = (void*) _storage2->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); void* buf = (void*) _storage2->data;
   int count = luaL_checkint(L, 3);
   MPI_Datatype datatype = *((MPI_Datatype*) luaL_checkudata(L, 4, "MPI::Datatype"));
   int res = MPI_File_read_all_begin(fh, buf, count, datatype);
@@ -792,7 +792,7 @@ static int _MPI_File_read_all_begin(lua_State *L)
 static int _MPI_File_read_all_end(lua_State *L)
 {
   MPI_File fh = *((MPI_File*) luaL_checkudata(L, 1, "MPI::File"));
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); void* buf = (void*) _storage2->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); void* buf = (void*) _storage2->data;
   MPI_Status* status = (MPI_Status*) luaL_checkudata(L, 3, "MPI::Status");
   int res = MPI_File_read_all_end(fh, buf, status);
   lua_pushnumber(L, res);
@@ -802,7 +802,7 @@ static int _MPI_File_read_at(lua_State *L)
 {
   MPI_File fh = *((MPI_File*) luaL_checkudata(L, 1, "MPI::File"));
   MPI_Offset offset = *((MPI_Offset*) luaL_checkudata(L, 2, "MPI::Offset"));
-  char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); void* buf = (void*) _storage3->data;
+  const char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); void* buf = (void*) _storage3->data;
   int count = luaL_checkint(L, 4);
   MPI_Datatype datatype = *((MPI_Datatype*) luaL_checkudata(L, 5, "MPI::Datatype"));
   MPI_Status* status = (MPI_Status*) luaL_checkudata(L, 6, "MPI::Status");
@@ -814,7 +814,7 @@ static int _MPI_File_read_at_all(lua_State *L)
 {
   MPI_File fh = *((MPI_File*) luaL_checkudata(L, 1, "MPI::File"));
   MPI_Offset offset = *((MPI_Offset*) luaL_checkudata(L, 2, "MPI::Offset"));
-  char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); void* buf = (void*) _storage3->data;
+  const char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); void* buf = (void*) _storage3->data;
   int count = luaL_checkint(L, 4);
   MPI_Datatype datatype = *((MPI_Datatype*) luaL_checkudata(L, 5, "MPI::Datatype"));
   MPI_Status* status = (MPI_Status*) luaL_checkudata(L, 6, "MPI::Status");
@@ -826,7 +826,7 @@ static int _MPI_File_read_at_all_begin(lua_State *L)
 {
   MPI_File fh = *((MPI_File*) luaL_checkudata(L, 1, "MPI::File"));
   MPI_Offset offset = *((MPI_Offset*) luaL_checkudata(L, 2, "MPI::Offset"));
-  char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); void* buf = (void*) _storage3->data;
+  const char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); void* buf = (void*) _storage3->data;
   int count = luaL_checkint(L, 4);
   MPI_Datatype datatype = *((MPI_Datatype*) luaL_checkudata(L, 5, "MPI::Datatype"));
   int res = MPI_File_read_at_all_begin(fh, offset, buf, count, datatype);
@@ -836,7 +836,7 @@ static int _MPI_File_read_at_all_begin(lua_State *L)
 static int _MPI_File_read_at_all_end(lua_State *L)
 {
   MPI_File fh = *((MPI_File*) luaL_checkudata(L, 1, "MPI::File"));
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); void* buf = (void*) _storage2->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); void* buf = (void*) _storage2->data;
   MPI_Status* status = (MPI_Status*) luaL_checkudata(L, 3, "MPI::Status");
   int res = MPI_File_read_at_all_end(fh, buf, status);
   lua_pushnumber(L, res);
@@ -845,7 +845,7 @@ static int _MPI_File_read_at_all_end(lua_State *L)
 static int _MPI_File_read_ordered(lua_State *L)
 {
   MPI_File fh = *((MPI_File*) luaL_checkudata(L, 1, "MPI::File"));
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); void* buf = (void*) _storage2->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); void* buf = (void*) _storage2->data;
   int count = luaL_checkint(L, 3);
   MPI_Datatype datatype = *((MPI_Datatype*) luaL_checkudata(L, 4, "MPI::Datatype"));
   MPI_Status* status = (MPI_Status*) luaL_checkudata(L, 5, "MPI::Status");
@@ -856,7 +856,7 @@ static int _MPI_File_read_ordered(lua_State *L)
 static int _MPI_File_read_ordered_begin(lua_State *L)
 {
   MPI_File fh = *((MPI_File*) luaL_checkudata(L, 1, "MPI::File"));
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); void* buf = (void*) _storage2->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); void* buf = (void*) _storage2->data;
   int count = luaL_checkint(L, 3);
   MPI_Datatype datatype = *((MPI_Datatype*) luaL_checkudata(L, 4, "MPI::Datatype"));
   int res = MPI_File_read_ordered_begin(fh, buf, count, datatype);
@@ -866,7 +866,7 @@ static int _MPI_File_read_ordered_begin(lua_State *L)
 static int _MPI_File_read_ordered_end(lua_State *L)
 {
   MPI_File fh = *((MPI_File*) luaL_checkudata(L, 1, "MPI::File"));
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); void* buf = (void*) _storage2->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); void* buf = (void*) _storage2->data;
   MPI_Status* status = (MPI_Status*) luaL_checkudata(L, 3, "MPI::Status");
   int res = MPI_File_read_ordered_end(fh, buf, status);
   lua_pushnumber(L, res);
@@ -875,7 +875,7 @@ static int _MPI_File_read_ordered_end(lua_State *L)
 static int _MPI_File_read_shared(lua_State *L)
 {
   MPI_File fh = *((MPI_File*) luaL_checkudata(L, 1, "MPI::File"));
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); void* buf = (void*) _storage2->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); void* buf = (void*) _storage2->data;
   int count = luaL_checkint(L, 3);
   MPI_Datatype datatype = *((MPI_Datatype*) luaL_checkudata(L, 4, "MPI::Datatype"));
   MPI_Status* status = (MPI_Status*) luaL_checkudata(L, 5, "MPI::Status");
@@ -939,7 +939,7 @@ static int _MPI_File_set_view(lua_State *L)
   MPI_Offset disp = *((MPI_Offset*) luaL_checkudata(L, 2, "MPI::Offset"));
   MPI_Datatype etype = *((MPI_Datatype*) luaL_checkudata(L, 3, "MPI::Datatype"));
   MPI_Datatype filetype = *((MPI_Datatype*) luaL_checkudata(L, 4, "MPI::Datatype"));
-  char *_type5 = luaT_typename(L,5); MPI_THStorage *_storage5 = luaT_toudata(L,5,_type5); char* datarep = (char*) _storage5->data;
+  const char *_type5 = luaT_typename(L,5); MPI_THStorage *_storage5 = luaT_toudata(L,5,_type5); char* datarep = (char*) _storage5->data;
   MPI_Info info = *((MPI_Info*) luaL_checkudata(L, 6, "MPI::Info"));
   int res = MPI_File_set_view(fh, disp, etype, filetype, datarep, info);
   lua_pushnumber(L, res);
@@ -955,7 +955,7 @@ static int _MPI_File_sync(lua_State *L)
 static int _MPI_File_write(lua_State *L)
 {
   MPI_File fh = *((MPI_File*) luaL_checkudata(L, 1, "MPI::File"));
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); void* buf = (void*) _storage2->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); void* buf = (void*) _storage2->data;
   int count = luaL_checkint(L, 3);
   MPI_Datatype datatype = *((MPI_Datatype*) luaL_checkudata(L, 4, "MPI::Datatype"));
   MPI_Status* status = (MPI_Status*) luaL_checkudata(L, 5, "MPI::Status");
@@ -966,7 +966,7 @@ static int _MPI_File_write(lua_State *L)
 static int _MPI_File_write_all(lua_State *L)
 {
   MPI_File fh = *((MPI_File*) luaL_checkudata(L, 1, "MPI::File"));
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); void* buf = (void*) _storage2->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); void* buf = (void*) _storage2->data;
   int count = luaL_checkint(L, 3);
   MPI_Datatype datatype = *((MPI_Datatype*) luaL_checkudata(L, 4, "MPI::Datatype"));
   MPI_Status* status = (MPI_Status*) luaL_checkudata(L, 5, "MPI::Status");
@@ -977,7 +977,7 @@ static int _MPI_File_write_all(lua_State *L)
 static int _MPI_File_write_all_begin(lua_State *L)
 {
   MPI_File fh = *((MPI_File*) luaL_checkudata(L, 1, "MPI::File"));
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); void* buf = (void*) _storage2->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); void* buf = (void*) _storage2->data;
   int count = luaL_checkint(L, 3);
   MPI_Datatype datatype = *((MPI_Datatype*) luaL_checkudata(L, 4, "MPI::Datatype"));
   int res = MPI_File_write_all_begin(fh, buf, count, datatype);
@@ -987,7 +987,7 @@ static int _MPI_File_write_all_begin(lua_State *L)
 static int _MPI_File_write_all_end(lua_State *L)
 {
   MPI_File fh = *((MPI_File*) luaL_checkudata(L, 1, "MPI::File"));
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); void* buf = (void*) _storage2->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); void* buf = (void*) _storage2->data;
   MPI_Status* status = (MPI_Status*) luaL_checkudata(L, 3, "MPI::Status");
   int res = MPI_File_write_all_end(fh, buf, status);
   lua_pushnumber(L, res);
@@ -997,7 +997,7 @@ static int _MPI_File_write_at(lua_State *L)
 {
   MPI_File fh = *((MPI_File*) luaL_checkudata(L, 1, "MPI::File"));
   MPI_Offset offset = *((MPI_Offset*) luaL_checkudata(L, 2, "MPI::Offset"));
-  char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); void* buf = (void*) _storage3->data;
+  const char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); void* buf = (void*) _storage3->data;
   int count = luaL_checkint(L, 4);
   MPI_Datatype datatype = *((MPI_Datatype*) luaL_checkudata(L, 5, "MPI::Datatype"));
   MPI_Status* status = (MPI_Status*) luaL_checkudata(L, 6, "MPI::Status");
@@ -1009,7 +1009,7 @@ static int _MPI_File_write_at_all(lua_State *L)
 {
   MPI_File fh = *((MPI_File*) luaL_checkudata(L, 1, "MPI::File"));
   MPI_Offset offset = *((MPI_Offset*) luaL_checkudata(L, 2, "MPI::Offset"));
-  char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); void* buf = (void*) _storage3->data;
+  const char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); void* buf = (void*) _storage3->data;
   int count = luaL_checkint(L, 4);
   MPI_Datatype datatype = *((MPI_Datatype*) luaL_checkudata(L, 5, "MPI::Datatype"));
   MPI_Status* status = (MPI_Status*) luaL_checkudata(L, 6, "MPI::Status");
@@ -1021,7 +1021,7 @@ static int _MPI_File_write_at_all_begin(lua_State *L)
 {
   MPI_File fh = *((MPI_File*) luaL_checkudata(L, 1, "MPI::File"));
   MPI_Offset offset = *((MPI_Offset*) luaL_checkudata(L, 2, "MPI::Offset"));
-  char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); void* buf = (void*) _storage3->data;
+  const char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); void* buf = (void*) _storage3->data;
   int count = luaL_checkint(L, 4);
   MPI_Datatype datatype = *((MPI_Datatype*) luaL_checkudata(L, 5, "MPI::Datatype"));
   int res = MPI_File_write_at_all_begin(fh, offset, buf, count, datatype);
@@ -1031,7 +1031,7 @@ static int _MPI_File_write_at_all_begin(lua_State *L)
 static int _MPI_File_write_at_all_end(lua_State *L)
 {
   MPI_File fh = *((MPI_File*) luaL_checkudata(L, 1, "MPI::File"));
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); void* buf = (void*) _storage2->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); void* buf = (void*) _storage2->data;
   MPI_Status* status = (MPI_Status*) luaL_checkudata(L, 3, "MPI::Status");
   int res = MPI_File_write_at_all_end(fh, buf, status);
   lua_pushnumber(L, res);
@@ -1040,7 +1040,7 @@ static int _MPI_File_write_at_all_end(lua_State *L)
 static int _MPI_File_write_ordered(lua_State *L)
 {
   MPI_File fh = *((MPI_File*) luaL_checkudata(L, 1, "MPI::File"));
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); void* buf = (void*) _storage2->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); void* buf = (void*) _storage2->data;
   int count = luaL_checkint(L, 3);
   MPI_Datatype datatype = *((MPI_Datatype*) luaL_checkudata(L, 4, "MPI::Datatype"));
   MPI_Status* status = (MPI_Status*) luaL_checkudata(L, 5, "MPI::Status");
@@ -1051,7 +1051,7 @@ static int _MPI_File_write_ordered(lua_State *L)
 static int _MPI_File_write_ordered_begin(lua_State *L)
 {
   MPI_File fh = *((MPI_File*) luaL_checkudata(L, 1, "MPI::File"));
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); void* buf = (void*) _storage2->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); void* buf = (void*) _storage2->data;
   int count = luaL_checkint(L, 3);
   MPI_Datatype datatype = *((MPI_Datatype*) luaL_checkudata(L, 4, "MPI::Datatype"));
   int res = MPI_File_write_ordered_begin(fh, buf, count, datatype);
@@ -1061,7 +1061,7 @@ static int _MPI_File_write_ordered_begin(lua_State *L)
 static int _MPI_File_write_ordered_end(lua_State *L)
 {
   MPI_File fh = *((MPI_File*) luaL_checkudata(L, 1, "MPI::File"));
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); void* buf = (void*) _storage2->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); void* buf = (void*) _storage2->data;
   MPI_Status* status = (MPI_Status*) luaL_checkudata(L, 3, "MPI::Status");
   int res = MPI_File_write_ordered_end(fh, buf, status);
   lua_pushnumber(L, res);
@@ -1070,7 +1070,7 @@ static int _MPI_File_write_ordered_end(lua_State *L)
 static int _MPI_File_write_shared(lua_State *L)
 {
   MPI_File fh = *((MPI_File*) luaL_checkudata(L, 1, "MPI::File"));
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); void* buf = (void*) _storage2->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); void* buf = (void*) _storage2->data;
   int count = luaL_checkint(L, 3);
   MPI_Datatype datatype = *((MPI_Datatype*) luaL_checkudata(L, 4, "MPI::Datatype"));
   MPI_Status* status = (MPI_Status*) luaL_checkudata(L, 5, "MPI::Status");
@@ -1087,24 +1087,24 @@ static int _MPI_Finalize(lua_State *L)
 }
 static int _MPI_Finalized(lua_State *L)
 {
-  char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); int* flag = (int*) _storage1->data;
+  const char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); int* flag = (int*) _storage1->data;
   int res = MPI_Finalized(flag);
   lua_pushnumber(L, res);
   return 1;
 }
 static int _MPI_Free_mem(lua_State *L)
 {
-  char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* baseptr = (void*) _storage1->data;
+  const char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* baseptr = (void*) _storage1->data;
   int res = MPI_Free_mem(baseptr);
   lua_pushnumber(L, res);
   return 1;
 }
 static int _MPI_Gather(lua_State *L)
 {
-  char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* sendbuf = (void*) _storage1->data;
+  const char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* sendbuf = (void*) _storage1->data;
   int sendcount = luaL_checkint(L, 2);
   MPI_Datatype sendtype = *((MPI_Datatype*) luaL_checkudata(L, 3, "MPI::Datatype"));
-  char *_type4 = luaT_typename(L,4); MPI_THStorage *_storage4 = luaT_toudata(L,4,_type4); void* recvbuf = (void*) _storage4->data;
+  const char *_type4 = luaT_typename(L,4); MPI_THStorage *_storage4 = luaT_toudata(L,4,_type4); void* recvbuf = (void*) _storage4->data;
   int recvcount = luaL_checkint(L, 5);
   MPI_Datatype recvtype = *((MPI_Datatype*) luaL_checkudata(L, 6, "MPI::Datatype"));
   int root = luaL_checkint(L, 7);
@@ -1115,12 +1115,12 @@ static int _MPI_Gather(lua_State *L)
 }
 static int _MPI_Gatherv(lua_State *L)
 {
-  char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* sendbuf = (void*) _storage1->data;
+  const char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* sendbuf = (void*) _storage1->data;
   int sendcount = luaL_checkint(L, 2);
   MPI_Datatype sendtype = *((MPI_Datatype*) luaL_checkudata(L, 3, "MPI::Datatype"));
-  char *_type4 = luaT_typename(L,4); MPI_THStorage *_storage4 = luaT_toudata(L,4,_type4); void* recvbuf = (void*) _storage4->data;
-  char *_type5 = luaT_typename(L,5); MPI_THStorage *_storage5 = luaT_toudata(L,5,_type5); int* recvcounts = (int*) _storage5->data;
-  char *_type6 = luaT_typename(L,6); MPI_THStorage *_storage6 = luaT_toudata(L,6,_type6); int* displs = (int*) _storage6->data;
+  const char *_type4 = luaT_typename(L,4); MPI_THStorage *_storage4 = luaT_toudata(L,4,_type4); void* recvbuf = (void*) _storage4->data;
+  const char *_type5 = luaT_typename(L,5); MPI_THStorage *_storage5 = luaT_toudata(L,5,_type5); int* recvcounts = (int*) _storage5->data;
+  const char *_type6 = luaT_typename(L,6); MPI_THStorage *_storage6 = luaT_toudata(L,6,_type6); int* displs = (int*) _storage6->data;
   MPI_Datatype recvtype = *((MPI_Datatype*) luaL_checkudata(L, 7, "MPI::Datatype"));
   int root = luaL_checkint(L, 8);
   MPI_Comm comm = *((MPI_Comm*) luaL_checkudata(L, 9, "MPI::Comm"));
@@ -1130,7 +1130,7 @@ static int _MPI_Gatherv(lua_State *L)
 }
 static int _MPI_Get(lua_State *L)
 {
-  char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* origin_addr = (void*) _storage1->data;
+  const char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* origin_addr = (void*) _storage1->data;
   int origin_count = luaL_checkint(L, 2);
   MPI_Datatype origin_datatype = *((MPI_Datatype*) luaL_checkudata(L, 3, "MPI::Datatype"));
   int target_rank = luaL_checkint(L, 4);
@@ -1144,7 +1144,7 @@ static int _MPI_Get(lua_State *L)
 }
 static int _MPI_Get_address(lua_State *L)
 {
-  char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* location = (void*) _storage1->data;
+  const char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* location = (void*) _storage1->data;
   MPI_Aint* address = (MPI_Aint*) luaL_checkudata(L, 2, "MPI::Aint");
   int res = MPI_Get_address(location, address);
   lua_pushnumber(L, res);
@@ -1154,7 +1154,7 @@ static int _MPI_Get_count(lua_State *L)
 {
   MPI_Status* status = (MPI_Status*) luaL_checkudata(L, 1, "MPI::Status");
   MPI_Datatype datatype = *((MPI_Datatype*) luaL_checkudata(L, 2, "MPI::Datatype"));
-  char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* count = (int*) _storage3->data;
+  const char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* count = (int*) _storage3->data;
   int res = MPI_Get_count(status, datatype, count);
   lua_pushnumber(L, res);
   return 1;
@@ -1163,23 +1163,23 @@ static int _MPI_Get_elements(lua_State *L)
 {
   MPI_Status* status = (MPI_Status*) luaL_checkudata(L, 1, "MPI::Status");
   MPI_Datatype datatype = *((MPI_Datatype*) luaL_checkudata(L, 2, "MPI::Datatype"));
-  char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* count = (int*) _storage3->data;
+  const char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* count = (int*) _storage3->data;
   int res = MPI_Get_elements(status, datatype, count);
   lua_pushnumber(L, res);
   return 1;
 }
 static int _MPI_Get_processor_name(lua_State *L)
 {
-  char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); char* name = (char*) _storage1->data;
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); int* resultlen = (int*) _storage2->data;
+  const char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); char* name = (char*) _storage1->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); int* resultlen = (int*) _storage2->data;
   int res = MPI_Get_processor_name(name, resultlen);
   lua_pushnumber(L, res);
   return 1;
 }
 static int _MPI_Get_version(lua_State *L)
 {
-  char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); int* version = (int*) _storage1->data;
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); int* subversion = (int*) _storage2->data;
+  const char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); int* version = (int*) _storage1->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); int* subversion = (int*) _storage2->data;
   int res = MPI_Get_version(version, subversion);
   lua_pushnumber(L, res);
   return 1;
@@ -1188,8 +1188,8 @@ static int _MPI_Graph_create(lua_State *L)
 {
   MPI_Comm old_comm = *((MPI_Comm*) luaL_checkudata(L, 1, "MPI::Comm"));
   int nnodes = luaL_checkint(L, 2);
-  char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* index = (int*) _storage3->data;
-  char *_type4 = luaT_typename(L,4); MPI_THStorage *_storage4 = luaT_toudata(L,4,_type4); int* edges = (int*) _storage4->data;
+  const char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* index = (int*) _storage3->data;
+  const char *_type4 = luaT_typename(L,4); MPI_THStorage *_storage4 = luaT_toudata(L,4,_type4); int* edges = (int*) _storage4->data;
   int reorder = luaL_checkint(L, 5);
   MPI_Comm* comm_graph = (MPI_Comm*) luaL_checkudata(L, 6, "MPI::Comm");
   int res = MPI_Graph_create(old_comm, nnodes, index, edges, reorder, comm_graph);
@@ -1201,8 +1201,8 @@ static int _MPI_Graph_get(lua_State *L)
   MPI_Comm comm = *((MPI_Comm*) luaL_checkudata(L, 1, "MPI::Comm"));
   int maxindex = luaL_checkint(L, 2);
   int maxedges = luaL_checkint(L, 3);
-  char *_type4 = luaT_typename(L,4); MPI_THStorage *_storage4 = luaT_toudata(L,4,_type4); int* index = (int*) _storage4->data;
-  char *_type5 = luaT_typename(L,5); MPI_THStorage *_storage5 = luaT_toudata(L,5,_type5); int* edges = (int*) _storage5->data;
+  const char *_type4 = luaT_typename(L,4); MPI_THStorage *_storage4 = luaT_toudata(L,4,_type4); int* index = (int*) _storage4->data;
+  const char *_type5 = luaT_typename(L,5); MPI_THStorage *_storage5 = luaT_toudata(L,5,_type5); int* edges = (int*) _storage5->data;
   int res = MPI_Graph_get(comm, maxindex, maxedges, index, edges);
   lua_pushnumber(L, res);
   return 1;
@@ -1211,9 +1211,9 @@ static int _MPI_Graph_map(lua_State *L)
 {
   MPI_Comm comm = *((MPI_Comm*) luaL_checkudata(L, 1, "MPI::Comm"));
   int nnodes = luaL_checkint(L, 2);
-  char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* index = (int*) _storage3->data;
-  char *_type4 = luaT_typename(L,4); MPI_THStorage *_storage4 = luaT_toudata(L,4,_type4); int* edges = (int*) _storage4->data;
-  char *_type5 = luaT_typename(L,5); MPI_THStorage *_storage5 = luaT_toudata(L,5,_type5); int* newrank = (int*) _storage5->data;
+  const char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* index = (int*) _storage3->data;
+  const char *_type4 = luaT_typename(L,4); MPI_THStorage *_storage4 = luaT_toudata(L,4,_type4); int* edges = (int*) _storage4->data;
+  const char *_type5 = luaT_typename(L,5); MPI_THStorage *_storage5 = luaT_toudata(L,5,_type5); int* newrank = (int*) _storage5->data;
   int res = MPI_Graph_map(comm, nnodes, index, edges, newrank);
   lua_pushnumber(L, res);
   return 1;
@@ -1223,7 +1223,7 @@ static int _MPI_Graph_neighbors(lua_State *L)
   MPI_Comm comm = *((MPI_Comm*) luaL_checkudata(L, 1, "MPI::Comm"));
   int rank = luaL_checkint(L, 2);
   int maxneighbors = luaL_checkint(L, 3);
-  char *_type4 = luaT_typename(L,4); MPI_THStorage *_storage4 = luaT_toudata(L,4,_type4); int* neighbors = (int*) _storage4->data;
+  const char *_type4 = luaT_typename(L,4); MPI_THStorage *_storage4 = luaT_toudata(L,4,_type4); int* neighbors = (int*) _storage4->data;
   int res = MPI_Graph_neighbors(comm, rank, maxneighbors, neighbors);
   lua_pushnumber(L, res);
   return 1;
@@ -1232,7 +1232,7 @@ static int _MPI_Graph_neighbors_count(lua_State *L)
 {
   MPI_Comm comm = *((MPI_Comm*) luaL_checkudata(L, 1, "MPI::Comm"));
   int rank = luaL_checkint(L, 2);
-  char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* nneighbors = (int*) _storage3->data;
+  const char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* nneighbors = (int*) _storage3->data;
   int res = MPI_Graph_neighbors_count(comm, rank, nneighbors);
   lua_pushnumber(L, res);
   return 1;
@@ -1240,8 +1240,8 @@ static int _MPI_Graph_neighbors_count(lua_State *L)
 static int _MPI_Graphdims_get(lua_State *L)
 {
   MPI_Comm comm = *((MPI_Comm*) luaL_checkudata(L, 1, "MPI::Comm"));
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); int* nnodes = (int*) _storage2->data;
-  char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* nedges = (int*) _storage3->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); int* nnodes = (int*) _storage2->data;
+  const char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* nedges = (int*) _storage3->data;
   int res = MPI_Graphdims_get(comm, nnodes, nedges);
   lua_pushnumber(L, res);
   return 1;
@@ -1258,7 +1258,7 @@ static int _MPI_Grequest_start(lua_State *L)
   MPI_Grequest_query_function* query_fn = (MPI_Grequest_query_function*) luaL_checkudata(L, 1, "MPI::Grequest_query_function");
   MPI_Grequest_free_function* free_fn = (MPI_Grequest_free_function*) luaL_checkudata(L, 2, "MPI::Grequest_free_function");
   MPI_Grequest_cancel_function* cancel_fn = (MPI_Grequest_cancel_function*) luaL_checkudata(L, 3, "MPI::Grequest_cancel_function");
-  char *_type4 = luaT_typename(L,4); MPI_THStorage *_storage4 = luaT_toudata(L,4,_type4); void* extra_state = (void*) _storage4->data;
+  const char *_type4 = luaT_typename(L,4); MPI_THStorage *_storage4 = luaT_toudata(L,4,_type4); void* extra_state = (void*) _storage4->data;
   MPI_Request* request = (MPI_Request*) luaL_checkudata(L, 5, "MPI::Request");
   int res = MPI_Grequest_start(query_fn, free_fn, cancel_fn, extra_state, request);
   lua_pushnumber(L, res);
@@ -1268,7 +1268,7 @@ static int _MPI_Group_compare(lua_State *L)
 {
   MPI_Group group1 = *((MPI_Group*) luaL_checkudata(L, 1, "MPI::Group"));
   MPI_Group group2 = *((MPI_Group*) luaL_checkudata(L, 2, "MPI::Group"));
-  char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* result = (int*) _storage3->data;
+  const char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* result = (int*) _storage3->data;
   int res = MPI_Group_compare(group1, group2, result);
   lua_pushnumber(L, res);
   return 1;
@@ -1286,7 +1286,7 @@ static int _MPI_Group_excl(lua_State *L)
 {
   MPI_Group group = *((MPI_Group*) luaL_checkudata(L, 1, "MPI::Group"));
   int n = luaL_checkint(L, 2);
-  char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* ranks = (int*) _storage3->data;
+  const char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* ranks = (int*) _storage3->data;
   MPI_Group* new_group = (MPI_Group*) luaL_checkudata(L, 4, "MPI::Group");
   int res = MPI_Group_excl(group, n, ranks, new_group);
   lua_pushnumber(L, res);
@@ -1303,7 +1303,7 @@ static int _MPI_Group_incl(lua_State *L)
 {
   MPI_Group group = *((MPI_Group*) luaL_checkudata(L, 1, "MPI::Group"));
   int n = luaL_checkint(L, 2);
-  char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* ranks = (int*) _storage3->data;
+  const char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* ranks = (int*) _storage3->data;
   MPI_Group* new_group = (MPI_Group*) luaL_checkudata(L, 4, "MPI::Group");
   int res = MPI_Group_incl(group, n, ranks, new_group);
   lua_pushnumber(L, res);
@@ -1321,7 +1321,7 @@ static int _MPI_Group_intersection(lua_State *L)
 static int _MPI_Group_rank(lua_State *L)
 {
   MPI_Group group = *((MPI_Group*) luaL_checkudata(L, 1, "MPI::Group"));
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); int* rank = (int*) _storage2->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); int* rank = (int*) _storage2->data;
   int res = MPI_Group_rank(group, rank);
   lua_pushnumber(L, res);
   return 1;
@@ -1329,7 +1329,7 @@ static int _MPI_Group_rank(lua_State *L)
 static int _MPI_Group_size(lua_State *L)
 {
   MPI_Group group = *((MPI_Group*) luaL_checkudata(L, 1, "MPI::Group"));
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); int* size = (int*) _storage2->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); int* size = (int*) _storage2->data;
   int res = MPI_Group_size(group, size);
   lua_pushnumber(L, res);
   return 1;
@@ -1338,9 +1338,9 @@ static int _MPI_Group_translate_ranks(lua_State *L)
 {
   MPI_Group group1 = *((MPI_Group*) luaL_checkudata(L, 1, "MPI::Group"));
   int n_ranks = luaL_checkint(L, 2);
-  char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* ranks1 = (int*) _storage3->data;
+  const char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* ranks1 = (int*) _storage3->data;
   MPI_Group group2 = *((MPI_Group*) luaL_checkudata(L, 4, "MPI::Group"));
-  char *_type5 = luaT_typename(L,5); MPI_THStorage *_storage5 = luaT_toudata(L,5,_type5); int* ranks2 = (int*) _storage5->data;
+  const char *_type5 = luaT_typename(L,5); MPI_THStorage *_storage5 = luaT_toudata(L,5,_type5); int* ranks2 = (int*) _storage5->data;
   int res = MPI_Group_translate_ranks(group1, n_ranks, ranks1, group2, ranks2);
   lua_pushnumber(L, res);
   return 1;
@@ -1356,8 +1356,8 @@ static int _MPI_Group_union(lua_State *L)
 }
 static int _MPI_Iallreduce(lua_State *L)
 {
-  char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* sendbuf = (void*) _storage1->data;
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); void* recvbuf = (void*) _storage2->data;
+  const char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* sendbuf = (void*) _storage1->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); void* recvbuf = (void*) _storage2->data;
   int count = luaL_checkint(L, 3);
   MPI_Datatype datatype = *((MPI_Datatype*) luaL_checkudata(L, 4, "MPI::Datatype"));
   MPI_Op op = *((MPI_Op*) luaL_checkudata(L, 5, "MPI::Op"));
@@ -1369,7 +1369,7 @@ static int _MPI_Iallreduce(lua_State *L)
 }
 static int _MPI_Ibsend(lua_State *L)
 {
-  char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* buf = (void*) _storage1->data;
+  const char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* buf = (void*) _storage1->data;
   int count = luaL_checkint(L, 2);
   MPI_Datatype type = *((MPI_Datatype*) luaL_checkudata(L, 3, "MPI::Datatype"));
   int dest = luaL_checkint(L, 4);
@@ -1390,7 +1390,7 @@ static int _MPI_Info_create(lua_State *L)
 static int _MPI_Info_delete(lua_State *L)
 {
   MPI_Info info = *((MPI_Info*) luaL_checkudata(L, 1, "MPI::Info"));
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); char* key = (char*) _storage2->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); char* key = (char*) _storage2->data;
   int res = MPI_Info_delete(info, key);
   lua_pushnumber(L, res);
   return 1;
@@ -1413,10 +1413,10 @@ static int _MPI_Info_free(lua_State *L)
 static int _MPI_Info_get(lua_State *L)
 {
   MPI_Info info = *((MPI_Info*) luaL_checkudata(L, 1, "MPI::Info"));
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); char* key = (char*) _storage2->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); char* key = (char*) _storage2->data;
   int valuelen = luaL_checkint(L, 3);
-  char *_type4 = luaT_typename(L,4); MPI_THStorage *_storage4 = luaT_toudata(L,4,_type4); char* value = (char*) _storage4->data;
-  char *_type5 = luaT_typename(L,5); MPI_THStorage *_storage5 = luaT_toudata(L,5,_type5); int* flag = (int*) _storage5->data;
+  const char *_type4 = luaT_typename(L,4); MPI_THStorage *_storage4 = luaT_toudata(L,4,_type4); char* value = (char*) _storage4->data;
+  const char *_type5 = luaT_typename(L,5); MPI_THStorage *_storage5 = luaT_toudata(L,5,_type5); int* flag = (int*) _storage5->data;
   int res = MPI_Info_get(info, key, valuelen, value, flag);
   lua_pushnumber(L, res);
   return 1;
@@ -1424,7 +1424,7 @@ static int _MPI_Info_get(lua_State *L)
 static int _MPI_Info_get_nkeys(lua_State *L)
 {
   MPI_Info info = *((MPI_Info*) luaL_checkudata(L, 1, "MPI::Info"));
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); int* nkeys = (int*) _storage2->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); int* nkeys = (int*) _storage2->data;
   int res = MPI_Info_get_nkeys(info, nkeys);
   lua_pushnumber(L, res);
   return 1;
@@ -1433,7 +1433,7 @@ static int _MPI_Info_get_nthkey(lua_State *L)
 {
   MPI_Info info = *((MPI_Info*) luaL_checkudata(L, 1, "MPI::Info"));
   int n = luaL_checkint(L, 2);
-  char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); char* key = (char*) _storage3->data;
+  const char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); char* key = (char*) _storage3->data;
   int res = MPI_Info_get_nthkey(info, n, key);
   lua_pushnumber(L, res);
   return 1;
@@ -1441,9 +1441,9 @@ static int _MPI_Info_get_nthkey(lua_State *L)
 static int _MPI_Info_get_valuelen(lua_State *L)
 {
   MPI_Info info = *((MPI_Info*) luaL_checkudata(L, 1, "MPI::Info"));
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); char* key = (char*) _storage2->data;
-  char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* valuelen = (int*) _storage3->data;
-  char *_type4 = luaT_typename(L,4); MPI_THStorage *_storage4 = luaT_toudata(L,4,_type4); int* flag = (int*) _storage4->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); char* key = (char*) _storage2->data;
+  const char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* valuelen = (int*) _storage3->data;
+  const char *_type4 = luaT_typename(L,4); MPI_THStorage *_storage4 = luaT_toudata(L,4,_type4); int* flag = (int*) _storage4->data;
   int res = MPI_Info_get_valuelen(info, key, valuelen, flag);
   lua_pushnumber(L, res);
   return 1;
@@ -1451,15 +1451,15 @@ static int _MPI_Info_get_valuelen(lua_State *L)
 static int _MPI_Info_set(lua_State *L)
 {
   MPI_Info info = *((MPI_Info*) luaL_checkudata(L, 1, "MPI::Info"));
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); char* key = (char*) _storage2->data;
-  char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); char* value = (char*) _storage3->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); char* key = (char*) _storage2->data;
+  const char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); char* value = (char*) _storage3->data;
   int res = MPI_Info_set(info, key, value);
   lua_pushnumber(L, res);
   return 1;
 }
 static int _MPI_Initialized(lua_State *L)
 {
-  char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); int* flag = (int*) _storage1->data;
+  const char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); int* flag = (int*) _storage1->data;
   int res = MPI_Initialized(flag);
   lua_pushnumber(L, res);
   return 1;
@@ -1490,7 +1490,7 @@ static int _MPI_Iprobe(lua_State *L)
   int source = luaL_checkint(L, 1);
   int tag = luaL_checkint(L, 2);
   MPI_Comm comm = *((MPI_Comm*) luaL_checkudata(L, 3, "MPI::Comm"));
-  char *_type4 = luaT_typename(L,4); MPI_THStorage *_storage4 = luaT_toudata(L,4,_type4); int* flag = (int*) _storage4->data;
+  const char *_type4 = luaT_typename(L,4); MPI_THStorage *_storage4 = luaT_toudata(L,4,_type4); int* flag = (int*) _storage4->data;
   MPI_Status* status = (MPI_Status*) luaL_checkudata(L, 5, "MPI::Status");
   int res = MPI_Iprobe(source, tag, comm, flag, status);
   lua_pushnumber(L, res);
@@ -1498,7 +1498,7 @@ static int _MPI_Iprobe(lua_State *L)
 }
 static int _MPI_Irecv(lua_State *L)
 {
-  char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* buf = (void*) _storage1->data;
+  const char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* buf = (void*) _storage1->data;
   int count = luaL_checkint(L, 2);
   MPI_Datatype type = *((MPI_Datatype*) luaL_checkudata(L, 3, "MPI::Datatype"));
   int source = luaL_checkint(L, 4);
@@ -1511,7 +1511,7 @@ static int _MPI_Irecv(lua_State *L)
 }
 static int _MPI_Irsend(lua_State *L)
 {
-  char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* buf = (void*) _storage1->data;
+  const char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* buf = (void*) _storage1->data;
   int count = luaL_checkint(L, 2);
   MPI_Datatype type = *((MPI_Datatype*) luaL_checkudata(L, 3, "MPI::Datatype"));
   int dest = luaL_checkint(L, 4);
@@ -1524,14 +1524,14 @@ static int _MPI_Irsend(lua_State *L)
 }
 static int _MPI_Is_thread_main(lua_State *L)
 {
-  char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); int* flag = (int*) _storage1->data;
+  const char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); int* flag = (int*) _storage1->data;
   int res = MPI_Is_thread_main(flag);
   lua_pushnumber(L, res);
   return 1;
 }
 static int _MPI_Isend(lua_State *L)
 {
-  char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* buf = (void*) _storage1->data;
+  const char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* buf = (void*) _storage1->data;
   int count = luaL_checkint(L, 2);
   MPI_Datatype type = *((MPI_Datatype*) luaL_checkudata(L, 3, "MPI::Datatype"));
   int dest = luaL_checkint(L, 4);
@@ -1544,7 +1544,7 @@ static int _MPI_Isend(lua_State *L)
 }
 static int _MPI_Issend(lua_State *L)
 {
-  char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* buf = (void*) _storage1->data;
+  const char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* buf = (void*) _storage1->data;
   int count = luaL_checkint(L, 2);
   MPI_Datatype type = *((MPI_Datatype*) luaL_checkudata(L, 3, "MPI::Datatype"));
   int dest = luaL_checkint(L, 4);
@@ -1557,9 +1557,9 @@ static int _MPI_Issend(lua_State *L)
 }
 static int _MPI_Lookup_name(lua_State *L)
 {
-  char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); char* service_name = (char*) _storage1->data;
+  const char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); char* service_name = (char*) _storage1->data;
   MPI_Info info = *((MPI_Info*) luaL_checkudata(L, 2, "MPI::Info"));
-  char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); char* port_name = (char*) _storage3->data;
+  const char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); char* port_name = (char*) _storage3->data;
   int res = MPI_Lookup_name(service_name, info, port_name);
   lua_pushnumber(L, res);
   return 1;
@@ -1583,19 +1583,19 @@ static int _MPI_Op_free(lua_State *L)
 static int _MPI_Open_port(lua_State *L)
 {
   MPI_Info info = *((MPI_Info*) luaL_checkudata(L, 1, "MPI::Info"));
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); char* port_name = (char*) _storage2->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); char* port_name = (char*) _storage2->data;
   int res = MPI_Open_port(info, port_name);
   lua_pushnumber(L, res);
   return 1;
 }
 static int _MPI_Pack(lua_State *L)
 {
-  char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* inbuf = (void*) _storage1->data;
+  const char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* inbuf = (void*) _storage1->data;
   int incount = luaL_checkint(L, 2);
   MPI_Datatype datatype = *((MPI_Datatype*) luaL_checkudata(L, 3, "MPI::Datatype"));
-  char *_type4 = luaT_typename(L,4); MPI_THStorage *_storage4 = luaT_toudata(L,4,_type4); void* outbuf = (void*) _storage4->data;
+  const char *_type4 = luaT_typename(L,4); MPI_THStorage *_storage4 = luaT_toudata(L,4,_type4); void* outbuf = (void*) _storage4->data;
   int outsize = luaL_checkint(L, 5);
-  char *_type6 = luaT_typename(L,6); MPI_THStorage *_storage6 = luaT_toudata(L,6,_type6); int* position = (int*) _storage6->data;
+  const char *_type6 = luaT_typename(L,6); MPI_THStorage *_storage6 = luaT_toudata(L,6,_type6); int* position = (int*) _storage6->data;
   MPI_Comm comm = *((MPI_Comm*) luaL_checkudata(L, 7, "MPI::Comm"));
   int res = MPI_Pack(inbuf, incount, datatype, outbuf, outsize, position, comm);
   lua_pushnumber(L, res);
@@ -1603,11 +1603,11 @@ static int _MPI_Pack(lua_State *L)
 }
 static int _MPI_Pack_external(lua_State *L)
 {
-  char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); char* datarep = (char*) _storage1->data;
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); void* inbuf = (void*) _storage2->data;
+  const char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); char* datarep = (char*) _storage1->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); void* inbuf = (void*) _storage2->data;
   int incount = luaL_checkint(L, 3);
   MPI_Datatype datatype = *((MPI_Datatype*) luaL_checkudata(L, 4, "MPI::Datatype"));
-  char *_type5 = luaT_typename(L,5); MPI_THStorage *_storage5 = luaT_toudata(L,5,_type5); void* outbuf = (void*) _storage5->data;
+  const char *_type5 = luaT_typename(L,5); MPI_THStorage *_storage5 = luaT_toudata(L,5,_type5); void* outbuf = (void*) _storage5->data;
   MPI_Aint outsize = *((MPI_Aint*) luaL_checkudata(L, 6, "MPI::Aint"));
   MPI_Aint* position = (MPI_Aint*) luaL_checkudata(L, 7, "MPI::Aint");
   int res = MPI_Pack_external(datarep, inbuf, incount, datatype, outbuf, outsize, position);
@@ -1616,7 +1616,7 @@ static int _MPI_Pack_external(lua_State *L)
 }
 static int _MPI_Pack_external_size(lua_State *L)
 {
-  char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); char* datarep = (char*) _storage1->data;
+  const char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); char* datarep = (char*) _storage1->data;
   int incount = luaL_checkint(L, 2);
   MPI_Datatype datatype = *((MPI_Datatype*) luaL_checkudata(L, 3, "MPI::Datatype"));
   MPI_Aint* size = (MPI_Aint*) luaL_checkudata(L, 4, "MPI::Aint");
@@ -1629,7 +1629,7 @@ static int _MPI_Pack_size(lua_State *L)
   int incount = luaL_checkint(L, 1);
   MPI_Datatype datatype = *((MPI_Datatype*) luaL_checkudata(L, 2, "MPI::Datatype"));
   MPI_Comm comm = *((MPI_Comm*) luaL_checkudata(L, 3, "MPI::Comm"));
-  char *_type4 = luaT_typename(L,4); MPI_THStorage *_storage4 = luaT_toudata(L,4,_type4); int* size = (int*) _storage4->data;
+  const char *_type4 = luaT_typename(L,4); MPI_THStorage *_storage4 = luaT_toudata(L,4,_type4); int* size = (int*) _storage4->data;
   int res = MPI_Pack_size(incount, datatype, comm, size);
   lua_pushnumber(L, res);
   return 1;
@@ -1646,16 +1646,16 @@ static int _MPI_Probe(lua_State *L)
 }
 static int _MPI_Publish_name(lua_State *L)
 {
-  char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); char* service_name = (char*) _storage1->data;
+  const char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); char* service_name = (char*) _storage1->data;
   MPI_Info info = *((MPI_Info*) luaL_checkudata(L, 2, "MPI::Info"));
-  char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); char* port_name = (char*) _storage3->data;
+  const char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); char* port_name = (char*) _storage3->data;
   int res = MPI_Publish_name(service_name, info, port_name);
   lua_pushnumber(L, res);
   return 1;
 }
 static int _MPI_Put(lua_State *L)
 {
-  char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* origin_addr = (void*) _storage1->data;
+  const char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* origin_addr = (void*) _storage1->data;
   int origin_count = luaL_checkint(L, 2);
   MPI_Datatype origin_datatype = *((MPI_Datatype*) luaL_checkudata(L, 3, "MPI::Datatype"));
   int target_rank = luaL_checkint(L, 4);
@@ -1669,14 +1669,14 @@ static int _MPI_Put(lua_State *L)
 }
 static int _MPI_Query_thread(lua_State *L)
 {
-  char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); int* provided = (int*) _storage1->data;
+  const char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); int* provided = (int*) _storage1->data;
   int res = MPI_Query_thread(provided);
   lua_pushnumber(L, res);
   return 1;
 }
 static int _MPI_Recv(lua_State *L)
 {
-  char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* buf = (void*) _storage1->data;
+  const char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* buf = (void*) _storage1->data;
   int count = luaL_checkint(L, 2);
   MPI_Datatype type = *((MPI_Datatype*) luaL_checkudata(L, 3, "MPI::Datatype"));
   int source = luaL_checkint(L, 4);
@@ -1689,7 +1689,7 @@ static int _MPI_Recv(lua_State *L)
 }
 static int _MPI_Recv_init(lua_State *L)
 {
-  char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* buf = (void*) _storage1->data;
+  const char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* buf = (void*) _storage1->data;
   int count = luaL_checkint(L, 2);
   MPI_Datatype type = *((MPI_Datatype*) luaL_checkudata(L, 3, "MPI::Datatype"));
   int source = luaL_checkint(L, 4);
@@ -1702,8 +1702,8 @@ static int _MPI_Recv_init(lua_State *L)
 }
 static int _MPI_Reduce(lua_State *L)
 {
-  char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* sendbuf = (void*) _storage1->data;
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); void* recvbuf = (void*) _storage2->data;
+  const char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* sendbuf = (void*) _storage1->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); void* recvbuf = (void*) _storage2->data;
   int count = luaL_checkint(L, 3);
   MPI_Datatype datatype = *((MPI_Datatype*) luaL_checkudata(L, 4, "MPI::Datatype"));
   MPI_Op op = *((MPI_Op*) luaL_checkudata(L, 5, "MPI::Op"));
@@ -1715,9 +1715,9 @@ static int _MPI_Reduce(lua_State *L)
 }
 static int _MPI_Reduce_scatter(lua_State *L)
 {
-  char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* sendbuf = (void*) _storage1->data;
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); void* recvbuf = (void*) _storage2->data;
-  char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* recvcounts = (int*) _storage3->data;
+  const char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* sendbuf = (void*) _storage1->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); void* recvbuf = (void*) _storage2->data;
+  const char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* recvcounts = (int*) _storage3->data;
   MPI_Datatype datatype = *((MPI_Datatype*) luaL_checkudata(L, 4, "MPI::Datatype"));
   MPI_Op op = *((MPI_Op*) luaL_checkudata(L, 5, "MPI::Op"));
   MPI_Comm comm = *((MPI_Comm*) luaL_checkudata(L, 6, "MPI::Comm"));
@@ -1727,11 +1727,11 @@ static int _MPI_Reduce_scatter(lua_State *L)
 }
 static int _MPI_Register_datarep(lua_State *L)
 {
-  char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); char* datarep = (char*) _storage1->data;
+  const char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); char* datarep = (char*) _storage1->data;
   MPI_Datarep_conversion_function* read_conversion_fn = (MPI_Datarep_conversion_function*) luaL_checkudata(L, 2, "MPI::Datarep_conversion_function");
   MPI_Datarep_conversion_function* write_conversion_fn = (MPI_Datarep_conversion_function*) luaL_checkudata(L, 3, "MPI::Datarep_conversion_function");
   MPI_Datarep_extent_function* dtype_file_extent_fn = (MPI_Datarep_extent_function*) luaL_checkudata(L, 4, "MPI::Datarep_extent_function");
-  char *_type5 = luaT_typename(L,5); MPI_THStorage *_storage5 = luaT_toudata(L,5,_type5); void* extra_state = (void*) _storage5->data;
+  const char *_type5 = luaT_typename(L,5); MPI_THStorage *_storage5 = luaT_toudata(L,5,_type5); void* extra_state = (void*) _storage5->data;
   int res = MPI_Register_datarep(datarep, read_conversion_fn, write_conversion_fn, dtype_file_extent_fn, extra_state);
   lua_pushnumber(L, res);
   return 1;
@@ -1746,7 +1746,7 @@ static int _MPI_Request_free(lua_State *L)
 static int _MPI_Request_get_status(lua_State *L)
 {
   MPI_Request request = *((MPI_Request*) luaL_checkudata(L, 1, "MPI::Request"));
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); int* flag = (int*) _storage2->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); int* flag = (int*) _storage2->data;
   MPI_Status* status = (MPI_Status*) luaL_checkudata(L, 3, "MPI::Status");
   int res = MPI_Request_get_status(request, flag, status);
   lua_pushnumber(L, res);
@@ -1754,7 +1754,7 @@ static int _MPI_Request_get_status(lua_State *L)
 }
 static int _MPI_Rsend(lua_State *L)
 {
-  char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* buf = (void*) _storage1->data;
+  const char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* buf = (void*) _storage1->data;
   int count = luaL_checkint(L, 2);
   MPI_Datatype type = *((MPI_Datatype*) luaL_checkudata(L, 3, "MPI::Datatype"));
   int dest = luaL_checkint(L, 4);
@@ -1766,7 +1766,7 @@ static int _MPI_Rsend(lua_State *L)
 }
 static int _MPI_Rsend_init(lua_State *L)
 {
-  char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* buf = (void*) _storage1->data;
+  const char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* buf = (void*) _storage1->data;
   int count = luaL_checkint(L, 2);
   MPI_Datatype type = *((MPI_Datatype*) luaL_checkudata(L, 3, "MPI::Datatype"));
   int dest = luaL_checkint(L, 4);
@@ -1779,8 +1779,8 @@ static int _MPI_Rsend_init(lua_State *L)
 }
 static int _MPI_Scan(lua_State *L)
 {
-  char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* sendbuf = (void*) _storage1->data;
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); void* recvbuf = (void*) _storage2->data;
+  const char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* sendbuf = (void*) _storage1->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); void* recvbuf = (void*) _storage2->data;
   int count = luaL_checkint(L, 3);
   MPI_Datatype datatype = *((MPI_Datatype*) luaL_checkudata(L, 4, "MPI::Datatype"));
   MPI_Op op = *((MPI_Op*) luaL_checkudata(L, 5, "MPI::Op"));
@@ -1791,10 +1791,10 @@ static int _MPI_Scan(lua_State *L)
 }
 static int _MPI_Scatter(lua_State *L)
 {
-  char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* sendbuf = (void*) _storage1->data;
+  const char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* sendbuf = (void*) _storage1->data;
   int sendcount = luaL_checkint(L, 2);
   MPI_Datatype sendtype = *((MPI_Datatype*) luaL_checkudata(L, 3, "MPI::Datatype"));
-  char *_type4 = luaT_typename(L,4); MPI_THStorage *_storage4 = luaT_toudata(L,4,_type4); void* recvbuf = (void*) _storage4->data;
+  const char *_type4 = luaT_typename(L,4); MPI_THStorage *_storage4 = luaT_toudata(L,4,_type4); void* recvbuf = (void*) _storage4->data;
   int recvcount = luaL_checkint(L, 5);
   MPI_Datatype recvtype = *((MPI_Datatype*) luaL_checkudata(L, 6, "MPI::Datatype"));
   int root = luaL_checkint(L, 7);
@@ -1805,11 +1805,11 @@ static int _MPI_Scatter(lua_State *L)
 }
 static int _MPI_Scatterv(lua_State *L)
 {
-  char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* sendbuf = (void*) _storage1->data;
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); int* sendcounts = (int*) _storage2->data;
-  char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* displs = (int*) _storage3->data;
+  const char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* sendbuf = (void*) _storage1->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); int* sendcounts = (int*) _storage2->data;
+  const char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* displs = (int*) _storage3->data;
   MPI_Datatype sendtype = *((MPI_Datatype*) luaL_checkudata(L, 4, "MPI::Datatype"));
-  char *_type5 = luaT_typename(L,5); MPI_THStorage *_storage5 = luaT_toudata(L,5,_type5); void* recvbuf = (void*) _storage5->data;
+  const char *_type5 = luaT_typename(L,5); MPI_THStorage *_storage5 = luaT_toudata(L,5,_type5); void* recvbuf = (void*) _storage5->data;
   int recvcount = luaL_checkint(L, 6);
   MPI_Datatype recvtype = *((MPI_Datatype*) luaL_checkudata(L, 7, "MPI::Datatype"));
   int root = luaL_checkint(L, 8);
@@ -1820,7 +1820,7 @@ static int _MPI_Scatterv(lua_State *L)
 }
 static int _MPI_Send(lua_State *L)
 {
-  char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* buf = (void*) _storage1->data;
+  const char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* buf = (void*) _storage1->data;
   int count = luaL_checkint(L, 2);
   MPI_Datatype type = *((MPI_Datatype*) luaL_checkudata(L, 3, "MPI::Datatype"));
   int dest = luaL_checkint(L, 4);
@@ -1832,7 +1832,7 @@ static int _MPI_Send(lua_State *L)
 }
 static int _MPI_Send_init(lua_State *L)
 {
-  char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* buf = (void*) _storage1->data;
+  const char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* buf = (void*) _storage1->data;
   int count = luaL_checkint(L, 2);
   MPI_Datatype type = *((MPI_Datatype*) luaL_checkudata(L, 3, "MPI::Datatype"));
   int dest = luaL_checkint(L, 4);
@@ -1845,12 +1845,12 @@ static int _MPI_Send_init(lua_State *L)
 }
 static int _MPI_Sendrecv(lua_State *L)
 {
-  char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* sendbuf = (void*) _storage1->data;
+  const char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* sendbuf = (void*) _storage1->data;
   int sendcount = luaL_checkint(L, 2);
   MPI_Datatype sendtype = *((MPI_Datatype*) luaL_checkudata(L, 3, "MPI::Datatype"));
   int dest = luaL_checkint(L, 4);
   int sendtag = luaL_checkint(L, 5);
-  char *_type6 = luaT_typename(L,6); MPI_THStorage *_storage6 = luaT_toudata(L,6,_type6); void* recvbuf = (void*) _storage6->data;
+  const char *_type6 = luaT_typename(L,6); MPI_THStorage *_storage6 = luaT_toudata(L,6,_type6); void* recvbuf = (void*) _storage6->data;
   int recvcount = luaL_checkint(L, 7);
   MPI_Datatype recvtype = *((MPI_Datatype*) luaL_checkudata(L, 8, "MPI::Datatype"));
   int source = luaL_checkint(L, 9);
@@ -1863,7 +1863,7 @@ static int _MPI_Sendrecv(lua_State *L)
 }
 static int _MPI_Sendrecv_replace(lua_State *L)
 {
-  char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* buf = (void*) _storage1->data;
+  const char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* buf = (void*) _storage1->data;
   int count = luaL_checkint(L, 2);
   MPI_Datatype datatype = *((MPI_Datatype*) luaL_checkudata(L, 3, "MPI::Datatype"));
   int dest = luaL_checkint(L, 4);
@@ -1878,7 +1878,7 @@ static int _MPI_Sendrecv_replace(lua_State *L)
 }
 static int _MPI_Ssend(lua_State *L)
 {
-  char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* buf = (void*) _storage1->data;
+  const char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* buf = (void*) _storage1->data;
   int count = luaL_checkint(L, 2);
   MPI_Datatype type = *((MPI_Datatype*) luaL_checkudata(L, 3, "MPI::Datatype"));
   int dest = luaL_checkint(L, 4);
@@ -1890,7 +1890,7 @@ static int _MPI_Ssend(lua_State *L)
 }
 static int _MPI_Ssend_init(lua_State *L)
 {
-  char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* buf = (void*) _storage1->data;
+  const char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* buf = (void*) _storage1->data;
   int count = luaL_checkint(L, 2);
   MPI_Datatype type = *((MPI_Datatype*) luaL_checkudata(L, 3, "MPI::Datatype"));
   int dest = luaL_checkint(L, 4);
@@ -1936,7 +1936,7 @@ static int _MPI_Status_set_elements(lua_State *L)
 static int _MPI_Test(lua_State *L)
 {
   MPI_Request* request = (MPI_Request*) luaL_checkudata(L, 1, "MPI::Request");
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); int* completed = (int*) _storage2->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); int* completed = (int*) _storage2->data;
   MPI_Status* status = (MPI_Status*) luaL_checkudata(L, 3, "MPI::Status");
   int res = MPI_Test(request, completed, status);
   lua_pushnumber(L, res);
@@ -1945,7 +1945,7 @@ static int _MPI_Test(lua_State *L)
 static int _MPI_Test_cancelled(lua_State *L)
 {
   MPI_Status* status = (MPI_Status*) luaL_checkudata(L, 1, "MPI::Status");
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); int* flag = (int*) _storage2->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); int* flag = (int*) _storage2->data;
   int res = MPI_Test_cancelled(status, flag);
   lua_pushnumber(L, res);
   return 1;
@@ -1954,7 +1954,7 @@ static int _MPI_Testall(lua_State *L)
 {
   int count = luaL_checkint(L, 1);
   MPI_Request* requests = (MPI_Request*) luaL_checkudata(L, 2, "MPI::Request");
-  char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* flag = (int*) _storage3->data;
+  const char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* flag = (int*) _storage3->data;
   MPI_Status* statuses = (MPI_Status*) luaL_checkudata(L, 4, "MPI::Status");
   int res = MPI_Testall(count, requests, flag, statuses);
   lua_pushnumber(L, res);
@@ -1964,8 +1964,8 @@ static int _MPI_Testany(lua_State *L)
 {
   int count = luaL_checkint(L, 1);
   MPI_Request* requests = (MPI_Request*) luaL_checkudata(L, 2, "MPI::Request");
-  char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* indx = (int*) _storage3->data;
-  char *_type4 = luaT_typename(L,4); MPI_THStorage *_storage4 = luaT_toudata(L,4,_type4); int* completed = (int*) _storage4->data;
+  const char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* indx = (int*) _storage3->data;
+  const char *_type4 = luaT_typename(L,4); MPI_THStorage *_storage4 = luaT_toudata(L,4,_type4); int* completed = (int*) _storage4->data;
   MPI_Status* status = (MPI_Status*) luaL_checkudata(L, 5, "MPI::Status");
   int res = MPI_Testany(count, requests, indx, completed, status);
   lua_pushnumber(L, res);
@@ -1975,8 +1975,8 @@ static int _MPI_Testsome(lua_State *L)
 {
   int incount = luaL_checkint(L, 1);
   MPI_Request* requests = (MPI_Request*) luaL_checkudata(L, 2, "MPI::Request");
-  char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* outcount = (int*) _storage3->data;
-  char *_type4 = luaT_typename(L,4); MPI_THStorage *_storage4 = luaT_toudata(L,4,_type4); int* indices = (int*) _storage4->data;
+  const char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* outcount = (int*) _storage3->data;
+  const char *_type4 = luaT_typename(L,4); MPI_THStorage *_storage4 = luaT_toudata(L,4,_type4); int* indices = (int*) _storage4->data;
   MPI_Status* statuses = (MPI_Status*) luaL_checkudata(L, 5, "MPI::Status");
   int res = MPI_Testsome(incount, requests, outcount, indices, statuses);
   lua_pushnumber(L, res);
@@ -1985,7 +1985,7 @@ static int _MPI_Testsome(lua_State *L)
 static int _MPI_Topo_test(lua_State *L)
 {
   MPI_Comm comm = *((MPI_Comm*) luaL_checkudata(L, 1, "MPI::Comm"));
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); int* status = (int*) _storage2->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); int* status = (int*) _storage2->data;
   int res = MPI_Topo_test(comm, status);
   lua_pushnumber(L, res);
   return 1;
@@ -2011,10 +2011,10 @@ static int _MPI_Type_create_darray(lua_State *L)
   int size = luaL_checkint(L, 1);
   int rank = luaL_checkint(L, 2);
   int ndims = luaL_checkint(L, 3);
-  char *_type4 = luaT_typename(L,4); MPI_THStorage *_storage4 = luaT_toudata(L,4,_type4); int* gsize_array = (int*) _storage4->data;
-  char *_type5 = luaT_typename(L,5); MPI_THStorage *_storage5 = luaT_toudata(L,5,_type5); int* distrib_array = (int*) _storage5->data;
-  char *_type6 = luaT_typename(L,6); MPI_THStorage *_storage6 = luaT_toudata(L,6,_type6); int* darg_array = (int*) _storage6->data;
-  char *_type7 = luaT_typename(L,7); MPI_THStorage *_storage7 = luaT_toudata(L,7,_type7); int* psize_array = (int*) _storage7->data;
+  const char *_type4 = luaT_typename(L,4); MPI_THStorage *_storage4 = luaT_toudata(L,4,_type4); int* gsize_array = (int*) _storage4->data;
+  const char *_type5 = luaT_typename(L,5); MPI_THStorage *_storage5 = luaT_toudata(L,5,_type5); int* distrib_array = (int*) _storage5->data;
+  const char *_type6 = luaT_typename(L,6); MPI_THStorage *_storage6 = luaT_toudata(L,6,_type6); int* darg_array = (int*) _storage6->data;
+  const char *_type7 = luaT_typename(L,7); MPI_THStorage *_storage7 = luaT_toudata(L,7,_type7); int* psize_array = (int*) _storage7->data;
   int order = luaL_checkint(L, 8);
   MPI_Datatype oldtype = *((MPI_Datatype*) luaL_checkudata(L, 9, "MPI::Datatype"));
   MPI_Datatype* newtype = (MPI_Datatype*) luaL_checkudata(L, 10, "MPI::Datatype");
@@ -2025,7 +2025,7 @@ static int _MPI_Type_create_darray(lua_State *L)
 static int _MPI_Type_create_hindexed(lua_State *L)
 {
   int count = luaL_checkint(L, 1);
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); int* array_of_blocklengths = (int*) _storage2->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); int* array_of_blocklengths = (int*) _storage2->data;
   MPI_Aint* array_of_displacements = (MPI_Aint*) luaL_checkudata(L, 3, "MPI::Aint");
   MPI_Datatype oldtype = *((MPI_Datatype*) luaL_checkudata(L, 4, "MPI::Datatype"));
   MPI_Datatype* newtype = (MPI_Datatype*) luaL_checkudata(L, 5, "MPI::Datatype");
@@ -2048,7 +2048,7 @@ static int _MPI_Type_create_indexed_block(lua_State *L)
 {
   int count = luaL_checkint(L, 1);
   int blocklength = luaL_checkint(L, 2);
-  char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* array_of_displacements = (int*) _storage3->data;
+  const char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* array_of_displacements = (int*) _storage3->data;
   MPI_Datatype oldtype = *((MPI_Datatype*) luaL_checkudata(L, 4, "MPI::Datatype"));
   MPI_Datatype* newtype = (MPI_Datatype*) luaL_checkudata(L, 5, "MPI::Datatype");
   int res = MPI_Type_create_indexed_block(count, blocklength, array_of_displacements, oldtype, newtype);
@@ -2059,8 +2059,8 @@ static int _MPI_Type_create_keyval(lua_State *L)
 {
   MPI_Type_copy_attr_function* type_copy_attr_fn = (MPI_Type_copy_attr_function*) luaL_checkudata(L, 1, "MPI::Type_copy_attr_function");
   MPI_Type_delete_attr_function* type_delete_attr_fn = (MPI_Type_delete_attr_function*) luaL_checkudata(L, 2, "MPI::Type_delete_attr_function");
-  char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* type_keyval = (int*) _storage3->data;
-  char *_type4 = luaT_typename(L,4); MPI_THStorage *_storage4 = luaT_toudata(L,4,_type4); void* extra_state = (void*) _storage4->data;
+  const char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* type_keyval = (int*) _storage3->data;
+  const char *_type4 = luaT_typename(L,4); MPI_THStorage *_storage4 = luaT_toudata(L,4,_type4); void* extra_state = (void*) _storage4->data;
   int res = MPI_Type_create_keyval(type_copy_attr_fn, type_delete_attr_fn, type_keyval, extra_state);
   lua_pushnumber(L, res);
   return 1;
@@ -2078,7 +2078,7 @@ static int _MPI_Type_create_resized(lua_State *L)
 static int _MPI_Type_create_struct(lua_State *L)
 {
   int count = luaL_checkint(L, 1);
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); int* array_of_blocklengths = (int*) _storage2->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); int* array_of_blocklengths = (int*) _storage2->data;
   MPI_Aint* array_of_displacements = (MPI_Aint*) luaL_checkudata(L, 3, "MPI::Aint");
   MPI_Datatype* array_of_types = (MPI_Datatype*) luaL_checkudata(L, 4, "MPI::Datatype");
   MPI_Datatype* newtype = (MPI_Datatype*) luaL_checkudata(L, 5, "MPI::Datatype");
@@ -2089,9 +2089,9 @@ static int _MPI_Type_create_struct(lua_State *L)
 static int _MPI_Type_create_subarray(lua_State *L)
 {
   int ndims = luaL_checkint(L, 1);
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); int* size_array = (int*) _storage2->data;
-  char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* subsize_array = (int*) _storage3->data;
-  char *_type4 = luaT_typename(L,4); MPI_THStorage *_storage4 = luaT_toudata(L,4,_type4); int* start_array = (int*) _storage4->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); int* size_array = (int*) _storage2->data;
+  const char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* subsize_array = (int*) _storage3->data;
+  const char *_type4 = luaT_typename(L,4); MPI_THStorage *_storage4 = luaT_toudata(L,4,_type4); int* start_array = (int*) _storage4->data;
   int order = luaL_checkint(L, 5);
   MPI_Datatype oldtype = *((MPI_Datatype*) luaL_checkudata(L, 6, "MPI::Datatype"));
   MPI_Datatype* newtype = (MPI_Datatype*) luaL_checkudata(L, 7, "MPI::Datatype");
@@ -2124,7 +2124,7 @@ static int _MPI_Type_free(lua_State *L)
 }
 static int _MPI_Type_free_keyval(lua_State *L)
 {
-  char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); int* type_keyval = (int*) _storage1->data;
+  const char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); int* type_keyval = (int*) _storage1->data;
   int res = MPI_Type_free_keyval(type_keyval);
   lua_pushnumber(L, res);
   return 1;
@@ -2133,8 +2133,8 @@ static int _MPI_Type_get_attr(lua_State *L)
 {
   MPI_Datatype type = *((MPI_Datatype*) luaL_checkudata(L, 1, "MPI::Datatype"));
   int type_keyval = luaL_checkint(L, 2);
-  char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); void* attribute_val = (void*) _storage3->data;
-  char *_type4 = luaT_typename(L,4); MPI_THStorage *_storage4 = luaT_toudata(L,4,_type4); int* flag = (int*) _storage4->data;
+  const char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); void* attribute_val = (void*) _storage3->data;
+  const char *_type4 = luaT_typename(L,4); MPI_THStorage *_storage4 = luaT_toudata(L,4,_type4); int* flag = (int*) _storage4->data;
   int res = MPI_Type_get_attr(type, type_keyval, attribute_val, flag);
   lua_pushnumber(L, res);
   return 1;
@@ -2145,7 +2145,7 @@ static int _MPI_Type_get_contents(lua_State *L)
   int max_integers = luaL_checkint(L, 2);
   int max_addresses = luaL_checkint(L, 3);
   int max_datatypes = luaL_checkint(L, 4);
-  char *_type5 = luaT_typename(L,5); MPI_THStorage *_storage5 = luaT_toudata(L,5,_type5); int* array_of_integers = (int*) _storage5->data;
+  const char *_type5 = luaT_typename(L,5); MPI_THStorage *_storage5 = luaT_toudata(L,5,_type5); int* array_of_integers = (int*) _storage5->data;
   MPI_Aint* array_of_addresses = (MPI_Aint*) luaL_checkudata(L, 6, "MPI::Aint");
   MPI_Datatype* array_of_datatypes = (MPI_Datatype*) luaL_checkudata(L, 7, "MPI::Datatype");
   int res = MPI_Type_get_contents(mtype, max_integers, max_addresses, max_datatypes, array_of_integers, array_of_addresses, array_of_datatypes);
@@ -2155,10 +2155,10 @@ static int _MPI_Type_get_contents(lua_State *L)
 static int _MPI_Type_get_envelope(lua_State *L)
 {
   MPI_Datatype type = *((MPI_Datatype*) luaL_checkudata(L, 1, "MPI::Datatype"));
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); int* num_integers = (int*) _storage2->data;
-  char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* num_addresses = (int*) _storage3->data;
-  char *_type4 = luaT_typename(L,4); MPI_THStorage *_storage4 = luaT_toudata(L,4,_type4); int* num_datatypes = (int*) _storage4->data;
-  char *_type5 = luaT_typename(L,5); MPI_THStorage *_storage5 = luaT_toudata(L,5,_type5); int* combiner = (int*) _storage5->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); int* num_integers = (int*) _storage2->data;
+  const char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* num_addresses = (int*) _storage3->data;
+  const char *_type4 = luaT_typename(L,4); MPI_THStorage *_storage4 = luaT_toudata(L,4,_type4); int* num_datatypes = (int*) _storage4->data;
+  const char *_type5 = luaT_typename(L,5); MPI_THStorage *_storage5 = luaT_toudata(L,5,_type5); int* combiner = (int*) _storage5->data;
   int res = MPI_Type_get_envelope(type, num_integers, num_addresses, num_datatypes, combiner);
   lua_pushnumber(L, res);
   return 1;
@@ -2175,8 +2175,8 @@ static int _MPI_Type_get_extent(lua_State *L)
 static int _MPI_Type_get_name(lua_State *L)
 {
   MPI_Datatype type = *((MPI_Datatype*) luaL_checkudata(L, 1, "MPI::Datatype"));
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); char* type_name = (char*) _storage2->data;
-  char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* resultlen = (int*) _storage3->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); char* type_name = (char*) _storage2->data;
+  const char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* resultlen = (int*) _storage3->data;
   int res = MPI_Type_get_name(type, type_name, resultlen);
   lua_pushnumber(L, res);
   return 1;
@@ -2193,8 +2193,8 @@ static int _MPI_Type_get_true_extent(lua_State *L)
 static int _MPI_Type_indexed(lua_State *L)
 {
   int count = luaL_checkint(L, 1);
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); int* array_of_blocklengths = (int*) _storage2->data;
-  char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* array_of_displacements = (int*) _storage3->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); int* array_of_blocklengths = (int*) _storage2->data;
+  const char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* array_of_displacements = (int*) _storage3->data;
   MPI_Datatype oldtype = *((MPI_Datatype*) luaL_checkudata(L, 4, "MPI::Datatype"));
   MPI_Datatype* newtype = (MPI_Datatype*) luaL_checkudata(L, 5, "MPI::Datatype");
   int res = MPI_Type_indexed(count, array_of_blocklengths, array_of_displacements, oldtype, newtype);
@@ -2214,7 +2214,7 @@ static int _MPI_Type_set_attr(lua_State *L)
 {
   MPI_Datatype type = *((MPI_Datatype*) luaL_checkudata(L, 1, "MPI::Datatype"));
   int type_keyval = luaL_checkint(L, 2);
-  char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); void* attribute_val = (void*) _storage3->data;
+  const char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); void* attribute_val = (void*) _storage3->data;
   int res = MPI_Type_set_attr(type, type_keyval, attribute_val);
   lua_pushnumber(L, res);
   return 1;
@@ -2222,7 +2222,7 @@ static int _MPI_Type_set_attr(lua_State *L)
 static int _MPI_Type_set_name(lua_State *L)
 {
   MPI_Datatype type = *((MPI_Datatype*) luaL_checkudata(L, 1, "MPI::Datatype"));
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); char* type_name = (char*) _storage2->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); char* type_name = (char*) _storage2->data;
   int res = MPI_Type_set_name(type, type_name);
   lua_pushnumber(L, res);
   return 1;
@@ -2230,7 +2230,7 @@ static int _MPI_Type_set_name(lua_State *L)
 static int _MPI_Type_size(lua_State *L)
 {
   MPI_Datatype type = *((MPI_Datatype*) luaL_checkudata(L, 1, "MPI::Datatype"));
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); int* size = (int*) _storage2->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); int* size = (int*) _storage2->data;
   int res = MPI_Type_size(type, size);
   lua_pushnumber(L, res);
   return 1;
@@ -2248,10 +2248,10 @@ static int _MPI_Type_vector(lua_State *L)
 }
 static int _MPI_Unpack(lua_State *L)
 {
-  char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* inbuf = (void*) _storage1->data;
+  const char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* inbuf = (void*) _storage1->data;
   int insize = luaL_checkint(L, 2);
-  char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* position = (int*) _storage3->data;
-  char *_type4 = luaT_typename(L,4); MPI_THStorage *_storage4 = luaT_toudata(L,4,_type4); void* outbuf = (void*) _storage4->data;
+  const char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* position = (int*) _storage3->data;
+  const char *_type4 = luaT_typename(L,4); MPI_THStorage *_storage4 = luaT_toudata(L,4,_type4); void* outbuf = (void*) _storage4->data;
   int outcount = luaL_checkint(L, 5);
   MPI_Datatype datatype = *((MPI_Datatype*) luaL_checkudata(L, 6, "MPI::Datatype"));
   MPI_Comm comm = *((MPI_Comm*) luaL_checkudata(L, 7, "MPI::Comm"));
@@ -2261,11 +2261,11 @@ static int _MPI_Unpack(lua_State *L)
 }
 static int _MPI_Unpack_external(lua_State *L)
 {
-  char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); char* datarep = (char*) _storage1->data;
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); void* inbuf = (void*) _storage2->data;
+  const char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); char* datarep = (char*) _storage1->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); void* inbuf = (void*) _storage2->data;
   MPI_Aint insize = *((MPI_Aint*) luaL_checkudata(L, 3, "MPI::Aint"));
   MPI_Aint* position = (MPI_Aint*) luaL_checkudata(L, 4, "MPI::Aint");
-  char *_type5 = luaT_typename(L,5); MPI_THStorage *_storage5 = luaT_toudata(L,5,_type5); void* outbuf = (void*) _storage5->data;
+  const char *_type5 = luaT_typename(L,5); MPI_THStorage *_storage5 = luaT_toudata(L,5,_type5); void* outbuf = (void*) _storage5->data;
   int outcount = luaL_checkint(L, 6);
   MPI_Datatype datatype = *((MPI_Datatype*) luaL_checkudata(L, 7, "MPI::Datatype"));
   int res = MPI_Unpack_external(datarep, inbuf, insize, position, outbuf, outcount, datatype);
@@ -2274,9 +2274,9 @@ static int _MPI_Unpack_external(lua_State *L)
 }
 static int _MPI_Unpublish_name(lua_State *L)
 {
-  char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); char* service_name = (char*) _storage1->data;
+  const char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); char* service_name = (char*) _storage1->data;
   MPI_Info info = *((MPI_Info*) luaL_checkudata(L, 2, "MPI::Info"));
-  char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); char* port_name = (char*) _storage3->data;
+  const char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); char* port_name = (char*) _storage3->data;
   int res = MPI_Unpublish_name(service_name, info, port_name);
   lua_pushnumber(L, res);
   return 1;
@@ -2302,7 +2302,7 @@ static int _MPI_Waitany(lua_State *L)
 {
   int count = luaL_checkint(L, 1);
   MPI_Request* requests = (MPI_Request*) luaL_checkudata(L, 2, "MPI::Request");
-  char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* indx = (int*) _storage3->data;
+  const char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* indx = (int*) _storage3->data;
   MPI_Status* status = (MPI_Status*) luaL_checkudata(L, 4, "MPI::Status");
   int res = MPI_Waitany(count, requests, indx, status);
   lua_pushnumber(L, res);
@@ -2312,8 +2312,8 @@ static int _MPI_Waitsome(lua_State *L)
 {
   int incount = luaL_checkint(L, 1);
   MPI_Request* requests = (MPI_Request*) luaL_checkudata(L, 2, "MPI::Request");
-  char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* outcount = (int*) _storage3->data;
-  char *_type4 = luaT_typename(L,4); MPI_THStorage *_storage4 = luaT_toudata(L,4,_type4); int* indices = (int*) _storage4->data;
+  const char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* outcount = (int*) _storage3->data;
+  const char *_type4 = luaT_typename(L,4); MPI_THStorage *_storage4 = luaT_toudata(L,4,_type4); int* indices = (int*) _storage4->data;
   MPI_Status* statuses = (MPI_Status*) luaL_checkudata(L, 5, "MPI::Status");
   int res = MPI_Waitsome(incount, requests, outcount, indices, statuses);
   lua_pushnumber(L, res);
@@ -2336,7 +2336,7 @@ static int _MPI_Win_complete(lua_State *L)
 }
 static int _MPI_Win_create(lua_State *L)
 {
-  char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* base = (void*) _storage1->data;
+  const char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); void* base = (void*) _storage1->data;
   MPI_Aint size = *((MPI_Aint*) luaL_checkudata(L, 2, "MPI::Aint"));
   int disp_unit = luaL_checkint(L, 3);
   MPI_Info info = *((MPI_Info*) luaL_checkudata(L, 4, "MPI::Info"));
@@ -2350,8 +2350,8 @@ static int _MPI_Win_create_keyval(lua_State *L)
 {
   MPI_Win_copy_attr_function* win_copy_attr_fn = (MPI_Win_copy_attr_function*) luaL_checkudata(L, 1, "MPI::Win_copy_attr_function");
   MPI_Win_delete_attr_function* win_delete_attr_fn = (MPI_Win_delete_attr_function*) luaL_checkudata(L, 2, "MPI::Win_delete_attr_function");
-  char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* win_keyval = (int*) _storage3->data;
-  char *_type4 = luaT_typename(L,4); MPI_THStorage *_storage4 = luaT_toudata(L,4,_type4); void* extra_state = (void*) _storage4->data;
+  const char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* win_keyval = (int*) _storage3->data;
+  const char *_type4 = luaT_typename(L,4); MPI_THStorage *_storage4 = luaT_toudata(L,4,_type4); void* extra_state = (void*) _storage4->data;
   int res = MPI_Win_create_keyval(win_copy_attr_fn, win_delete_attr_fn, win_keyval, extra_state);
   lua_pushnumber(L, res);
   return 1;
@@ -2381,7 +2381,7 @@ static int _MPI_Win_free(lua_State *L)
 }
 static int _MPI_Win_free_keyval(lua_State *L)
 {
-  char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); int* win_keyval = (int*) _storage1->data;
+  const char *_type1 = luaT_typename(L,1); MPI_THStorage *_storage1 = luaT_toudata(L,1,_type1); int* win_keyval = (int*) _storage1->data;
   int res = MPI_Win_free_keyval(win_keyval);
   lua_pushnumber(L, res);
   return 1;
@@ -2390,8 +2390,8 @@ static int _MPI_Win_get_attr(lua_State *L)
 {
   MPI_Win win = *((MPI_Win*) luaL_checkudata(L, 1, "MPI::Win"));
   int win_keyval = luaL_checkint(L, 2);
-  char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); void* attribute_val = (void*) _storage3->data;
-  char *_type4 = luaT_typename(L,4); MPI_THStorage *_storage4 = luaT_toudata(L,4,_type4); int* flag = (int*) _storage4->data;
+  const char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); void* attribute_val = (void*) _storage3->data;
+  const char *_type4 = luaT_typename(L,4); MPI_THStorage *_storage4 = luaT_toudata(L,4,_type4); int* flag = (int*) _storage4->data;
   int res = MPI_Win_get_attr(win, win_keyval, attribute_val, flag);
   lua_pushnumber(L, res);
   return 1;
@@ -2415,8 +2415,8 @@ static int _MPI_Win_get_group(lua_State *L)
 static int _MPI_Win_get_name(lua_State *L)
 {
   MPI_Win win = *((MPI_Win*) luaL_checkudata(L, 1, "MPI::Win"));
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); char* win_name = (char*) _storage2->data;
-  char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* resultlen = (int*) _storage3->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); char* win_name = (char*) _storage2->data;
+  const char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); int* resultlen = (int*) _storage3->data;
   int res = MPI_Win_get_name(win, win_name, resultlen);
   lua_pushnumber(L, res);
   return 1;
@@ -2444,7 +2444,7 @@ static int _MPI_Win_set_attr(lua_State *L)
 {
   MPI_Win win = *((MPI_Win*) luaL_checkudata(L, 1, "MPI::Win"));
   int win_keyval = luaL_checkint(L, 2);
-  char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); void* attribute_val = (void*) _storage3->data;
+  const char *_type3 = luaT_typename(L,3); MPI_THStorage *_storage3 = luaT_toudata(L,3,_type3); void* attribute_val = (void*) _storage3->data;
   int res = MPI_Win_set_attr(win, win_keyval, attribute_val);
   lua_pushnumber(L, res);
   return 1;
@@ -2460,7 +2460,7 @@ static int _MPI_Win_set_errhandler(lua_State *L)
 static int _MPI_Win_set_name(lua_State *L)
 {
   MPI_Win win = *((MPI_Win*) luaL_checkudata(L, 1, "MPI::Win"));
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); char* win_name = (char*) _storage2->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); char* win_name = (char*) _storage2->data;
   int res = MPI_Win_set_name(win, win_name);
   lua_pushnumber(L, res);
   return 1;
@@ -2477,7 +2477,7 @@ static int _MPI_Win_start(lua_State *L)
 static int _MPI_Win_test(lua_State *L)
 {
   MPI_Win win = *((MPI_Win*) luaL_checkudata(L, 1, "MPI::Win"));
-  char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); int* flag = (int*) _storage2->data;
+  const char *_type2 = luaT_typename(L,2); MPI_THStorage *_storage2 = luaT_toudata(L,2,_type2); int* flag = (int*) _storage2->data;
   int res = MPI_Win_test(win, flag);
   lua_pushnumber(L, res);
   return 1;
@@ -2771,4 +2771,7 @@ luaL_Reg MPI_module_funcs[] = {
   { "Wtick", _MPI_Wtick},
   { "Wtime", _MPI_Wtime},
   { "Init", _MPI_Init},
+  { "Init_MTF", _MPI_Init_MTF},
+  { "Init_MTS", _MPI_Init_MTS},
+  { "Init_MTM", _MPI_Init_MTM},
   {NULL, NULL}};
