@@ -12,7 +12,7 @@ See the License for the specific language governing permissions and
 limitations under the License. 
 --]]
 
--- Torch lib for mpi commnication
+-- Torch lib for mpi communication
 -- Author: Sixin Zhang (zsx@cims.nyu.edu)
 
 require 'libmpiT'
@@ -147,7 +147,7 @@ end
 function mpiT.co_ping(coq)
    if not coq:empty() then
       local co = coq:pop()
-      if coroutine.status(co) ~= 'dead' then
+--      if coroutine.status(co) ~= 'dead' then
 	 local ok,status = coroutine.resume(co)
 	 if (ok == true) then
 	    if (status == mpiT.signal_DONE) then
@@ -163,10 +163,10 @@ function mpiT.co_ping(coq)
 	    co = nil
 	    assert(false)
 	 end
-      else
-	 print('mpiT.co_wait co dead, skip')
-	 co = nil
-      end
+--      else
+--	 print('mpiT.co_wait co dead, skip')
+--	 co = nil
+--      end
    else
       return false -- false if queue is empty
    end
@@ -175,8 +175,11 @@ end
 
 -- wait until all the coroutines (threads) in the queue coq
 -- issue mpiT.signal_DONE
-function mpiT.co_wait(coq)
+function mpiT.co_wait(coq,usec)
+   local usec = usec or 1
    while (mpiT.co_ping(coq)) do
-      sys.usleep(1)
+	if usec>0 then
+	  sys.usleep(usec)
+        end
    end
 end
