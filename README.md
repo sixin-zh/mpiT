@@ -1,8 +1,8 @@
 #MPI for Torch
 
 ## Install MPI 
-MPICH: [www.mpich.org](www.mpich.org), [mvapich.cse.ohio-state.edu](mvapich.cse.ohio-state.edu),   
-OPENMPI: [www.open-mpi.org](www.open-mpi.org)
+MPICH: [www.mpich.org](http://www.mpich.org), [mvapich.cse.ohio-state.edu](http://mvapich.cse.ohio-state.edu),   
+OPENMPI: [www.open-mpi.org](http://www.open-mpi.org)
 
 You should install the MPI to `MPI_PREFIX` (redefine it), and make sure `${MPI_PREFIX}/bin/mpicc` and `${MPI_PREFIX}/bin/mpicxx` work.
 
@@ -62,13 +62,13 @@ mpirun -np 12 th mlaunch.lua
 
 
 ## Important updates:
+- Set usec default to be 0 in `mpiT.co_wait` to improve IO throughput.
 - Correct off-by-one error in pClient_init, thanks to Zheng Xu
-(xuzhustc@gmail.com). See https://github.com/sixin-zh/mpiT/pull/16 .
+(xuzhustc@gmail.com). See https://github.com/sixin-zh/mpiT/pull/16.
 - BiCNN is supported by Minwei Feng (mfeng@us.ibm.com).
 - The implementation of *msgd*, *downpour*, *easgd* and *eamsgd* is added.
 - The starting offset in pclient.lua is set to 1 rather than 0, for current Torch7's support.
-- Use `mpiT.Cancel` to release the buffer ownership on io stop in `mpiT.aio_read`
-and `mpiT.aio_recv`.
+- Use `mpiT.Cancel` to release the buffer ownership on io stop in `mpiT.aio_read` and `mpiT.aio_recv`.
 
 
 ## Reference
