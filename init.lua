@@ -176,7 +176,7 @@ end
 -- wait until all the coroutines (threads) in the queue coq
 -- issue mpiT.signal_DONE
 function mpiT.co_wait(coq,usec)
-   local usec = usec or 1
+   local usec = usec or 0
    while (mpiT.co_ping(coq)) do
 	if usec>0 then
 	  sys.usleep(usec)
