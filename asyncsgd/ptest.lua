@@ -2,7 +2,8 @@
 
 local ssize = 10*4096*4096
 local usecuda = false
-
+local ffi = require("ffi")
+ffi.load("libmpi",true)
 require 'mpiT'
 dofile('init.lua')
 mpiT.Init()
