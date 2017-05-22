@@ -1,4 +1,6 @@
 --Torch lib for mpi commnication
+local ffi = require("ffi")
+ffi.load("libmpi",true)
 
 require 'mpiT'
 

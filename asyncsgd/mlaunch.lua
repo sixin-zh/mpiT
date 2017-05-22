@@ -2,7 +2,8 @@
 -- Author: Sixin Zhang (zsx@cims.nyu.edu)
 -- mpirun -n 12 luajit mlaunch.lua
 local oncuda = false
-
+local ffi = require("ffi")
+ffi.load("libmpi",true)
 local AGPU = nil
 if oncuda then
    require 'cutorch'

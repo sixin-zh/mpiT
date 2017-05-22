@@ -69,7 +69,7 @@ mpirun -np 12 th mlaunch.lua
 - The implementation of *msgd*, *downpour*, *easgd* and *eamsgd* is added.
 - The starting offset in pclient.lua is set to 1 rather than 0, for current Torch7's support.
 - Use `mpiT.Cancel` to release the buffer ownership on io stop in `mpiT.aio_read` and `mpiT.aio_recv`.
-
+- To run mpiT with cuda support, configure and install MPI with cuda support and add MPI library path to environment variable `LD_LIBRARY_PATH=${MPI_PREFIX}/lib:$LD_LIBRARY_PATH`
 
 ## Reference
 
